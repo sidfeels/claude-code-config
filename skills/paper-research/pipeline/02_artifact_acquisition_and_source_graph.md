@@ -66,6 +66,21 @@ If arXiv source download is used, keep it under:
 
 Record what was acquired, from where, and why.
 
+### arXiv paper acquisition procedure
+For arXiv papers, prefer the LaTeX source as the primary text artifact. TeX gives exact equations, algorithm boxes, appendix structure, hyperparameter tables, and commented-out author notes that PDF and HTML extraction frequently mangle or lose.
+
+Given an arXiv ID (e.g. `2603.22281`), run these steps:
+
+1. **Fetch metadata** — use WebFetch on `https://arxiv.org/abs/<id>` to get title, authors, abstract, and any linked code repos.
+2. **Download the source bundle** — `curl -sL -o /tmp/<slug>-source.tar.gz "https://arxiv.org/e-print/<id>"`
+3. **Extract into the artifacts tree** — `mkdir -p .paper_research_work/<slug>/artifacts/source && tar xzf /tmp/<slug>-source.tar.gz -C .paper_research_work/<slug>/artifacts/source/`
+4. **Remove the archive** — `rm /tmp/<slug>-source.tar.gz`
+5. **Verify** — confirm the extracted directory contains `.tex` files and that the main tex file is readable. If extraction fails (e.g. the source is a single gzipped TeX file rather than a tarball), adapt accordingly.
+
+Do not download the PDF separately unless the source bundle is unavailable or a specific figure needs visual inspection. The extracted TeX files are the working text source for all subsequent pipeline stages.
+
+If the paper is not on arXiv (e.g. conference-only, DOI-only), fall back to PDF via WebFetch or curl, stored under `artifacts/paper/`.
+
 ## Step 3: Check extraction quality
 For every extracted source, assess:
 - title and abstract readable?
