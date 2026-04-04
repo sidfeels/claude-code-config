@@ -105,7 +105,8 @@ When delegating:
 
 ## Codex and external model policy
 Use Codex as an independent checkpoint reviewer, alternate implementer, or rescue lane, not as a constant echo after every tiny edit.
-Note: More info on how to use codex plugin is in prompting-technique skill. load it everytime no matter what codebase you're working in.
+
+**Hard rule:** Never use the `codex` binary directly (no `codex exec`, no `codex --quiet`, no raw CLI). Always use the plugin commands: `/codex:rescue` for tasks, `/codex:review` for reviews, `/codex:adversarial-review` for adversarial reviews. For long tasks use `--background` and check with `/codex:status` — never sleep-poll in a loop.
 
 Good times to use it:
 - after a non-trivial plan, for critique
@@ -124,6 +125,8 @@ When using outside models, prepare a clean handoff:
 - failed attempts
 - open questions
 - desired answer format
+
+For practical Codex command syntax and flag selection, load the `prompting-techniques` skill first if not loaded yet.
 
 ## Optimization and research loop
 For search, tuning, performance, eval, or benchmark work:

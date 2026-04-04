@@ -413,6 +413,11 @@ Do not silently absorb everything or silently ignore everything. External advice
 
 **This section is the single source of truth for Codex invocation.** Whenever any skill (optimization-loop, paper-research, implementation-quality, or any other) says to use Codex, always load this skill first for the correct command syntax and flags. No other skill documents how to invoke the plugin.
 
+**Anti-patterns — never do these:**
+- Never use the raw `codex` binary (`codex exec`, `codex --quiet`, etc.). Always use the plugin commands below.
+- Never sleep-poll to check if a Codex task is done. Use `--background` and then `/codex:status --wait` to block until completion, or `/codex:status` to check manually.
+- Never pipe prompts to `codex` via stdin or shell redirects. Pass the prompt as free text after the flags.
+
 Run `/codex:setup` first if Codex is not yet configured.
 
 ### Command selection
