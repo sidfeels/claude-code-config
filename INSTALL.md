@@ -4,6 +4,29 @@ Pick what you need. Paste the relevant prompt into Claude Code, or run the comma
 
 ---
 
+## Codex Plugin (recommended)
+
+Many skills (prompting-techniques, optimization-loop, paper-research) delegate work to Codex for independent review, rescue, and adversarial analysis. Install the Codex plugin to enable this.
+
+**Requirements:** Node.js 18.18+, ChatGPT subscription (incl. Free) or OpenAI API key.
+
+```bash
+/plugin marketplace add openai/codex-plugin-cc
+/plugin install codex@openai-codex
+/reload-plugins
+/codex:setup
+```
+
+If Codex CLI is missing, `/codex:setup` will offer to install it. If already installed but not logged in:
+
+```bash
+!codex login
+```
+
+Verify with `/codex:review --background` then `/codex:status`.
+
+---
+
 ## Option A: Core only (no paper-research)
 
 Best for general engineering, optimization, agentic harness, and backend work.

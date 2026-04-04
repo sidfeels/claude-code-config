@@ -409,10 +409,89 @@ When Sid pastes back a response from GPT-5.4 Pro, or when Codex returns a review
 
 Do not silently absorb everything or silently ignore everything. External advice is input, not truth — reconcile it against repo evidence before acting on it.
 
+## Codex plugin — invocation guide
+
+**This section is the single source of truth for Codex invocation.** Whenever any skill (optimization-loop, paper-research, implementation-quality, or any other) says to use Codex, always load this skill first for the correct command syntax and flags. No other skill documents how to invoke the plugin.
+
+Run `/codex:setup` first if Codex is not yet configured.
+
+### Command selection
+
+| Task | Command |
+|------|---------|
+| Diagnosis, fix, rescue, research, implementation | `/codex:rescue` |
+| Standard code review of local git changes | `/codex:review` |
+| Adversarial / design-challenge review of local git changes | `/codex:adversarial-review` |
+| Check job progress | `/codex:status` |
+| Fetch completed job output | `/codex:result` |
+| Cancel a running job | `/codex:cancel` |
+
+`/codex:rescue` is the general-purpose delegation command. Use it for everything that is not a review of uncommitted or branch-level git changes. `/codex:review` and `/codex:adversarial-review` only operate on git diffs.
+
+### Flags
+
+**Effort level** (`--effort`):
+- `xhigh` — maximum reasoning. Use for architecture review, subtle bugs, security review, anything where missing a detail is expensive. This is the right default for most non-trivial work.
+- `high` — strong reasoning, slightly faster than xhigh.
+- Omit the flag to let the plugin choose. Bias toward `xhigh` when the task matters.
+
+**Execution mode**:
+- `--wait` — foreground, blocks until Codex finishes. Use for quick tasks (estimated under 3-5 minutes).
+- `--background` — detached, returns immediately. Use for longer investigations, multi-file reviews, or implementation tasks. Check progress with `/codex:status`, fetch output with `/codex:result`.
+
+**Thread continuity**:
+- `--resume` — continue the most recent Codex thread from this session. Use for follow-up instructions on the same investigation: "apply the top fix", "dig deeper on hypothesis 2", "now try approach B".
+- `--fresh` — start a new Codex thread with no prior context. Use when the problem changed materially or the prior thread explored a dead end.
+- Omit both when starting a new task. Most of the time you do not need `--fresh` — only use it when you explicitly want to discard prior Codex context.
+
+**Model**:
+- Always use `--model gpt-5.4`. This is the strongest Codex model and should be the default for all tasks.
+
+**Review-specific flags** (for `/codex:review` and `/codex:adversarial-review`):
+- `--base <ref>` — compare against a specific git ref (default: auto-detected main branch).
+- `--scope auto|working-tree|branch` — what to review.
+
+### Prompt text placement
+
+For `/codex:rescue`, the free-text prompt follows all flags:
+```
+/codex:rescue --background --effort xhigh Diagnose why training loss plateaus after epoch 12. Relevant files: src/training/loop.py and src/data/loader.py. Loss drops normally until epoch 12 then oscillates around 0.34. Return top 3 hypotheses ranked by likelihood with evidence.
+```
+
+For `/codex:adversarial-review`, optional focus text follows the flags:
+```
+/codex:adversarial-review --background --base main Focus on the new caching layer and its invalidation paths
+```
+
+For `/codex:review`, no prompt text is needed — the review contract is built in:
+```
+/codex:review --background --base main
+```
+
+### Job management
+
+After launching a background job:
+1. `/codex:status` — see all active and recent jobs with phase and elapsed time.
+2. `/codex:status <job-id>` — detailed status for a specific job.
+3. `/codex:result` or `/codex:result <job-id>` — fetch the full output once complete.
+4. `/codex:cancel <job-id>` — cancel if direction changed.
+
+After results come back, apply the "After receiving external input" rules: state what you adopt and why, what you discard and why, update the plan or code accordingly.
+
+### Decision heuristics
+
+**background vs wait**: wait for bounded questions and single-file checks. Background for multi-file investigation, broad review, implementation, or anything estimated over 3-5 minutes.
+
+**resume vs fresh**: resume when giving follow-up on the same problem. Fresh only when you explicitly want to discard prior Codex context (new problem, different area, dead-end thread). Most of the time, omit both.
+
+**effort**: xhigh for anything where missing a detail is expensive (architecture, concurrency, security, subtle reproduction bugs). medium for moderate well-scoped tasks. Bias toward xhigh — the cost of under-reasoning is usually higher than the cost of extra tokens.
+
+**When NOT to use Codex**: after every tiny edit, for tasks Claude finishes in under a minute, for prompts with no structure ("look at this and tell me what you think").
+
 ## Final reminder
 
 The point of delegation is not to outsource thinking. The point is to get a cleaner perspective, a stronger challenge, or a deeper analysis than the current thread can provide.
-You might use this to launch sub agents and prompt them carefully for any task, or prompt and use codex-plugin to ask codex (gpt-5.4-xhigh).
+You might use this to launch subagents with carefully composed prompts, or use the Codex plugin commands above to delegate to Codex.
 
 Use other agents to reduce bias, not multiply it.
 

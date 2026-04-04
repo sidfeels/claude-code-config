@@ -105,6 +105,7 @@ When delegating:
 
 ## Codex and external model policy
 Use Codex as an independent checkpoint reviewer, alternate implementer, or rescue lane, not as a constant echo after every tiny edit.
+Note: More info on how to use codex plugin is in prompting-technique skill. load it everytime no matter what codebase you're working in.
 
 Good times to use it:
 - after a non-trivial plan, for critique
