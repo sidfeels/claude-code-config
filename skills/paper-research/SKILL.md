@@ -129,7 +129,7 @@ If escalating, use the `prompting-techniques` skill to prepare a clean handoff p
 - Use `implementation-quality-deep` before non-trivial code generation or refactors.
 - Use `prompting-techniques` for all subagent/Codex/GPT-5.4 Pro handoffs.
 - Use `optimization-loop` when extension or reproduction turns into an empirical optimization problem.
-- Use `pr-finishing` when turning the final result into a reviewable PR.
+- Use `handoff-payload` when preparing a code+context corpus to paste into a web-only model (GPT-5.4 Pro, Gemini web, Claude web).
 
 ## Hard rules
 - Do not silently invent missing details.

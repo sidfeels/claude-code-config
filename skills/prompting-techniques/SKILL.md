@@ -415,7 +415,8 @@ Do not silently absorb everything or silently ignore everything. External advice
 
 **Anti-patterns — never do these:**
 - Never use the raw `codex` binary (`codex exec`, `codex --quiet`, etc.). Always use the plugin commands below.
-- Never sleep-poll to check if a Codex task is done. Use `--background` and then `/codex:status --wait` to block until completion, or `/codex:status` to check manually.
+- Never invoke Codex commands via the `Skill` tool (e.g. `Skill(codex:rescue)` or `Skill(codex:codex-rescue)`). There is no such skill — `codex:codex-rescue` is a subagent, not a skill, and `codex:rescue` is a slash command. A `Skill` call re-enters the slash command and hangs the session (a documented v1.0.3 bug that v1.0.4 warns against explicitly). Use the slash command directly (e.g. `/codex:rescue ...`) so the plugin can route through the `Agent` tool.
+- Never sleep-poll to check if a Codex task is done. Use `--background` and then `/codex:status --wait` (optionally `--timeout-ms <ms>`) to block until the most recent job completes, or `/codex:status <job-id> --wait` for a specific one. Plain `/codex:status` for a non-blocking check.
 - Never pipe prompts to `codex` via stdin or shell redirects. Pass the prompt as free text after the flags.
 
 Run `/codex:setup` first if Codex is not yet configured.

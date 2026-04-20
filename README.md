@@ -29,7 +29,7 @@ For selective install options, see [INSTALL.md](INSTALL.md).
 | `implementation-quality` | `/implementation-quality` | Deep code quality: naming, functions, types, testing calibration, brownfield/greenfield |
 | `optimization-loop` | `/optimization-loop [goal]` | Baseline → measure → hypothesize → change → verify → record → repeat. Reward hacking defense, memory hygiene |
 | `prompting-techniques` | `/prompting-techniques` | Anti-bias delegation with 6 prompt templates: blind diagnosis, falsification, plan critique, review, rescue, GPT-5.4 Pro handoff |
-| `pr-finishing` | `/pr-finishing` | PR readiness: diff review, verification rerun, narrative, risks, rollback notes |
+| `handoff-payload` | `/handoff-payload [ask]` | Build `HANDOFF_PAYLOAD.md` for manual paste into GPT-5.4 Pro or other web-only models. Uses code2prompt for the corpus + prompting-techniques for framing, with token-budget guidance |
 
 ### Paper Research Bundle (on-demand)
 
@@ -54,7 +54,7 @@ project/
       implementation-quality/SKILL.md
       optimization-loop/SKILL.md
       prompting-techniques/SKILL.md
-      pr-finishing/SKILL.md
+      handoff-payload/SKILL.md
       paper-research/
         SKILL.md
         pipeline/01-08*.md

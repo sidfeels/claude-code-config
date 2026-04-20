@@ -49,9 +49,11 @@ Fetch and install these files:
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/implementation-quality/SKILL.md → .claude/skills/implementation-quality/SKILL.md
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/optimization-loop/SKILL.md → .claude/skills/optimization-loop/SKILL.md
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/prompting-techniques/SKILL.md → .claude/skills/prompting-techniques/SKILL.md
-- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/pr-finishing/SKILL.md → .claude/skills/pr-finishing/SKILL.md
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/handoff-payload/SKILL.md → .claude/skills/handoff-payload/SKILL.md
 
 Create directories as needed. Do NOT overwrite existing files — ask before replacing.
+
+Note: `handoff-payload` depends on the `code2prompt` CLI. Install it with `brew install code2prompt` (macOS) or `cargo install code2prompt`.
 ```
 
 ### Or manually:
@@ -59,13 +61,18 @@ Create directories as needed. Do NOT overwrite existing files — ask before rep
 ```bash
 git clone https://github.com/sidfeels/claude-code-config.git /tmp/cc
 cp /tmp/cc/CLAUDE.md ./CLAUDE.md
-mkdir -p .claude/rules .claude/skills/implementation-quality .claude/skills/optimization-loop .claude/skills/prompting-techniques .claude/skills/pr-finishing
+mkdir -p .claude/rules .claude/skills/implementation-quality .claude/skills/optimization-loop .claude/skills/prompting-techniques .claude/skills/handoff-payload
 cp /tmp/cc/rules/* .claude/rules/
 cp /tmp/cc/skills/implementation-quality/SKILL.md .claude/skills/implementation-quality/SKILL.md
 cp /tmp/cc/skills/optimization-loop/SKILL.md .claude/skills/optimization-loop/SKILL.md
 cp /tmp/cc/skills/prompting-techniques/SKILL.md .claude/skills/prompting-techniques/SKILL.md
-cp /tmp/cc/skills/pr-finishing/SKILL.md .claude/skills/pr-finishing/SKILL.md
+cp /tmp/cc/skills/handoff-payload/SKILL.md .claude/skills/handoff-payload/SKILL.md
 rm -rf /tmp/cc
+```
+
+**Also install the code2prompt CLI** (required by `handoff-payload`):
+```bash
+brew install code2prompt   # or: cargo install code2prompt
 ```
 
 ---

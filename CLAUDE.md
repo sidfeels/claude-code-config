@@ -146,7 +146,7 @@ Your first job in optimization is usually to build the eyes: traces, profilers, 
 - use a domain skill when the repo is mainly agent harness, ML systems, robotics, red teaming, or similar specialized work
 - use the optimization-loop skill for scored iteration work
 - use the prompting-techniques skill when delegating to subagents, Codex, or GPT-5.4 Pro
-- use the pr-finishing skill before opening or polishing a PR
+- use the handoff-payload skill when preparing a payload file to paste into a web-only model (GPT-5.4 Pro, Claude web, Gemini web)
 
 ## Git and PR discipline
 Do not treat version control casually. If Sid wants git discipline on this task, preserve clean checkpoints and avoid mixing unrelated changes.
