@@ -255,6 +255,31 @@ Treat these outcomes differently:
 Keep the active handoff short and high-signal.
 Do not dump the full experiment graveyard into the next session’s core context.
 
+If the loop is expected to span multiple context windows or agent sessions (overnight run, multi-day sweep, semi-autonomous agent loop), switch to `long-running-research-loop` for the full persistent-state schema, typed-status ledger, plateau-detection doctrine, and human-checkpoint pattern. `optimization-loop` covers the single-session empirical loop; `long-running-research-loop` covers the cross-session one.
+
+# 8.75 Ablation discipline
+
+When a change bundles multiple variables or when the objective is "does X matter?", switch into ablation mode before drawing causal conclusions.
+
+Rules:
+- freeze the baseline before running any variant; do not fit baseline and variant at once
+- change **one interpretable variable per comparison**; use paired seed-matched runs when stochastic
+- record full config lineage per run: parent commit, config diff, seed, command, data version, hardware, model version
+- **estimate the noise floor** before claiming small gains (re-run the baseline 3–5× with different seeds; any gain inside that spread is noise)
+- if the gain is within the noise floor, label the result `inconclusive`, not `improved`
+- track guardrail metrics, not only the headline score — wins that regress secondary metrics are often reward hacks
+- **do not retroactively change the hypothesis** after seeing results; that is p-hacking
+- plot/report from the raw logged results file, never from hand-copied numbers
+- bundled changes require a follow-up factorial ablation before any causal claim — "we changed A, B, C and the score improved" is not evidence that any single change helped
+- a run is `invalid` (not a result) if the verifier, data, seed, or environment changed unexpectedly between runs
+
+Named failure modes:
+- **bundled changes**: multiple variables flipped at once, causal interpretation impossible
+- **cherry-picked seed**: one lucky seed reported as the mean
+- **proxy-real divergence**: proxy improves but held-out/real metric regresses
+- **silent split drift**: data split changed between runs
+- **stale plot**: figure generated from an old CSV that no longer matches the current run
+
 # 9. Detect plateaus early
 You are plateaued when:
 - several iterations attack the same bottleneck class with little movement

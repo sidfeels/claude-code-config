@@ -14,6 +14,8 @@ Always ask:
 
 Systems papers are especially vulnerable to apples-to-oranges comparisons.
 
+For benchmark traces, logs, and profiler outputs, run `data-trace-inspection` — sampling raw traces before interpreting aggregates catches most benchmark-integrity violations (dropped work silently, cache state between runs, unsynchronized timing, etc.).
+
 ## 2. Build and runtime flags matter
 Performance can depend on:
 - compiler flags

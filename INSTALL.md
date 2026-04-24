@@ -48,8 +48,13 @@ Fetch and install these files:
 **Skills:**
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/implementation-quality/SKILL.md → .claude/skills/implementation-quality/SKILL.md
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/optimization-loop/SKILL.md → .claude/skills/optimization-loop/SKILL.md
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/long-running-research-loop/SKILL.md → .claude/skills/long-running-research-loop/SKILL.md
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/data-trace-inspection/SKILL.md → .claude/skills/data-trace-inspection/SKILL.md
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/prompting-techniques/SKILL.md → .claude/skills/prompting-techniques/SKILL.md
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/handoff-payload/SKILL.md → .claude/skills/handoff-payload/SKILL.md
+
+**Optional (recommended) — deterministic enforcement layer:**
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/HOOKS.md → ./HOOKS.md
 
 Create directories as needed. Do NOT overwrite existing files — ask before replacing.
 
@@ -61,10 +66,19 @@ Note: `handoff-payload` depends on the `code2prompt` CLI. Install it with `brew 
 ```bash
 git clone https://github.com/sidfeels/claude-code-config.git /tmp/cc
 cp /tmp/cc/CLAUDE.md ./CLAUDE.md
-mkdir -p .claude/rules .claude/skills/implementation-quality .claude/skills/optimization-loop .claude/skills/prompting-techniques .claude/skills/handoff-payload
+cp /tmp/cc/HOOKS.md ./HOOKS.md
+mkdir -p .claude/rules \
+  .claude/skills/implementation-quality \
+  .claude/skills/optimization-loop \
+  .claude/skills/long-running-research-loop \
+  .claude/skills/data-trace-inspection \
+  .claude/skills/prompting-techniques \
+  .claude/skills/handoff-payload
 cp /tmp/cc/rules/* .claude/rules/
 cp /tmp/cc/skills/implementation-quality/SKILL.md .claude/skills/implementation-quality/SKILL.md
 cp /tmp/cc/skills/optimization-loop/SKILL.md .claude/skills/optimization-loop/SKILL.md
+cp /tmp/cc/skills/long-running-research-loop/SKILL.md .claude/skills/long-running-research-loop/SKILL.md
+cp /tmp/cc/skills/data-trace-inspection/SKILL.md .claude/skills/data-trace-inspection/SKILL.md
 cp /tmp/cc/skills/prompting-techniques/SKILL.md .claude/skills/prompting-techniques/SKILL.md
 cp /tmp/cc/skills/handoff-payload/SKILL.md .claude/skills/handoff-payload/SKILL.md
 rm -rf /tmp/cc
@@ -162,12 +176,12 @@ If you are a coding agent installing this config, follow these rules:
 
 ## What Gets Installed
 
-| Option | CLAUDE.md | Rules | General Skills | Paper Research | Total files |
-|--------|-----------|-------|---------------|----------------|-------------|
-| A: Core only | 1 | 2 | 4 | — | 7 |
-| B: Everything | 1 | 2 | 4 | 22 | 29 |
+| Option | CLAUDE.md + HOOKS.md | Rules | General Skills | Paper Research | Total files |
+|--------|----------------------|-------|---------------|----------------|-------------|
+| A: Core only | 2 | 2 | 6 | — | 10 |
+| B: Everything | 2 | 2 | 6 | 22 | 32 |
 | C: Add paper-research | — | — | — | 22 | 22 |
-| D: User-level | 1 | 2 | 4 | 22 | 29 |
+| D: User-level | 2 | 2 | 6 | 22 | 32 |
 
 ## After Install
 

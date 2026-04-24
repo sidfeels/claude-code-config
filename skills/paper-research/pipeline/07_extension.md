@@ -98,6 +98,8 @@ After Sid selects a direction, write `SELECTED_EXTENSION.md`:
 
 ## Step 8: Route to the right execution path
 If the chosen extension becomes a measurable search problem, invoke `optimization-loop`.
+If the extension is expected to span multiple context windows or agent sessions, invoke `long-running-research-loop` for typed-ledger and anti-poison discipline.
+If the extension depends on understanding data, traces, or activations before changing code, invoke `data-trace-inspection` first.
 If the extension is a one-shot code integration, continue with a normal implementation plan.
 If the extension is strategically murky and both Claude and Codex plateau, prepare a GPT-5.4 Pro handoff via `prompting-techniques`.
 

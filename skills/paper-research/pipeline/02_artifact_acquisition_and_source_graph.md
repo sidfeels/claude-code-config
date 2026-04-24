@@ -67,7 +67,9 @@ If arXiv source download is used, keep it under:
 Record what was acquired, from where, and why.
 
 ### arXiv paper acquisition procedure
-For arXiv papers, prefer the LaTeX source as the primary text artifact. TeX gives exact equations, algorithm boxes, appendix structure, hyperparameter tables, and commented-out author notes that PDF and HTML extraction frequently mangle or lose.
+For arXiv papers, prefer the LaTeX source as the primary text artifact. TeX gives exact equations, algorithm boxes, appendix structure, and hyperparameter tables that PDF and HTML extraction frequently mangle or lose.
+
+TeX source may also contain **commented-out author notes** (lines behind `%`). Treat these as drafts the authors deliberately removed — speculative author thinking, not paper specification. Do **not** cite them as truth, do **not** implement against them, and do **not** let them enter the ambiguity ledger as resolutions. They may occasionally hint at what the author meant; at most, label such hints in `AMBIGUITY_LEDGER.md` as `source: unpublished_draft_note` and treat with the same caution as model prior.
 
 Given an arXiv ID (e.g. `2603.22281`), run these steps:
 

@@ -21,7 +21,7 @@ Write these to `.paper_research_work/<paper_slug>/`:
 - `FILE_MAP.md`
 
 Before writing code, also load:
-- `implementation-quality-deep`
+- `implementation-quality`
 - `prompting-techniques` when delegating
 - relevant domain knowledge files
 

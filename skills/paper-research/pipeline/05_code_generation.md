@@ -9,7 +9,7 @@ Implement the chosen baseline or port in a way that is faithful, reviewable, and
 - `AMBIGUITY_LEDGER.md`
 - relevant source artifacts
 - relevant domain knowledge files
-- `implementation-quality-deep`
+- `implementation-quality`
 
 ## Outputs
 - code changes or generated scaffold

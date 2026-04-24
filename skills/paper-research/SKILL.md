@@ -18,7 +18,7 @@ It is a staged workflow for:
 - building a faithful baseline or audit
 - optionally extending the method with disciplined verification
 
-## The six modes
+## The seven modes
 Every request must resolve to one primary mode:
 
 1. **explain** — understand and teach the paper clearly; no code unless needed for explanation
@@ -27,6 +27,7 @@ Every request must resolve to one primary mode:
 4. **audit** — compare paper, official code, and current repo behavior
 5. **extend** — start from a frozen baseline and propose / test new research directions
 6. **port** — preserve the method while moving to another stack, framework, or codebase
+7. **empirical-investigation** — we observe a behavior in a model/system/dataset and need to understand it; the paper (if any) is a reference, not a target to reproduce. Common in safety research: probe, ablation, interpretability, adversarial, agentic eval.
 
 Do not let the workflow stay vague as "implement the paper." Resolve the mode first.
 
@@ -84,6 +85,17 @@ Fresh work usually flows like this:
 
 But route dynamically based on current state.
 
+## Route out to domain skills after stage 3
+`paper-research` owns provenance, claim gating, ambiguity ledger, reproduction boundary, and source-of-truth discipline. It does **not** own the execution discipline for every downstream activity. After stage 3 (ambiguity audit), hand off execution to the appropriate domain skill:
+
+- scored iteration / ablation / tuning → `optimization-loop`
+- work spanning multiple context windows or sessions → `long-running-research-loop`
+- before training, eval debugging, red-team analysis, or agent-loop optimization → `data-trace-inspection`
+- cross-model, cross-API, or agent harness behavior → real-LLM verification rules in `implementation-quality`
+- external delegation for a fresh view → `prompting-techniques` (use mode 7, hint-don't-roadmap, when the downstream direction is uncertain)
+
+The `paper-research` pipeline stays responsible for claim faithfulness and artifact provenance throughout; the domain skill handles the execution loop.
+
 ## When to read guardrails
 Read the guardrails when they become relevant:
 
@@ -126,9 +138,11 @@ Do not ask Codex to review every tiny component in isolation. Prefer one integra
 If escalating, use the `prompting-techniques` skill to prepare a clean handoff packet.
 
 ## Relationship to other skills
-- Use `implementation-quality-deep` before non-trivial code generation or refactors.
+- Use `implementation-quality` before non-trivial code generation or refactors.
 - Use `prompting-techniques` for all subagent/Codex/GPT-5.4 Pro handoffs.
 - Use `optimization-loop` when extension or reproduction turns into an empirical optimization problem.
+- Use `long-running-research-loop` when the work spans multiple context windows, agent sessions, or overnight runs — for persistent-state discipline that does not poison future sessions.
+- Use `data-trace-inspection` before training, fine-tuning, eval debugging, red-team analysis, or agent-loop work — to build the eyes before moving the hands.
 - Use `handoff-payload` when preparing a code+context corpus to paste into a web-only model (GPT-5.4 Pro, Gemini web, Claude web).
 
 ## Hard rules

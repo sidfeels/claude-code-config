@@ -87,6 +87,8 @@ If the result misses the paper:
 - hidden prompt/template or eval details
 - simple implementation bug
 
+Before concluding any of the above, run `data-trace-inspection` on the actual eval samples / agent traces / training data — "failed reproduction" is frequently "data-processing mismatch we did not inspect." Look at the rendered examples (post-tokenization, with visible roles / special tokens / loss masks / refusals) before blaming the algorithm.
+
 Do not jump from "numbers do not match" to "the paper is wrong."
 
 ## External review

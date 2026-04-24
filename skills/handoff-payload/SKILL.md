@@ -69,7 +69,7 @@ code2prompt . \
 Read the token map. If one file dominates disproportionately, check whether it is truly needed or can be excluded or summarized.
 
 ### 4. Manage the token budget
-GPT-5.4 Pro has a 1M context window (verified). Performance still degrades as context grows — context rot is real even inside the nominal window. Single-turn paste is more resilient than multi-turn, which buys some headroom, but it does not eliminate the cost.
+Check the target model's current context window before leaning on large payloads — windows and pricing change. Regardless of the nominal window, performance still degrades as context grows: context rot is real even inside the advertised limit. Single-turn paste is more resilient than multi-turn, which buys some headroom, but it does not eliminate the cost.
 
 Working heuristics, not hard rules:
 - **Under 100k tokens** — sweet spot, ship it.

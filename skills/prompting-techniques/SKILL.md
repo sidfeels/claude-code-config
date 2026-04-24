@@ -99,6 +99,36 @@ Use for GPT-5.4 Pro or equivalent only when:
 
 Do not escalate routine coding or simple repo review to a heavyweight model.
 
+### 7. Hint, don't roadmap
+
+Use when you want the reviewer (subagent, Codex, external model) to explore independently for a niche or novel implementation, and you suspect your own plan may be wrong.
+
+The problem this mode fixes: if you hand a reviewer your preferred route as a numbered plan, they will usually execute it instead of disagreeing with it. You then get back polished execution of the wrong idea.
+
+Give:
+- the goal
+- hard constraints and protected surfaces
+- relevant artifacts, files, traces
+- **areas worth inspecting**, not fixes
+- what kind of evidence would count as an answer
+- the decision you need to make
+
+Do **not** give:
+- a step-by-step implementation plan
+- your preferred root cause
+- a ranked list of fixes
+- stale failed-attempt lists unless directly relevant to the current question
+
+Good:
+> Investigate whether the batching path, cache invalidation logic, or prompt formatter could explain this latency regression. Return ranked hypotheses with supporting evidence and the next discriminating check for each.
+
+Bad:
+> I think cache invalidation is broken in `cache.py`. Check `invalidate_on_write`, then patch it, then add a test for stale entries.
+
+The Good version preserves the reviewer's independence; the Bad version turns them into an executor.
+
+This mode pairs naturally with Template A (blind diagnosis). Use Template B (targeted falsification) instead when you already have a strong hypothesis and specifically want it stress-tested.
+
 ## Prompt construction rules
 
 ### Rule 1: Say what problem is being solved
