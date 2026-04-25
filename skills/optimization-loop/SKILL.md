@@ -115,6 +115,12 @@ If relevant, create or improve diagnostics such as:
 
 Your diagnostic outputs should prefer numbers and breakdowns over long prose.
 
+### Silent-correctness positive control
+
+Whenever the optimization introduces a new backend, kernel path, quantization scheme, model version, or library, build a positive control before trusting any number from it. Cheapest version: a handful of greedy prompts run through both the new path and a trusted reference (`transformers` eager vs vLLM, bf16 vs FP8, before-fix vs after-fix), with token-IDs compared on structured / decision-relevant outputs. Expect near-perfect agreement; investigate any meaningful divergence before publishing numbers from the new path.
+
+The worst optimization bug is the one that produces faster numbers from a kernel that is quietly wrong: plausible JSON, valid metrics, and conclusions that look defensible until someone re-runs them on the deployment hardware. The positive control is part of the verifier protocol — a fast number from an unvalidated path is not a result.
+
 # 4. Protect evaluation integrity
 Assume the optimization target can be accidentally or deliberately gamed.
 Treat evaluator integrity as a first-class concern.
@@ -139,6 +145,16 @@ Watch for reward-hacking patterns such as:
 - retention or correctness regressions hidden by a single headline metric
 
 When a result looks too good, verify harder.
+
+# 4.5 Discover the search space at decision time, not in advance
+
+When the loop arrives at "apply optimization techniques", "explore the design space", or "what should we try next" — do not arrive with a pre-decided checklist of candidates. Pre-decided lists anchor on stale priors. By the time you execute, the right technique may not have existed when the plan was written.
+
+The reflex at the decision point: dispatch a focused survey (subagent, Codex, or a manual web/source pass) for current state-of-the-art relevant to your specific architecture and hardware. Rank candidates by expected gain weighted against implementation cost and silent-correctness risk from the new path. Test the top one or two. Update the plan. Move on.
+
+Specific traps to avoid:
+- **Naming a technique without verifying it exists or is compatible.** "Try INT4 quantization" is not a plan; "try `<specific quantized checkpoint>` with the exact backend / flag combination, after a positive-control quality check" is a plan.
+- **Carrying forward a survey from an earlier session as if it were current.** Optimization landscapes change in weeks. If the survey is more than a few weeks old and the iteration matters, re-survey before committing implementation effort.
 
 # 5. Form a single main hypothesis
 Each iteration should test one main idea.
@@ -368,9 +384,11 @@ For non-trivial optimization work, report in a compact structure like:
 Prefer short, evidence-dense updates over long motivational narration.
 
 # Special reminders
+- **Models propose, verifiers dispose.** A fast number from an unvalidated path is not a result.
 - Build the eyes before moving the hands.
 - Treat evaluators as attack surfaces.
 - One main hypothesis per iteration.
+- Discover the search space at decision time, not from a stale pre-plan checklist.
 - A failed experiment is still progress if it rules out a lane.
 - Fresh perspective is useful only if you do not poison it with your own tunnel vision.
 - The best optimization artifact is often not the winning patch, but the measurement setup that makes winning possible.

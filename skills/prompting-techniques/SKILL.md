@@ -30,6 +30,10 @@ Never present suspicions as facts.
 
 Before writing the prompt, decide which mode you need.
 
+### Defaults for exploratory delegation
+
+If you do not yet know what you want from the reviewer, default to **Mode 1** (blind diagnosis). If you already have a strong hypothesis but want it stress-tested rather than executed, **Mode 2** (targeted falsification). For independent exploration of a niche or novel design, **Mode 7** (hint, don't roadmap). The most common delegation failure is handing the reviewer your preferred plan as a numbered checklist — they will execute it instead of disagreeing with it, and you get back polished execution of the wrong idea. If you find yourself writing "do X, then Y, then Z," rewrite as "investigate whether X / Y / Z explain the symptom; return ranked hypotheses with evidence." Modes 3–6 are specialized — reach for them when the situation specifically calls for them.
+
 ### 1. Blind diagnosis
 Use when you want a real fresh view.
 Do this for bugs, regressions, odd eval behavior, unexplained benchmark movement, or architecture uncertainty.

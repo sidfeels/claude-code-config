@@ -25,6 +25,28 @@ Do **not** use this skill for:
 - single-session code review
 - ambiguous open-ended architecture work without a verifier (use `prompting-techniques` and ask for a concrete goal first)
 
+## Research posture
+
+The hard invariants below are rules. The posture below is the stance that makes the rules actually fire when it matters. A long-running loop without the posture turns into a bureaucratic checklist that produces polished-but-useless reports. **Models propose, verifiers dispose** — every item below exists because it keeps you reaching for the verifier instead of the prose.
+
+### Scaffolding, not a contract
+A phase plan is guideposts. Only **gates** (with explicit thresholds) and **abort criteria** are contracts. If an early result makes a later phase irrelevant, skip it and log why. If a mid-phase finding opens a new question, queue it. Phases get reordered, dropped, expanded, or run in parallel as evidence accumulates. The plan is a floor, not a ceiling — the most useful phrase in autonomous research is "skip it, write why, move on."
+
+### Manual probing is a first-class tool
+When a benchmark cell, an aggregate, or a confusion-matrix outlier looks weird, the next move is often *not* to run more samples. Spin up the system, hand-feed it inputs (long ones, pathological ones, edge cases in the suspicious category, format variants, language variants), and read the raw output. This is where real failure modes get named. Save **verbatim prompt + raw response pairs** as findings — not paragraph summaries. Aggregates hide the bug; raw transcripts surface it. `data-trace-inspection` covers the data side; this is the behavioral side, and it deserves its own habit.
+
+### Uncertainty resolves to a research action, not a guess
+When something is uncertain, the answer is not "best-guess and move on" or "we'll figure it out later." It is: **do the research now.** Clone the repo to `/tmp`, fetch the paper, grep the source, read the GitHub issue thread, dispatch a focused subagent. A 15-minute investigation almost always beats hours of downstream pain from a wrong assumption baked into the plan. "Uncertain → research" is the reflex; "uncertain → guess" silently builds wrong scaffolding that the next agent inherits as fact. Add the research action as a concrete todo with the exact source to consult — never as a vague "we should look into this."
+
+### Research at execution time, not pre-decided
+For "apply techniques", "explore the design space", or "find the right optimization" phases, do not arrive with a pre-decided checklist of candidates. Pre-decided lists anchor on stale priors — technique landscapes change in weeks, and the right answer at execution time is often something that did not exist when the plan was drafted. The reflex at the decision point: dispatch a focused survey (subagent, Codex, or a manual web/source pass) for current state-of-the-art relevant to your specific architecture and hardware, then test the top one or two candidates. Rank by expected gain weighted against implementation cost and the risk of silent-wrong-numbers from the new path.
+
+### Silent-correctness detector before any new dependency
+For every new tool, backend, version, kernel, quantization scheme, or library introduced into the loop, the first action is to ask: *what is the silent-wrong-numbers failure mode for this, and how would I detect it?* Then build the smallest possible detector before trusting it. Cheapest version: a handful of greedy prompts run through both the new path and a trusted reference (e.g. `transformers` eager vs vLLM, bf16 vs FP8, before-fix vs after-fix), with token-IDs compared on structured / decision-relevant outputs. Expect near-perfect agreement; investigate any meaningful divergence before benchmarking. **The worst class of optimization bug is the one that produces plausible JSON, valid metrics, and quietly-wrong conclusions.** Positive controls are the only cheap defense.
+
+### Stress-test the plan before kickoff
+Before launching a multi-hour autonomous loop, dispatch the plan to a separate agent in **falsification mode** (Plan agent in plan mode, or Codex via `/codex:adversarial-review`). Ask it to list what breaks, not what looks good — missed dependencies, wrong-magnitude time estimates, hidden gates that should be explicit, abort criteria that are not checkable, honesty risks in the framing. This 5–15 minute pass routinely catches real bugs (assumed-local files that are not, incorrect CI math, hardware-feature assumptions) that would otherwise eat hours mid-loop. Use `prompting-techniques` Mode 3 (Plan critique) — explicitly ask for blocking issues and a revised plan, not validation.
+
 ## Hard invariants
 
 These are load-bearing. Violating any one of them will poison a future agent.
@@ -211,9 +233,16 @@ Before ending a session that a future agent will resume from, produce (or update
 - `current_state.md` — current best, verifier, protected surfaces, top 3 open hypotheses, next action. Nothing else.
 - `findings.md` — only durable conclusions added this session, each with evidence link.
 - `attempts.jsonl` — all runs from this session, typed.
+- `caveats.md` — conditions under which the current conclusions could be wrong. Every quantitative claim maps to a caveat that names what would falsify it. Required entries when relevant: sample-size CI width, cross-session environment deltas, simulated-vs-measured hardware behavior, single-class confusion-matrix artifacts, untested long-context behavior. **The polished-but-dishonest report is a real failure mode; the caveats artifact is the cheapest defense.** A report without a caveats section is incomplete — refuse to ship it that way.
 - `archive/<date>/` — anything superseded.
 
 Read `current_state.md` back to yourself before finishing. If it contains any of: `impossible`, `doesn't work`, `already tried`, `nothing helped`, `dead end` — rewrite or delete the sentence. The next agent will take it literally.
+
+### Cross-session environment-delta hygiene
+
+When citing reference numbers from earlier sessions, baseline runs, or external sources, **always name the environment delta**: which library / driver / dataset / model / dependency versions changed since the reference was generated, and which numbers are therefore not directly cross-comparable. Cross-session throughput numbers (tokens/sec, latency, memory) are the canonical place researchers lie to themselves — a minor framework version bump or a driver update can swing tok/sec by a large factor. Quality numbers are slightly more robust but not immune (different prompt version, different eval-script revision, different dataset shuffle).
+
+Concrete rule: if a number predates this session, it gets an annotation like `(prior session, env: <key versions>)` in any table that mixes it with fresh measurements. Numbers without that annotation are assumed fresh. Mixing without labeling is a downstream lie.
 
 ## Final reminders
 

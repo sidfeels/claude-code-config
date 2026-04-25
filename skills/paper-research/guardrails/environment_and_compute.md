@@ -83,6 +83,7 @@ Strict rules:
 - use `tmux` or similar for long-running jobs
 - do not clutter shared `/tmp`
 - do not download giant models or datasets without checking whether they already exist or whether Sid wants them
+- before downloading large models/datasets, check for an org-shared cache convention (e.g. `HF_HOME`, `TRANSFORMERS_CACHE`, `HF_DATASETS_CACHE` pointing at a shared directory; or a mounted dataset path). Duplicating large downloads per-user wastes shared disk and is one of the most common preventable mistakes on shared GPU boxes
 - never touch `/home/other_user/`, `/etc/`, or other system-owned locations
 
 Suggested working locations:
