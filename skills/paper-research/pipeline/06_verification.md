@@ -69,6 +69,7 @@ Be explicit. Use one of:
 - **claim reproduced**
 - **audit completed**
 - **extension baseline verified**
+- **empirical investigation completed**
 - **inconclusive**
 - **blocked**
 

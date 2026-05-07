@@ -97,7 +97,7 @@ After Sid selects a direction, write `SELECTED_EXTENSION.md`:
 - immediate next step
 
 ## Step 8: Route to the right execution path
-If the chosen extension becomes a measurable search problem, invoke `optimization-loop`.
+If the chosen extension becomes a measurable search problem, invoke `long-running-research-loop` (lean mode for single-session, full mode for multi-session).
 If the extension is expected to span multiple context windows or agent sessions, invoke `long-running-research-loop` for typed-ledger and anti-poison discipline.
 If the extension depends on understanding data, traces, or activations before changing code, invoke `data-trace-inspection` first.
 If the extension is a one-shot code integration, continue with a normal implementation plan.

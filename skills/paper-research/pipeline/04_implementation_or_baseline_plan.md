@@ -46,6 +46,9 @@ Plan a faithful baseline first. Extension work starts only after the baseline is
 ### port
 Plan a semantic-preserving translation. Clarify what behavior must remain invariant.
 
+### empirical-investigation
+Plan the probe, trace, eval, or ablation harness first. The paper is context, not the target claim. Route scored iteration to `long-running-research-loop` once the verifier and protected surfaces are clear.
+
 ## Step 2: Choose the execution stack
 Default rule:
 - if official code exists and the goal is fidelity, prefer the same framework unless Sid requests otherwise

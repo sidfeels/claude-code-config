@@ -1,7 +1,7 @@
 # Claims and Targets
 
 ## Mode
-- explain / scaffold / reproduce / audit / extend / port
+- explain / scaffold / reproduce / audit / extend / port / empirical-investigation
 
 ## Primary target
 - What exact claim, artifact, result, or contribution are we targeting?

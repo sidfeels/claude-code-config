@@ -1,6 +1,6 @@
 # Sid's Claude Code Config
 
-Rules, skills, and global contract for ML research, agentic harness development, optimization, red teaming, and general engineering work.
+Rules, skills, and global contract for ML research, agentic harness development, project delivery, optimization, red teaming, and general engineering work.
 
 ## Quick Install
 
@@ -32,9 +32,10 @@ For selective install options, see [INSTALL.md](INSTALL.md).
 
 | Skill | Invoke | What it does |
 |-------|--------|-------------|
+| `requirements-interview` | `/requirements-interview` | Adaptive "grill me" interview that turns high-level intent into a concrete spec. Scales question depth by task and adapts to product/UX, ML/research, agentic harness, backend, or library work |
 | `implementation-quality` | `/implementation-quality` | Deep code quality: naming, functions, types, testing calibration, brownfield/greenfield |
-| `optimization-loop` | `/optimization-loop [goal]` | Baseline → measure → hypothesize → change → verify → record → repeat. Reward-hacking defense, memory hygiene, ablation discipline |
-| `long-running-research-loop` | `/long-running-research-loop [goal]` | Doctrine for multi-session research, optimization, or agentic work. Typed-status ledger, banned-phrase discipline, plateau detection, human-checkpoint pattern. Prevents progress-file poisoning across context windows |
+| `long-running-project-orchestrator` | `/long-running-project-orchestrator [goal]` | End-to-end project delivery over milestones. Uses `.agent/` state, verifier gates, reviewer/fixer loops, and optional subagent/worktree teams |
+| `long-running-research-loop` | `/long-running-research-loop [goal]` | Iterative empirical work: single-session optimization (lean mode) or multi-session research/eval/benchmark/ablation (full mode with persistent state). Baseline → hypothesize → change → verify → record. Typed-status ledger, banned-phrase discipline, plateau detection, ablation discipline, real-objective-vs-proxy guard, caveats artifact |
 | `data-trace-inspection` | `/data-trace-inspection [target]` | Build the eyes before moving the hands. Inspect raw data, agent traces, eval samples before training / fine-tuning / eval debugging / red-team work. Domain-agnostic |
 | `prompting-techniques` | `/prompting-techniques` | Anti-bias delegation with 7 prompt modes: blind diagnosis, falsification, plan critique, review, rescue, deep consultation, hint-don't-roadmap |
 | `handoff-payload` | `/handoff-payload [ask]` | Build `HANDOFF_PAYLOAD.md` for manual paste into GPT-5.4 Pro or other web-only models. Uses code2prompt for the corpus + prompting-techniques for framing, with token-budget guidance |
@@ -43,7 +44,7 @@ For selective install options, see [INSTALL.md](INSTALL.md).
 
 | Component | What it does |
 |-----------|-------------|
-| `paper-research/SKILL.md` | Orchestrator: 6 modes (explain, scaffold, reproduce, audit, extend, port), dynamic routing, source-of-truth hierarchy |
+| `paper-research/SKILL.md` | Orchestrator: 7 modes (explain, scaffold, reproduce, audit, extend, port, empirical-investigation), dynamic routing, source-of-truth hierarchy |
 | `pipeline/` (8 stages) | Intake → acquisition → ambiguity audit → implementation plan → code generation → verification → extension → handoff |
 | `guardrails/` (4 files) | Uncertainty/honesty, scope/ambiguity, official code usage, environment/compute safety |
 | `knowledge/` (4 files) | Paper-to-code mistakes, training/optimization, agentic/post-training, systems/inference |
@@ -61,7 +62,10 @@ project/
       delegation-and-review.md
     skills/
       implementation-quality/SKILL.md
-      optimization-loop/SKILL.md
+      requirements-interview/SKILL.md
+      long-running-project-orchestrator/
+        SKILL.md
+        references/*.md
       long-running-research-loop/SKILL.md
       data-trace-inspection/SKILL.md
       prompting-techniques/SKILL.md

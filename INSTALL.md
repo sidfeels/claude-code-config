@@ -6,7 +6,7 @@ Pick what you need. Paste the relevant prompt into Claude Code, or run the comma
 
 ## Codex Plugin (recommended)
 
-Many skills (prompting-techniques, optimization-loop, paper-research) delegate work to Codex for independent review, rescue, and adversarial analysis. Install the Codex plugin to enable this.
+Many skills (prompting-techniques, long-running-research-loop, long-running-project-orchestrator, paper-research) can delegate work to Codex for independent review, rescue, and adversarial analysis. Install the Codex plugin to enable this.
 
 **Requirements:** Node.js 18.18+, ChatGPT subscription (incl. Free) or OpenAI API key.
 
@@ -29,7 +29,7 @@ Verify with `/codex:review --background` then `/codex:status`.
 
 ## Option A: Core only (no paper-research)
 
-Best for general engineering, optimization, agentic harness, and backend work.
+Best for general engineering, project delivery, optimization, agentic harness, and backend work.
 
 ### Paste this into Claude Code:
 
@@ -47,7 +47,11 @@ Fetch and install these files:
 
 **Skills:**
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/implementation-quality/SKILL.md → .claude/skills/implementation-quality/SKILL.md
-- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/optimization-loop/SKILL.md → .claude/skills/optimization-loop/SKILL.md
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/requirements-interview/SKILL.md → .claude/skills/requirements-interview/SKILL.md
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/long-running-project-orchestrator/SKILL.md → .claude/skills/long-running-project-orchestrator/SKILL.md
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/long-running-project-orchestrator/references/project-state-templates.md → .claude/skills/long-running-project-orchestrator/references/project-state-templates.md
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/long-running-project-orchestrator/references/subagent-team-prompts.md → .claude/skills/long-running-project-orchestrator/references/subagent-team-prompts.md
+- https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/long-running-project-orchestrator/references/worktree-integration.md → .claude/skills/long-running-project-orchestrator/references/worktree-integration.md
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/long-running-research-loop/SKILL.md → .claude/skills/long-running-research-loop/SKILL.md
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/data-trace-inspection/SKILL.md → .claude/skills/data-trace-inspection/SKILL.md
 - https://raw.githubusercontent.com/sidfeels/claude-code-config/main/skills/prompting-techniques/SKILL.md → .claude/skills/prompting-techniques/SKILL.md
@@ -69,14 +73,16 @@ cp /tmp/cc/CLAUDE.md ./CLAUDE.md
 cp /tmp/cc/HOOKS.md ./HOOKS.md
 mkdir -p .claude/rules \
   .claude/skills/implementation-quality \
-  .claude/skills/optimization-loop \
+  .claude/skills/requirements-interview \
+  .claude/skills/long-running-project-orchestrator \
   .claude/skills/long-running-research-loop \
   .claude/skills/data-trace-inspection \
   .claude/skills/prompting-techniques \
   .claude/skills/handoff-payload
 cp /tmp/cc/rules/* .claude/rules/
 cp /tmp/cc/skills/implementation-quality/SKILL.md .claude/skills/implementation-quality/SKILL.md
-cp /tmp/cc/skills/optimization-loop/SKILL.md .claude/skills/optimization-loop/SKILL.md
+cp /tmp/cc/skills/requirements-interview/SKILL.md .claude/skills/requirements-interview/SKILL.md
+cp -r /tmp/cc/skills/long-running-project-orchestrator/* .claude/skills/long-running-project-orchestrator/
 cp /tmp/cc/skills/long-running-research-loop/SKILL.md .claude/skills/long-running-research-loop/SKILL.md
 cp /tmp/cc/skills/data-trace-inspection/SKILL.md .claude/skills/data-trace-inspection/SKILL.md
 cp /tmp/cc/skills/prompting-techniques/SKILL.md .claude/skills/prompting-techniques/SKILL.md
@@ -104,11 +110,12 @@ Clone the repo and copy everything:
 
 1. git clone https://github.com/sidfeels/claude-code-config.git /tmp/cc
 2. cp /tmp/cc/CLAUDE.md ./CLAUDE.md
-3. mkdir -p .claude/rules .claude/skills
-4. cp -r /tmp/cc/rules/* .claude/rules/
-5. cp -r /tmp/cc/skills/* .claude/skills/
-6. rm -rf /tmp/cc
-7. Verify: find .claude -name "*.md" | sort
+3. cp /tmp/cc/HOOKS.md ./HOOKS.md
+4. mkdir -p .claude/rules .claude/skills
+5. cp -r /tmp/cc/rules/* .claude/rules/
+6. cp -r /tmp/cc/skills/* .claude/skills/
+7. rm -rf /tmp/cc
+8. Verify: find .claude -name "*.md" | sort
 
 Do NOT overwrite existing files — ask before replacing. This includes the paper-research skill bundle with pipeline, guardrails, knowledge, and scaffold templates.
 ```
@@ -118,6 +125,7 @@ Do NOT overwrite existing files — ask before replacing. This includes the pape
 ```bash
 git clone https://github.com/sidfeels/claude-code-config.git /tmp/cc
 cp /tmp/cc/CLAUDE.md ./CLAUDE.md
+cp /tmp/cc/HOOKS.md ./HOOKS.md
 mkdir -p .claude/rules .claude/skills
 cp -r /tmp/cc/rules/* .claude/rules/
 cp -r /tmp/cc/skills/* .claude/skills/
@@ -152,6 +160,7 @@ Only if you want this config to apply to every project on this machine.
 ```bash
 git clone https://github.com/sidfeels/claude-code-config.git /tmp/cc
 cp /tmp/cc/CLAUDE.md ~/.claude/CLAUDE.md
+cp /tmp/cc/HOOKS.md ~/.claude/HOOKS.md
 mkdir -p ~/.claude/rules ~/.claude/skills
 cp -r /tmp/cc/rules/* ~/.claude/rules/
 cp -r /tmp/cc/skills/* ~/.claude/skills/
@@ -178,11 +187,11 @@ If you are a coding agent installing this config, follow these rules:
 
 | Option | CLAUDE.md + HOOKS.md | Rules | General Skills | Paper Research | Total files |
 |--------|----------------------|-------|---------------|----------------|-------------|
-| A: Core only | 2 | 2 | 6 | — | 10 |
-| B: Everything | 2 | 2 | 6 | 22 | 32 |
+| A: Core only | 2 | 2 | 10 | — | 14 |
+| B: Everything | 2 | 2 | 10 | 22 | 36 |
 | C: Add paper-research | — | — | — | 22 | 22 |
-| D: User-level | 2 | 2 | 6 | 22 | 32 |
+| D: User-level | 2 | 2 | 10 | 22 | 36 |
 
 ## After Install
 
-Restart Claude Code or start a new session. Verify with: `/implementation-quality` or `/paper-research` to check skills are available.
+Restart Claude Code or start a new session. Verify with: `/implementation-quality`, `/requirements-interview`, or `/paper-research` to check skills are available.

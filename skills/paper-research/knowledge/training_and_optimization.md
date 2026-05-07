@@ -38,8 +38,8 @@ Likewise for EMA:
 - when EMA weights are applied
 - whether reported eval uses EMA weights or live weights
 
-## Optimization-loop interaction
-If the task becomes "search for better settings" rather than "implement the paper," route into `optimization-loop`.
+## Research-loop interaction
+If the task becomes "search for better settings" rather than "implement the paper," route into `long-running-research-loop`.
 If the search is expected to span multiple sessions, layer `long-running-research-loop` on top for persistent-state discipline.
 Before any expensive training run, invoke `data-trace-inspection` on the training data (rendered with chat template, loss mask, special tokens visible) — most "reproduction failures" are data-processing mismatches, not algorithm errors.
 Do not let hyperparameter search silently replace faithful reproduction.
