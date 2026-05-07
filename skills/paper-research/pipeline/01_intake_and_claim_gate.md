@@ -44,11 +44,12 @@ Choose one primary mode:
 - audit
 - extend
 - port
+- empirical-investigation
 
 If the request is ambiguous, ask Sid one high-leverage question instead of many low-value ones.
 
 Good example:
-"Do you want me to explain the paper, build a faithful scaffold, reproduce a specific claim/result, audit it against official code, extend it, or port it into an existing codebase?"
+"Do you want me to explain the paper, build a faithful scaffold, reproduce a specific claim/result, audit it against official code, extend it, port it into an existing codebase, or use it as context for an empirical investigation?"
 
 Bad example:
 "Should I use PyTorch or JAX?" before the real mode is clear.

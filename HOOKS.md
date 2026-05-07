@@ -12,7 +12,7 @@ Each hook below is described as **purpose → trigger → check → action**. Wi
 
 **Purpose.** Prevent the #1 long-running-agent failure: broad negative conclusions (`impossible`, `doesn't work`, `already tried`, `nothing helped`, `dead end`) poisoning future sessions. See `skills/long-running-research-loop/SKILL.md` for the doctrine.
 
-**Trigger.** After any write to `current_state.md`, `findings.md`, `RUNBOOK.md`, or any project-specific handoff / progress file.
+**Trigger.** After any write to `current_state.md`, `findings.md`, `RUNBOOK.md`, `.agent/current_state.md`, `.agent/GOAL.md`, `.agent/PLAN.md`, `.agent/reviews.md`, or any project-specific handoff / progress file.
 
 **Check.** Grep (case-insensitive) for banned phrases:
 ```
@@ -33,7 +33,7 @@ eval/**  tests/gold/**  benchmark/**  **/*.gold.*  **/*.canary.*  data/hidden/**
 ```
 Projects maintain their own list — add a `.claude/protected-paths.txt` or equivalent and have the hook read it.
 
-**Action.** Block the write unless the session explicitly opted in (e.g. an env flag like `ALLOW_EVAL_EDIT=1` set by the user for that task). The block message should point at `optimization-loop` / `long-running-research-loop` evaluation-integrity doctrine.
+**Action.** Block the write unless the session explicitly opted in (e.g. an env flag like `ALLOW_EVAL_EDIT=1` set by the user for that task). The block message should point at `long-running-research-loop` evaluation-integrity doctrine.
 
 ### 3. Secret-scan before handoff or commit
 

@@ -76,7 +76,7 @@ Keep it factual and reproducible. A minimal audit file:
 
 ## Interaction with other skills
 
-- `optimization-loop` — inspect before each significant new direction in the loop, not only at the start
+- `long-running-research-loop` — inspect before each significant new direction in the loop, not only at the start
 - `long-running-research-loop` — the audit artifact belongs under `.agent/artifacts/`; link it from `findings.md`
 - `paper-research` — inspect before reproducing any data-dependent claim; many "failed reproductions" are actually data-processing mismatches
 - `implementation-quality` — the real-LLM-test rule covers behavior verification; this skill covers the data that feeds those tests

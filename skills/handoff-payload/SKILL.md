@@ -178,7 +178,7 @@ code2prompt . \
 ```
 
 ### Including state files from adjacent skills
-If you have state files from other skills that carry thinking the model should see — paper-research artifacts, optimization-loop experiment logs, tried-approaches notes, handoff docs — include them in the `-i` list alongside code. The model then sees the reasoning, not just the source. Example: `-i ".paper_research_work/**/AMBIGUITY_LEDGER.md"` when extending a research-derived codebase and the faithfulness of the baseline is part of the question.
+If you have state files from other skills that carry thinking the model should see — paper-research artifacts, long-running-research-loop attempts ledger and findings, tried-approaches notes, handoff docs — include them in the `-i` list alongside code. The model then sees the reasoning, not just the source. Example: `-i ".paper_research_work/**/AMBIGUITY_LEDGER.md"` when extending a research-derived codebase and the faithfulness of the baseline is part of the question.
 
 ## Default noise exclude list
 Start from this for ML and research repos unless a file is specifically needed:
@@ -218,5 +218,5 @@ If Sid's request itself is leadingly phrased, rewrite it before building the pay
 ## Relationship to other skills
 - `prompting-techniques` — always loaded alongside this skill. Templates and framing rules live there.
 - `paper-research` — its state files (`PAPER_BRIEF.md`, `AMBIGUITY_LEDGER.md`, `RESULTS.md`) are excellent payload inputs when the ask is research-adjacent.
-- `optimization-loop` — when stuck in a plateau, a handoff payload with baseline + tried approaches + plateau pattern is often the unblock. Use Template E.
+- `long-running-research-loop` — when stuck in a plateau, a handoff payload with baseline + tried approaches + plateau pattern is often the unblock. Use Template E.
 - `/codex:rescue` — for Codex delegation. No payload file required; Codex sees the repo directly. Use this skill only when the target is web-only.

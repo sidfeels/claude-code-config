@@ -145,7 +145,7 @@ For search, tuning, performance, eval, or benchmark work:
 - prefer one main experimental idea per iteration
 - keep short notes on what helped, failed, and what to try next
 - detect plateaus early and pivot instead of repeating the same idea with tiny cosmetic variation
-- when useful, invoke the dedicated optimization-loop skill
+- when useful, invoke the dedicated long-running-research-loop skill (in lean mode for single-session optimization, full mode for multi-session)
 
 Your first job in optimization is usually to build the eyes: traces, profilers, judges, diff tools, or eval scripts that make progress measurable.
 
@@ -153,9 +153,10 @@ Your first job in optimization is usually to build the eyes: traces, profilers, 
 If a requirement can be enforced by a hook, script, test, linter, secret scanner, payload linter, or eval command, prefer that over repeated instruction text. Prose in `CLAUDE.md` or skills is advisory; hooks and scripts are deterministic. Do not rely on the model to remember a rule under context pressure for anything safety-critical: protected evals, hidden gold data, secrets, destructive operations, unapproved GPU or large-download jobs, banned-phrase detection in persistent state. See `HOOKS.md` for the recommended hook set.
 
 ## Skills to use
+- use the `requirements-interview` skill before ambiguous non-trivial builds, architecture choices, product/UX work, ML/research work, or autonomous execution where unclear requirements would change the implementation
 - use the `implementation-quality` skill before substantial coding, refactors, or deep review
-- use the `optimization-loop` skill for scored iteration work (measurable objective, iterate toward it)
-- use the `long-running-research-loop` skill for any work expected to span multiple context windows or agent sessions, or to maintain persistent state across them
+- use the `long-running-project-orchestrator` skill for end-to-end project delivery, large multi-milestone features, or autonomous implementation work that needs project state, milestone gates, and optional subagent/worktree teams
+- use the `long-running-research-loop` skill for any iterative empirical work — single-session optimization (lean mode) or multi-session research/eval/benchmark/ablation/training-recipe work (full mode with persistent state). Covers scored iteration, plateau detection, ablation discipline, and anti-poison ledger
 - use the `data-trace-inspection` skill before training, fine-tuning, eval debugging, red-team analysis, or agent-loop optimization
 - use the `paper-research` skill when starting from a paper, paper-derived codebase, or research extension
 - use the `prompting-techniques` skill when delegating to subagents, Codex, or GPT-5.4 Pro

@@ -233,6 +233,8 @@ If asking Codex for review, specify whether you want:
 - rescue / alternate path
 - implementation suggestion
 
+For end-to-end project delivery with implementer/reviewer/fixer teams, load `long-running-project-orchestrator` and use its `references/subagent-team-prompts.md` templates. This skill still owns the anti-bias framing rules.
+
 ## When to use GPT-5.4 Pro
 
 Use only when a deeper outside reasoning pass is justified.
@@ -445,7 +447,7 @@ Do not silently absorb everything or silently ignore everything. External advice
 
 ## Codex plugin — invocation guide
 
-**This section is the single source of truth for Codex invocation.** Whenever any skill (optimization-loop, paper-research, implementation-quality, or any other) says to use Codex, always load this skill first for the correct command syntax and flags. No other skill documents how to invoke the plugin.
+**This section is the single source of truth for Codex invocation.** Whenever any skill (long-running-research-loop, long-running-project-orchestrator, paper-research, implementation-quality, or any other) says to use Codex, always load this skill first for the correct command syntax and flags. No other skill documents how to invoke the plugin.
 
 **Anti-patterns — never do these:**
 - Never use the raw `codex` binary (`codex exec`, `codex --quiet`, etc.). Always use the plugin commands below.
@@ -534,4 +536,3 @@ The point of delegation is not to outsource thinking. The point is to get a clea
 You might use this to launch subagents with carefully composed prompts, or use the Codex plugin commands above to delegate to Codex.
 
 Use other agents to reduce bias, not multiply it.
-

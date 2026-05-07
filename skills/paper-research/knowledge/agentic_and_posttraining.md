@@ -73,7 +73,7 @@ Good extension surfaces in this domain include:
 - tool-use policy
 - cost/latency vs quality tradeoffs
 
-If the task becomes optimization-heavy, route to `optimization-loop`.
+If the task becomes optimization-heavy, route to `long-running-research-loop`.
 
 ## 7. Claim labels
 Be careful with labels like:
