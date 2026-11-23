@@ -19,7 +19,7 @@ The answers are to build only what's settled, to give every worker a contract an
 
 Build only parts whose Status in architecture.md says settled and that have their "Works when" examples. A part that is still being discussed will be rebuilt. A part with no examples has no agreed meaning of "done", so get them from Sid first (the discuss skill).
 
-Check that the reviewers exist: `ls .claude/agents` should list `doubter.md` and `test-auditor.md`. If it doesn't, the kit isn't fully installed in this project, and the README of sidfeels/claude-code-config has the one command that installs it.
+Check that the reviewers exist: `ls .claude/agents` should list `doubter.md` and `test-auditor.md`. If it doesn't, the kit isn't fully installed in this project. Tell Sid to paste the setup prompt from the README of sidfeels/claude-code-config, which fixes it.
 
 Make the first wave a skeleton: the thinnest version of the whole path that runs for real, with each part a stub that keeps its promises. Then parts fill in something that already runs, and integration problems show up on the first day instead of the last.
 
@@ -96,7 +96,7 @@ A separate worktree (`--worktree new-child`, or `isolation: "worktree"`) is only
 ## While it runs
 
 - **Wait for messages without polling.** In Orca, end your turn, and the next message wakes you.
-- **Answer questions with `orca orchestration reply --id <message id> --body-file <file>`.** Answer from the files and this conversation. When the question is Sid's call, put it to Sid the way the global CLAUDE.md says: every option with what it leads to and costs, and no lean.
+- **Answer questions with `orca orchestration reply --id <message id> --body-file <file>`.** Answer from the files and this conversation. When the question is Sid's call, put it to Sid the way `rules/working-with-sid.md` says: every option with what it leads to and costs, and no lean.
 - **Pass a note to a worker with `orca orchestration send --to dispatch:<id> --subject "<topic>" --body-file <file>`.** The subject is required.
 - **Don't edit folders a worker owns.**
 - **Read the "stopped without reporting" alert by context.** When Sid starts chatting with a worker mid-task, Orca sends main this alert once; that's Sid steering. When Sid is away, the same alert means the worker is stuck. Read it with `orca orchestration worker-read --dispatch <id>` and help it.

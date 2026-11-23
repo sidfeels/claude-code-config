@@ -2,15 +2,7 @@
 
 These are prompts too small to be skills. Paste them as they are, or add a word of context.
 
-## Set up a folder
-
-Start `claude` in the folder and paste this. It installs the kit for both accounts, then fits it to what the folder already has:
-
-```
-Set up Sid's kit in this folder. Run the command below. Then read .claude/skills/kit/SKILL.md and follow its section "Fitting the kit into a folder". Tell me what you found and what you suggest before you change anything else.
-
-rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config /tmp/sid-kit && /tmp/sid-kit/install.sh --project .
-```
+The prompt that sets up or updates a folder is in the [README](README.md#install).
 
 ## Make it better before it's built
 

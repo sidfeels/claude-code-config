@@ -25,7 +25,7 @@ Sid has two Claude subscriptions, work and personal, and uses both for capacity:
 A session's account is its config folder, `$CLAUDE_CONFIG_DIR`, which defaults to `~/.claude` when unset:
 
 - `claude` in a plain terminal is the work account, in `~/.claude`.
-- `claude-personal` is the personal account, in `~/.claude-personal`. It works inside an Orca tab too, because Orca's wrapper around `claude` leaves alone a config folder Sid set by hand.
+- `claude2` is the personal account, in `~/.claude-personal`. It's a shell alias, and `claude-personal` is the same alias under its older name. It works inside an Orca tab too, because Orca's wrapper around `claude` leaves alone a config folder Sid set by hand.
 - Inside Orca, `claude` and every tab Orca opens use Orca's selected account, kept in `~/Library/Application Support/orca/claude-profiles/<id>/home`. `orca account list` shows which one is selected.
 - To see which account a session is on, type `/status` in it, or read `oauthAccount` in `$CLAUDE_CONFIG_DIR/.claude.json` (`~/.claude.json` when the variable is unset).
 
@@ -44,34 +44,18 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 | `architecture.md` | The project as it stands today, and the file every session reads first: what we're building and why, how it looks from outside, how it fits together in five sentences, every open question, and each part with what it does, examples of it working, the choices that matter and why, its limits, what it depends on, and its status. |
 | `decisions.md` | How the design got this way: one entry for each choice made or replaced, each option turned down, and each thing we relied on that turned out wrong. Entries are added at the bottom and never rewritten. |
 | `sid.md` | What Sid thinks about the project, in Sid's own words: what still matters on top, what's been dealt with below. Entries are leads to check, not instructions. It is gitignored and never pushed. |
-| `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
+| `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. In a team's repo their CLAUDE.md stays theirs, and this goes in CLAUDE.local.md, which is kept out of git. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |
 | `.claude/` | This project's own copy of the kit: its skills, its agents and `rules/working-with-sid.md`. `kit-version` names the kit commit it came from. |
 | `.kit/` | Session scratch: briefs, worker specs and reports, run output, messages between sessions, expert reports, and `sessions.md`, the list of sessions working on the project right now. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
 
 Each template opens with a short header that says what belongs in the file and how to write it. Keep the header when you create a file, and follow it whenever you edit.
 
-### Fitting the kit into a folder
+### Setting up, and when files are missing
 
-No two folders are alike. One is empty, one is Sid's own repo, one belongs to a team and already has a CLAUDE.md. The install script only copies files, so a session has to look at the folder and fit the kit to it. Do this right after installing, and whenever you find the project files missing.
+Setting the kit up in a folder, fitting it to a team's repo, replacing Sid's old v1 kit and updating a project to a newer kit are all done by a session following `SETUP.md` in the kit repo. Its README has the prompt Sid pastes. If you find this project's files missing, or `.claude/` half there, tell Sid that prompt sets it right; don't patch it by hand. The one exception: when `/discuss` starts a project and the four files don't exist yet, create them from the templates above.
 
-Look first, and change nothing yet:
-
-1. **Whose folder is it?** `git remote -v` shows the owner. No git at all means Sid's own, new project: run `git init`.
-2. **Does git see `.claude/`?** `git status --porcelain -- .claude`. In Sid's own repo it should be seen and committed, so every later change to a skill shows up in the project's history. In someone else's repo it must stay out: check with `git check-ignore -v .claude/kit-version`.
-3. **Are Sid's private files safe?** `git check-ignore sid.md .kit/` must print both names. The first commit is the moment a private file would get in.
-4. **What instructions are already here?** Look for CLAUDE.md, AGENTS.md and anything that was in `.claude/` before. The install script lists what it kept instead of overwriting.
-5. **What already explains the project?** A README, a docs folder or design notes may already do part of architecture.md's job.
-
-Then tell Sid in a few lines what the folder is, what you found, and what you suggest. Wait for Sid before adding files to a repo Sid doesn't own.
-
-How to fit each case:
-
-- **Sid's own repo, or a new folder.** Add the lines from `templates/gitignore` to `.gitignore`. Create architecture.md, decisions.md, sid.md and CLAUDE.md from the templates, and commit them together with `.claude/`.
-- **Someone else's repo.** Leave the team's files alone, their CLAUDE.md and `.gitignore` included. Keep everything of Sid's out of their tree by listing it in `.git/info/exclude`: `.claude/` unless it's already ignored, `sid.md`, `.kit/`, and architecture.md and decisions.md once Sid agrees to have them.
-- **A CLAUDE.md is already there.** Don't edit or replace it. Put what the kit's CLAUDE.md template would hold (where to start, how to run and check, the rules Sid set) in `.claude/rules/this-project.md`. Files in `.claude/rules/` load the same way CLAUDE.md does, and they stay private with the rest of `.claude/`.
-- **The project is already explained somewhere.** Don't copy it. architecture.md points to those files for what they hold and adds only what's missing: the open questions, each part's status, and the choices with their reasons.
-- **A skill or agent of the same name was already there.** The script kept the existing one. Tell Sid which, because the kit's version of it is not in use.
+### One home for each thing
 
 The file set is small on purpose. Each kind of thing has exactly one home, so the next session knows where to look and Sid knows where to read:
 
@@ -132,7 +116,7 @@ Change the copy when this project teaches you something. That's what it's for, a
 - Before adding a line, look for one it makes redundant.
 - A changed skill takes effect in sessions started after the change.
 
-To see everything this project changed, run `install.sh --diff <this folder>` from a clone of the kit. Where the copy is committed, `git log -p -- .claude` shows the same with the reasons.
+To see everything this project changed, run `install.sh --diff <this folder>` from a clone of the kit. Where the copy is committed, `git log -p -- .claude` shows the same with the reasons. To bring this copy up to a newer kit, Sid pastes the setup prompt again; SETUP.md covers it as "A project already on this kit".
 
 To send a change back so future projects start with it, open a PR on sidfeels/claude-code-config from a clone of it.
 
