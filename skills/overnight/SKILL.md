@@ -8,12 +8,12 @@ hooks:
     - matcher: AskUserQuestion
       hooks:
         - type: command
-          command: '"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/overnight/away.sh" ask'
+          command: '"$CLAUDE_PROJECT_DIR/.claude/skills/overnight/away.sh" ask'
   PermissionRequest:
     - matcher: "*"
       hooks:
         - type: command
-          command: '"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/overnight/away.sh" permission'
+          command: '"$CLAUDE_PROJECT_DIR/.claude/skills/overnight/away.sh" permission'
 ---
 
 # Overnight

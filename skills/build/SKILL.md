@@ -19,7 +19,7 @@ The answers are to build only what's settled, to give every worker a contract an
 
 Build only parts whose Status in architecture.md says settled and that have their "Works when" examples. A part that is still being discussed will be rebuilt. A part with no examples has no agreed meaning of "done", so get them from Sid first (the discuss skill).
 
-Check that the reviewers exist: `ls "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/agents"` should list `doubter.md` and `test-auditor.md`. If it doesn't, tell Sid to restart Orca, which links them into the account folder when it sets the folder up (the `kit` skill's orca.md, under Accounts).
+Check that the reviewers exist: `ls .claude/agents` should list `doubter.md` and `test-auditor.md`. If it doesn't, the kit isn't fully installed in this project, and the README of sidfeels/claude-code-config has the one command that installs it.
 
 Make the first wave a skeleton: the thinnest version of the whole path that runs for real, with each part a stub that keeps its promises. Then parts fill in something that already runs, and integration problems show up on the first day instead of the last.
 
@@ -87,7 +87,7 @@ Name each worker's tab "Build: <part>":
 - terminals: `orca terminal rename`;
 - chats: `orca chat rename`.
 
-Workers launch on Orca's selected account. If that isn't this session's account, tell Sid before you launch (the `kit` skill's orca.md, under Accounts).
+Workers launch on Orca's selected account. If that isn't this session's account, tell Sid before you launch (the `kit` skill's orca.md, under Accounts). When Sid wants the workers on the other account, the only way is to change Orca's selected account first, so say what else that changes.
 
 **Elsewhere.** Use background subagents, one per part, each with the spec as its prompt.
 

@@ -8,7 +8,15 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 
 ## When you want to…
 
-**Start a project.** Open main in the project folder and type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own, and each part has two or three examples of it working, in your words.
+**Set up a folder.** Open it in Orca and paste this into a terminal tab:
+
+```
+rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config /tmp/sid-kit && /tmp/sid-kit/install.sh --project .
+```
+
+It copies the kit into the folder's `.claude/`, where both accounts read it. In a repo you don't own, add ` --private` at the end, so git leaves the copy out.
+
+**Start a project.** Start `claude` in the folder, or `claude-personal` for the personal account. That session is main. Type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own, and each part has two or three examples of it working, in your words.
 
 **Go deep on one part, or two or three related parts.** In main, type `/spinoff <part>`. A "Discuss: <part>" tab opens. Talk there. When the part feels settled, say "save": that session writes everything into the files and tells main. Then close it.
 
@@ -24,6 +32,8 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 
 **Review a part.** Drag its Build tab to the left beside main and talk to it. The worker tells main about anything it changes. Close the tab when you're happy.
 
+**Use the other account.** A session the kit opens uses the same account as the session that opened it. To get the other one, say so: "open this spinoff on personal". Build workers always use the account selected in Orca.
+
 **Add a thought while a worker is busy.** If it changes what the worker is building, press Esc in that tab, then type. Otherwise tell main, and it passes the thought on.
 
 **Pick up after a break, or after main was closed.** Ask main "where are we". It rebuilds the picture from the files and from Orca's records.
@@ -36,7 +46,7 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 
 **Go to sleep.** Type `/overnight` followed by what should be done by morning. Check the plan and the budget it shows you, paste the `/goal` line it gives you, and go. In the morning, read the "Morning report". If the night got cut off and the session still says you're away, change the first line of `.kit/overnight.md` to `Status: done`.
 
-**Improve how this works.** Every week or so, or after a session that annoyed you, type `/retro`. It finds what cost you time and proposes fixes. Changes to the kit itself come to you as a PR.
+**Improve how this works.** Every week or so, or after a session that annoyed you, type `/retro`. It finds what cost you time and proposes fixes. Fixes to skills go into this project's own copy, and it tells you which ones are worth sending back to the kit.
 
 ## Habits that save trouble
 
@@ -49,7 +59,6 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 In Orca:
 - Settings → Claude accounts → "When you switch accounts while Claude is running": choose **Never restart**.
 - Leave hibernation off, so main never sleeps through a report.
-- Restart Orca once after installing the kit. That links the kit's agents and CLAUDE.md into Orca's account folders. Check it worked: `ls ~/Library/Application\ Support/orca/claude-profiles/*/home` should list CLAUDE.md and agents.
 
 Optional, in Claude Code:
 - To let overnight runs survive a usage limit, set `"autoContinueAtUsageLimit": true` in `~/.claude/settings.json`, and in `~/.claude-personal/settings.json`.

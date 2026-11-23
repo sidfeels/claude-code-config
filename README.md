@@ -1,6 +1,6 @@
 # claude-code-config
 
-This is Sid's personal Claude Code kit: one global CLAUDE.md, ten skills and three subagents, for running several projects at once with little attention to spare. It's built for Orca, and for two Claude accounts. A project usually starts from scratch and goes through discussion, parallel building, review and tests, sometimes overnight.
+This is Sid's personal Claude Code kit: one file on how to work with Sid, ten skills and three subagents, for running several projects at once with little attention to spare. It's built for Orca, and for two Claude accounts. A project usually starts from scratch and goes through discussion, parallel building, review and tests, sometimes overnight.
 
 To see how it's used day to day, read [WORKFLOW.md](WORKFLOW.md). It's one page.
 
@@ -22,7 +22,7 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 
 | Path | What it is |
 |---|---|
-| `global/CLAUDE.md` | How to work with Sid: hunches, pushback, choices, writing, evidence, subagents. Loads in every session. |
+| `global/CLAUDE.md` | How to work with Sid: hunches, pushback, choices, writing, evidence, subagents. Installed into each project as `.claude/rules/working-with-sid.md`, where it loads in every session. |
 | `skills/kit/` | The setup's knowledge of itself: Orca, accounts, Claude Code features, project file templates, and how to change the kit. |
 | `skills/discuss/` | Settles a design with Sid, round by round, and writes it down. |
 | `skills/spinoff/` | Opens a tab for one part, with a brief. |
@@ -41,23 +41,25 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 
 ## Install
 
+The kit is installed per project. In the project folder:
+
 ```
-git clone https://github.com/sidfeels/claude-code-config.git ~/orca/claude-code-config
-cd ~/orca/claude-code-config
-./install.sh
+rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config /tmp/sid-kit && /tmp/sid-kit/install.sh --project .
 ```
 
-`install.sh` links the skills and agents into both config folders, `~/.claude` (work) and `~/.claude-personal` (personal, used by the `claude-personal` alias). It also makes each folder's CLAUDE.md a one-line import of `global/CLAUDE.md`, after backing up any CLAUDE.md that was already there. To install into only some folders, name them: `./install.sh ~/.claude-personal`.
+That copies the skills, the agents and `global/CLAUDE.md` (as `rules/working-with-sid.md`) into the project's `.claude/` folder, and records the kit commit in `.claude/kit-version`. Claude Code reads `.claude/` from the project whichever account is in use, so both accounts get the same kit and nothing is set up per account. Start a new session and type `/` to check that the skills are listed.
 
-Install into `~/.claude` even if you mostly use the personal account. Orca copies `~/.claude` into each of its managed account folders, so every Orca tab, on either account, reads the kit from there.
+- In a repo Sid doesn't own, add `--private`. The copy is then listed in `.git/info/exclude` and stays out of the team's tree.
+- Running it again never overwrites what's there. It only adds what's missing.
+- `install.sh --diff <project>` shows what a project changed in its copy since it was installed.
 
-Because everything is linked, `git pull` updates every session at once. Run `./install.sh` again after pulling only when a skill or agent was added or removed. `./install.sh --uninstall` removes exactly what it installed.
+Don't keep a global install next to it. For a skill with the same name, Claude Code uses the copy in the account folder and ignores the project's. `./install.sh --uninstall`, run from the clone the global links point to, removes a global install. `./install.sh --global` is the old way, kept only so it can be undone.
 
-After installing, start a new session and type `/` to check that the skills are listed. If you want overnight runs to survive a usage limit, add `"autoContinueAtUsageLimit": true` to the settings of the account you use. WORKFLOW.md lists the one-time Orca settings.
+If you want overnight runs to survive a usage limit, add `"autoContinueAtUsageLimit": true` to the settings of the account you use. WORKFLOW.md lists the one-time Orca settings.
 
 ## Changing the kit
 
-Change the kit through the repo, so every account gets the same version. The `retro` skill proposes changes from real sessions, and kit changes arrive as PRs. To keep the kit from growing back into the overgrown kit it replaced, every rule says why it exists, and a new line comes with a look for an old one it makes redundant.
+Each project changes its own copy as it learns, and says why in the commit message. `install.sh --diff` shows those changes later, and the ones worth keeping come back here as PRs. To keep the kit from growing back into the overgrown kit it replaced, every rule says why it exists, and a new line comes with a look for an old one it makes redundant.
 
 `skills/kit/claude-code.md` lists the Claude Code settings and flags that were checked against the docs. Check it before relying on a setting.
 

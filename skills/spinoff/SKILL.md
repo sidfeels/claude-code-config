@@ -40,10 +40,12 @@ Main's address goes in the brief, and it depends on where you're running.
 Run the kit's script:
 
 ```
-"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/kit/open-session.sh" "Discuss: <part>" "Read .kit/briefs/<part>.md and follow it."
+"${CLAUDE_SKILL_DIR}/../kit/open-session.sh" "Discuss: <part>" "Read .kit/briefs/<part>.md and follow it."
 ```
 
 The script opens a tab on this session's account. It quotes the account folder (Orca's folders contain a space) and skips Orca's account-picking shell function. Outside Orca it prints the command for Sid to paste instead. Don't build the command by hand.
+
+When Sid asks for the spinoff on the other account, add `work` or `personal` as a third argument. Sid calls the personal account "claude2".
 
 ## 3. Record it and hand over
 
