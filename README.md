@@ -22,7 +22,8 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 
 | Path | What it is |
 |---|---|
-| `global/CLAUDE.md` | How to work with Sid: hunches, pushback, choices, writing, evidence, subagents. Installed into each project as `.claude/rules/working-with-sid.md`, where it loads in every session. |
+| `CLAUDE.md` | How to work with Sid: hunches, pushback, choices, writing, evidence, subagents. It loads in every session in this repo, and is installed into each project as `.claude/rules/working-with-sid.md`, where it loads the same way. |
+| `SETUP.md` | What a setup session does in a folder: look first, tell Sid, then fit the kit to the case. |
 | `skills/kit/` | The setup's knowledge of itself: Orca, accounts, Claude Code features, project file templates, and how to change the kit. |
 | `skills/discuss/` | Settles a design with Sid, round by round, and writes it down. |
 | `skills/spinoff/` | Opens a tab for one part, with a brief. |
@@ -40,18 +41,26 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 
 ## Install
 
-The kit is installed per project. In the project folder, as a plain command:
+Open the folder in Orca, start `claude` (or `claude2`) in a terminal tab, and paste this. In a plain terminal, start `claude` in the folder and paste the same thing.
 
 ```
-rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config /tmp/sid-kit && /tmp/sid-kit/install.sh --project .
+Set up Sid's kit in this folder. Run the command below, then follow SETUP.md in the folder it prints. Tell me what you found and what you plan before you change anything.
+
+d="${TMPDIR:-/tmp}/sid-kit"; rm -rf "$d" && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config "$d" && echo "kit: $d"
 ```
 
-That copies the skills, the agents and `global/CLAUDE.md` (as `rules/working-with-sid.md`) into the project's `.claude/` folder, and records the kit commit in `.claude/kit-version`. Claude Code reads `.claude/` from the project whichever account is in use, so both accounts get the same kit and nothing is set up per account. Start a new session and type `/` to check that the skills are listed.
+The session clones this repo and follows [SETUP.md](SETUP.md): it looks at the folder, tells you what it found and what it plans, and changes nothing until you say go. The same prompt sets up a new folder, fits the kit into a team's repo, replaces Sid's old v1 kit, and updates a project to a newer kit. When it's done, close that session and start a new one in the folder, so the kit loads from the start.
 
-- Sid's usual way is to paste a prompt into a Claude session, which runs this command and then fits the kit to what the folder already has. WORKFLOW.md has the prompt.
-- In a repo Sid doesn't own, add `--private`. The copy is then listed in `.git/info/exclude` and stays out of the team's tree.
-- Running it again never overwrites what's there. It only adds what's missing.
-- `install.sh --diff <project>` shows what a project changed in its copy since it was installed.
+This is the only copy of the prompt. WORKFLOW.md points here, so it can't drift.
+
+What lands in the project is the skills, the agents and this repo's `CLAUDE.md` (as `rules/working-with-sid.md`), all in the project's `.claude/` folder, plus `.claude/kit-version`, which records the kit commit. Claude Code reads `.claude/` from the project whichever account is in use, so both accounts get the same kit and nothing is set up per account.
+
+`install.sh` does the mechanical part:
+
+- `--inspect` prints what a folder already has, and changes nothing.
+- `--project` copies the kit in. It never overwrites; it only adds what's missing. With `--private`, for a repo Sid doesn't own, it also lists the copy, sid.md, `.kit/` and CLAUDE.local.md in `.git/info/exclude`.
+- `--update` brings a project's copy up to the kit's commit. Files the project never changed are replaced, and files it changed are kept and listed for merging.
+- `--diff` shows what a project changed in its copy since it was installed.
 
 Don't keep a global install next to it. For a skill with the same name, Claude Code uses the copy in the account folder and ignores the project's. `./install.sh --uninstall`, run from the clone the global links point to, removes a global install. `./install.sh --global` is the old way, kept only so it can be undone.
 

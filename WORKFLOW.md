@@ -8,17 +8,11 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 
 ## When you want to…
 
-**Set up a folder.** Open it in Orca, start `claude` in a terminal tab, and paste this:
+**Set up a folder, or update one.** Open it in Orca, start `claude` (or `claude2`) in a terminal tab, and paste the setup prompt from the [README](README.md#install).
 
-```
-Set up Sid's kit in this folder. Run the command below. Then read .claude/skills/kit/SKILL.md and follow its section "Fitting the kit into a folder". Tell me what you found and what you suggest before you change anything else.
+The same prompt works for an empty folder, your own repo, a team's repo, an old project with your v1 kit, and a project on an older version of this kit. The session looks first, tells you what the folder is and what it would do, and changes nothing until you say go. In a team's repo it leaves their CLAUDE.md alone and puts your project notes in CLAUDE.local.md, which git never sees. When it's done, close that session and start a new one in the folder, so the kit loads from the start.
 
-rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config /tmp/sid-kit && /tmp/sid-kit/install.sh --project .
-```
-
-The session installs the kit into the folder's `.claude/`, where both accounts read it. Then it looks at what's already there, such as a team's CLAUDE.md or a `.gitignore` that doesn't cover your private notes, and tells you how it suggests fitting the kit in. When it's done, close that session and start a new one, so the kit is loaded from the start.
-
-**Start a project.** Start `claude` in the folder, or `claude-personal` for the personal account. That session is main. Type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own, and each part has two or three examples of it working, in your words.
+**Start a project.** Start `claude` in the folder, or `claude2` for the personal account. That session is main. Type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own, and each part has two or three examples of it working, in your words.
 
 **Go deep on one part, or two or three related parts.** In main, type `/spinoff <part>`. A "Discuss: <part>" tab opens. Talk there. When the part feels settled, say "save": that session writes everything into the files and tells main. Then close it.
 
