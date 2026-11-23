@@ -1,6 +1,6 @@
 # claude-code-config
 
-This is Sid's personal Claude Code kit: one file on how to work with Sid, ten skills and three subagents, for running several projects at once with little attention to spare. It's built for Orca, and for two Claude accounts. A project usually starts from scratch and goes through discussion, parallel building, review and tests, sometimes overnight.
+This is Sid's personal Claude Code kit: one file on how to work with Sid, nine skills and three subagents, for running several projects at once with little attention to spare. It's built for Orca, and for two Claude accounts. A project usually starts from scratch and goes through discussion, parallel building, review and tests.
 
 To see how it's used day to day, read [WORKFLOW.md](WORKFLOW.md). It's one page.
 
@@ -32,7 +32,6 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 | `skills/tests/` | Which checks can see which failures, how to classify a failure, what a change ripples into, and pruning. |
 | `skills/rewrite/` | Rewrites text for other readers in one human voice, or Slack messages in Sid's voice. |
 | `skills/retro/` | Finds what cost Sid time and fixes the cause where it lives. |
-| `skills/overnight/` | Unattended runs: decide or park by how much rides on a choice, then write a morning report. |
 | `agents/doubter.md` | Adversarial reviewer. It gets the artifact and its contract, never the author's conclusion. |
 | `agents/expert.md` | A domain expert who reasons first and checks precedent second. |
 | `agents/test-auditor.md` | Judges a test suite: what each test depends on, what it catches, and what nothing proves. |
@@ -56,7 +55,7 @@ That copies the skills, the agents and `global/CLAUDE.md` (as `rules/working-wit
 
 Don't keep a global install next to it. For a skill with the same name, Claude Code uses the copy in the account folder and ignores the project's. `./install.sh --uninstall`, run from the clone the global links point to, removes a global install. `./install.sh --global` is the old way, kept only so it can be undone.
 
-If you want overnight runs to survive a usage limit, add `"autoContinueAtUsageLimit": true` to the settings of the account you use. WORKFLOW.md lists the one-time Orca settings.
+WORKFLOW.md lists the one-time Orca settings.
 
 ## Changing the kit
 

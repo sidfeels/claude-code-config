@@ -95,7 +95,7 @@ A separate worktree (`--worktree new-child`, or `isolation: "worktree"`) is only
 
 ## While it runs
 
-- **Wait for messages without polling.** In Orca, end your turn, and the next message wakes you. Inside a `/goal` run, wait with `orca orchestration check --wait --timeout-ms 540000`.
+- **Wait for messages without polling.** In Orca, end your turn, and the next message wakes you.
 - **Answer questions with `orca orchestration reply --id <message id> --body-file <file>`.** Answer from the files and this conversation. When the question is Sid's call, put it to Sid the way the global CLAUDE.md says: every option with what it leads to and costs, and no lean.
 - **Pass a note to a worker with `orca orchestration send --to dispatch:<id> --subject "<topic>" --body-file <file>`.** The subject is required.
 - **Don't edit folders a worker owns.**

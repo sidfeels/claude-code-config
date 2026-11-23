@@ -72,7 +72,4 @@ The main session has to hold the whole project. When a conversation there goes d
 
 The `kit` skill holds the templates, how to open and message other sessions in Orca, which account you're on, and how to change this kit.
 
-Two skills are started only by Sid, so suggest them when they fit:
-
-- `/overnight`, when Sid says they're leaving or going to sleep;
-- `/retro`, after a session that went badly, or every week or so.
+One skill is started only by Sid, so suggest it when it fits: `/retro`, after a session that went badly, or every week or so.
