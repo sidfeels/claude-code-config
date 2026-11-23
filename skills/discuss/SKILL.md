@@ -67,7 +67,7 @@ When Sid asks for an expert's view, or when your options all look alike, use the
 Write each point down as soon as it settles, not at the end:
 
 - Decisions go in decisions.md, in the same edit as the change to architecture.md, with the real reason and who decided.
-- Sid's thoughts and worries go in sid.md, in Sid's voice.
+- Sid's thoughts and worries go in sid.md, in Sid's own words, quoted from the message while you still have it.
 - Anything left open goes in blueprint.md, under Open.
 
 Sid should be able to close this session at any moment without losing anything.

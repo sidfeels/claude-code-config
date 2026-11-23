@@ -40,7 +40,7 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 | `blueprint.md` | The project on one page: what and why, who it's for, the five sentences, parts and their status, every open question, and the sessions working on it now. Every session reads it first. |
 | `architecture.md` | How the system works today, part by part. It opens with how the system looks from outside. Then, for each part: what it does, the choices that matter and why, its limits, what it depends on, and how far it's proven. |
 | `decisions.md` | How the design got this way: one entry for each choice made or replaced, each option turned down, and each thing we relied on that turned out wrong. Entries are added at the bottom and never rewritten. |
-| `sid.md` | Sid's own thinking, in Sid's voice. It is gitignored and never pushed. |
+| `sid.md` | What Sid thinks about the project, in Sid's own words: what still matters on top, what's been dealt with below. Entries are leads to check, not instructions. It is gitignored and never pushed. |
 | `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |
 | `.kit/` | Session scratch: briefs, worker specs, expert reports, the overnight plan. It is gitignored. It is never the record; anything that matters gets copied into the files above. |

@@ -21,7 +21,8 @@ Go through the whole session, not just its end. Send each thing to its one home:
 
 - Decisions go in decisions.md, one entry each, with the real reason and who decided (see its header). That covers choices made or replaced, options turned down, and things we relied on that turned out wrong.
 - How things work now goes in the part's entry in architecture.md. Depth goes in docs/<part>.md.
-- Sid's thoughts, worries, hunches and preferences go in sid.md, in Sid's voice (see its header). Keep the ones that went nowhere too.
+- Sid's thoughts, worries, hunches and taste go in sid.md, in Sid's own words (see its header). Keep the ones that went nowhere too. Only Sid moves one to "Dealt with"; when you think one is answered, ask in your reply.
+- A rule Sid set for this project goes in CLAUDE.md, under "Rules for this project", with its reason.
 - Anything unresolved goes in blueprint.md, under Open, tagged with the part and with who must answer.
 - Measured results go in docs/<part>.md, under Results, with how to reproduce them.
 - Status goes in the part's line in blueprint Parts.
@@ -42,6 +43,16 @@ Then check the two files against each other:
 
 - If architecture.md changed and decisions.md didn't, find the entry you owe. A change of wording alone owes none.
 - Old entries in decisions.md are never rewritten. `git diff HEAD -- decisions.md | grep '^-' | grep -v '^--- a/'` should print nothing. If it prints a line, put the old entry back and add a new one instead.
+
+## Check sid.md stays private
+
+sid.md holds what Sid wouldn't say in public. Before anything is committed:
+
+```
+git check-ignore -q sid.md || echo "sid.md is NOT ignored"
+```
+
+If that prints, stop and add sid.md to `.gitignore` (or to `.git/info/exclude` in a repo Sid doesn't own) before doing anything else.
 
 ## Tell main
 
