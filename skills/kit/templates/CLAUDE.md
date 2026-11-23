@@ -13,6 +13,8 @@ Start by reading architecture.md: what we're building, how it works, how far eac
 - decisions.md says how it got this way. Search it for a part's name before proposing a change to that part.
 - sid.md is Sid's own thinking about the project.
 
+Each of these files opens with its rules. Read them before you edit the file, even for a one-line change.
+
 ## Run it
 
 <The command or commands that run the actual thing end to end, smallest real version first.>

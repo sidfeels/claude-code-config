@@ -136,7 +136,7 @@ Only a hook guarantees that a step happens. Instructions get skipped.
 
 In CLAUDE.md, `@path` imports another file. A user-level import loads without asking.
 
-Auto memory lives at `<config>/projects/<project>/memory/MEMORY.md`. The first 200 lines load at session start. Memory is per machine and invisible to Sid's other account and to other tools, so anything a project needs goes in the project files, not memory.
+Auto memory lives at `<config>/projects/<project>/memory/MEMORY.md`. The first 200 lines load at session start. Memory is per machine and per config folder. Orca's account folders link their `projects/` to `~/.claude/projects`, so they share memory and transcripts with the default account; a session started with `claude-personal` doesn't. Other tools never see it. So anything a project needs goes in the project files, not memory.
 
 ## Also available
 
