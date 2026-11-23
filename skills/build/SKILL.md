@@ -39,10 +39,10 @@ For each part in the wave, write `.kit/specs/<part>.md` covering:
   - Don't install, remove or upgrade packages; ask main. Lockfiles are shared, and one worker's install can undo another's.
   - Write real-run output under `.kit/runs/<part>/`, so two workers' runs never mix.
   - Don't edit files you don't own. If you need a change in one, ask main.
-  - When you need a decision, ask main (`orca orchestration ask`, or a message to main's T3 thread) and carry on with work that doesn't depend on it. Never wait on Sid directly.
+  - When you need a decision, ask main (`orca orchestration ask`) and carry on with work that doesn't depend on it. Never wait on Sid directly.
   - Report how far you checked each claim.
   - After you report, if Sid asks you for a change, send main a status covering four things: what changed, why (in Sid's words), whether your contract changed, and which proofs you reran.
-- **Main's address:** its Orca handle or T3 thread id.
+- **Main's address:** its Orca handle.
 
 Parts that would edit the same files either go in different waves or become one part.
 
@@ -63,8 +63,6 @@ Name each worker's tab "Build: <part>":
 - chats: `orca chat rename`.
 
 Workers launch on Orca's selected account. If that isn't this session's account, tell Sid before you launch (the `kit` skill's orca.md, under Accounts).
-
-**T3.** Call `delegate_task` once per part, with the spec as the task, `isolation: "shared"` and role `implementation`. Record each task id in `.kit/sessions.md`.
 
 **Elsewhere.** Use background subagents, one per part, each with the spec as its prompt.
 

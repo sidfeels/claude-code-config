@@ -41,7 +41,7 @@ While Sid sleeps, two things waste the night. A session that stops to ask a ques
    - **Decided overnight**, **Parked**, and **Morning report**, each empty for now.
 
 4. **Make sure nothing will need approval.**
-   - List the commands the plan will run, and check that none of them will prompt. Orca-launched agents and workers skip prompts by default. A tab Sid opened with `claude`, a T3 thread, or a plain terminal uses its own permission mode. There, either add the commands to the project's `permissions.allow`, or ask Sid to restart in auto mode before leaving. On the work account, check that `orca` is in `sandbox.excludedCommands`.
+   - List the commands the plan will run, and check that none of them will prompt. Orca-launched agents and workers skip prompts by default. A tab Sid opened with `claude`, or a plain terminal, uses its own permission mode. There, either add the commands to the project's `permissions.allow`, or ask Sid to restart in auto mode before leaving. On the work account, check that `orca` is in `sandbox.excludedCommands`.
    - Read `autoContinueAtUsageLimit` in the user settings. If it's off, tell Sid that a usage limit will end the night early.
 
    The guard is the backstop: it turns any prompt that still appears into a denial with instructions, so the work around it continues.

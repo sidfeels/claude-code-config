@@ -1,6 +1,6 @@
 ---
 name: kit
-description: How Sid's setup works and how to drive it. Covers where you are running (Orca, T3 Code, a plain terminal), which Claude account you're on, how to open, message and track other sessions, the project file templates, and how to change this kit. Use before launching or messaging another session, creating a project's files, switching accounts, or editing the kit.
+description: How Sid's setup works and how to drive it. Covers where you are running (Orca or a plain terminal), which Claude account you're on, how to open, message and track other sessions, the project file templates, and how to change this kit. Use before launching or messaging another session, creating a project's files, switching accounts, or editing the kit.
 ---
 
 # The kit and its environment
@@ -16,8 +16,7 @@ You are one session in a setup built so Sid can run several projects with little
 Check this once per session; it's cheap.
 
 - Orca: `$ORCA_TERMINAL_HANDLE` is set, and it is this terminal's address. Commands and behaviour are in [orca.md](orca.md). If other `ORCA_` variables are set but there's no handle, you're in an Orca chat tab. A chat can't be addressed by a handle, so ask Sid to open main as a terminal (CLI) tab instead.
-- T3 Code: `$CLAUDE_CODE_ENTRYPOINT` is `t3-code`, and `$T3CODE_THREAD_ID` is this thread's address. Tools and behaviour are in [t3.md](t3.md).
-- Neither: you're in a plain terminal. Subagents still work. To open a new session, give Sid the exact command to paste. `open-session.sh` prints it.
+- Otherwise: you're in a plain terminal. Subagents still work. To open a new session, give Sid the exact command to paste. `open-session.sh` prints it.
 
 ## Which account
 
@@ -58,7 +57,7 @@ In a repo Sid doesn't own, ask first. Put the kit's files in `.git/info/exclude`
 The file set is small on purpose. Each kind of thing has exactly one home, so the next session knows where to look and Sid knows where to read:
 
 - Open questions live only in architecture.md, under Open questions.
-- The sessions working on the project right now are listed only in `.kit/sessions.md`, one line each: `<tab or thread name> | <address> | <what it's doing> | started <date>`. The Orca Run id goes on its first line. A session's line is removed when it saves and closes. The list is scratch, because a terminal address means nothing outside this machine.
+- The sessions working on the project right now are listed only in `.kit/sessions.md`, one line each: `<tab name> | <address> | <what it's doing> | started <date>`. The Orca Run id goes on its first line. A session's line is removed when it saves and closes. The list is scratch, because a terminal address means nothing outside this machine.
 - How things work today lives only in architecture.md.
 - Decisions and their history live only in decisions.md, each with the real reason and who decided. A reversal is a new entry there.
 
@@ -76,7 +75,6 @@ When main's tab was closed, its context was compacted, or Sid asks "where are we
 1. Read architecture.md: each part's Status, and Open questions. Then read `.kit/sessions.md`, which lists each live session's address, and the Run and dispatch ids.
 2. Read any messages in `.kit/messages/` newer than the last time main recorded something.
 3. Orca: run `orca orchestration run-list`, then `run-use --id <run>`, then `orca orchestration inbox --terminal run:<run> --limit 50`. That gives you the Run, its workers and the mail. `orca orchestration worker-list` shows which workers are still alive.
-4. T3: run `t3_thread_list`, and `t3_thread_read` for each open session.
 
 Then tell Sid in a few lines what's done, what's running, and what's waiting on them.
 
@@ -89,7 +87,7 @@ Pick the lightest way that fits.
   - `doubter`: an adversarial review;
   - `expert`: an independent view through one lens;
   - `test-auditor`: judges a test suite.
-- A spinoff session (the spinoff skill). Use one when a part needs Sid's discussion in depth. It opens as a visible tab or thread that Sid talks in.
+- A spinoff session (the spinoff skill). Use one when a part needs Sid's discussion in depth. It opens as a visible tab that Sid talks in.
 - Workers (the build skill). Use them to build settled parts in parallel. Each worker reports to main.
 - An expert debate (the expert skill). Use it when a decision needs independent views that argue until the real disagreement is clear.
 - Overnight (the overnight skill). Use it for work that continues while Sid is away.

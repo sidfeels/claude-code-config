@@ -1,6 +1,6 @@
 # claude-code-config
 
-This is Sid's personal Claude Code kit: one global CLAUDE.md, ten skills and three subagents, for running several projects at once with little attention to spare. It's built for Orca and T3 Code, and for two Claude accounts. A project usually starts from scratch and goes through discussion, parallel building, review and tests, sometimes overnight.
+This is Sid's personal Claude Code kit: one global CLAUDE.md, ten skills and three subagents, for running several projects at once with little attention to spare. It's built for Orca, and for two Claude accounts. A project usually starts from scratch and goes through discussion, parallel building, review and tests, sometimes overnight.
 
 To see how it's used day to day, read [WORKFLOW.md](WORKFLOW.md). It's one page.
 
@@ -23,9 +23,9 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 | Path | What it is |
 |---|---|
 | `global/CLAUDE.md` | How to work with Sid: hunches, pushback, choices, writing, evidence, subagents. Loads in every session. |
-| `skills/kit/` | The setup's knowledge of itself: Orca, T3, accounts, Claude Code features, project file templates, and how to change the kit. |
+| `skills/kit/` | The setup's knowledge of itself: Orca, accounts, Claude Code features, project file templates, and how to change the kit. |
 | `skills/discuss/` | Settles a design with Sid, round by round, and writes it down. |
-| `skills/spinoff/` | Opens a tab or thread for one part, with a brief. |
+| `skills/spinoff/` | Opens a tab for one part, with a brief. |
 | `skills/save/` | Writes a session into the files, tells main, and says when it's safe to close. |
 | `skills/build/` | Parallel workers in waves, with a skeleton first, then proof and a checkpoint. |
 | `skills/expert/` | Independent views from fresh experts on different Claude models, and a short debate when they disagree ("council"). |
@@ -67,6 +67,5 @@ The previous kit, with paper-research, long-running loops and the rules folder, 
 
 - Claude Code 2.1.330
 - Orca 1.4.271
-- T3 Code, November 2026
 
 What was tested is listed in the PR that introduced this version.
