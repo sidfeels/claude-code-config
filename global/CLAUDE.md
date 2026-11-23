@@ -66,7 +66,7 @@ Keep them current as you work, because a decision that isn't written down didn't
 
 The main session has to hold the whole project. When a conversation there goes deep on one part, offer a spinoff in one line.
 
-The `kit` skill holds the templates, how to open and message other sessions in Orca and T3 Code, which account you're on, and how to change this kit.
+The `kit` skill holds the templates, how to open and message other sessions in Orca, which account you're on, and how to change this kit.
 
 Two skills are started only by Sid, so suggest them when they fit:
 

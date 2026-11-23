@@ -4,13 +4,13 @@ Each project has one main session. It holds the whole picture, and it's the only
 
 Layout: main on the left; the session you're focused on dragged to the left beside it; everything else on the right.
 
-The same steps work in Orca, with tabs, and in T3 Code, with threads. In Orca, open main as a terminal (CLI) tab, not a chat. The kit reaches main by its terminal address.
+Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat, because the kit reaches main by its terminal address.
 
 ## When you want to…
 
 **Start a project.** Open main in the project folder and type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own.
 
-**Go deep on one part, or two or three related parts.** In main, type `/spinoff <part>`. A "Discuss: <part>" tab or thread opens. Talk there. When the part feels settled, say "save": that session writes everything into the files and tells main. Then close it.
+**Go deep on one part, or two or three related parts.** In main, type `/spinoff <part>`. A "Discuss: <part>" tab opens. Talk there. When the part feels settled, say "save": that session writes everything into the files and tells main. Then close it.
 
 **Hear how an expert would do it.** Type `/expert <question>`. Fresh subagents that haven't seen our plan each answer through a different lens. When they disagree, or you say "council", the two strongest views argue it out for up to two rounds, and whatever they still disagree on comes to you as the decision.
 
@@ -25,7 +25,7 @@ The same steps work in Orca, with tabs, and in T3 Code, with threads. In Orca, o
 
 **Add a thought while a worker is busy.** If it changes what the worker is building, press Esc in that tab, then type. Otherwise tell main, and it passes the thought on.
 
-**Pick up after a break, or after main was closed.** Ask main "where are we". It rebuilds the picture from the files and from Orca's or T3's records.
+**Pick up after a break, or after main was closed.** Ask main "where are we". It rebuilds the picture from the files and from Orca's records.
 
 **Fix something old that turned out broken.** Tell main. It reproduces the failure for real first. If the design was wrong, the part goes back to discussion; if the build was wrong, it's fixed as a wave of one.
 

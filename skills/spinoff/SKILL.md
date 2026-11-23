@@ -1,6 +1,6 @@
 ---
 name: spinoff
-description: Open a separate session, an Orca tab or a T3 thread, for one part (or two or three closely related parts) that needs deep discussion. A brief gives it the context to start. Use for /spinoff, or when a part needs more depth than the main session should hold.
+description: Open a separate Orca tab for one part (or two or three closely related parts) that needs deep discussion. A brief gives it the context to start. Use for /spinoff, or when a part needs more depth than the main session should hold.
 argument-hint: "<part or parts>"
 ---
 
@@ -28,15 +28,14 @@ Keep your own opinion on contested choices out of the brief, or mark it as one v
 
 ## 2. Open the session on the same account
 
-Each environment gives main a different address, which goes in the brief, and a different way to open the new session.
+Main's address goes in the brief, and it depends on where you're running.
 
 | Environment | How you know | Main's address |
 |---|---|---|
 | Orca | `$ORCA_TERMINAL_HANDLE` is set | `$ORCA_TERMINAL_HANDLE` |
-| T3 Code | `$CLAUDE_CODE_ENTRYPOINT` is `t3-code` | `$T3CODE_THREAD_ID` |
-| Plain terminal | neither of the above | none; Sid relays |
+| Plain terminal | it isn't set | none; Sid relays |
 
-**Orca, or a plain terminal.** Run the kit's script:
+Run the kit's script:
 
 ```
 "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/kit/open-session.sh" "Discuss: <part>" "Read .kit/briefs/<part>.md and follow it."
@@ -44,11 +43,9 @@ Each environment gives main a different address, which goes in the brief, and a 
 
 The script opens a tab on this session's account. It quotes the account folder (Orca's folders contain a space) and skips Orca's account-picking shell function. Outside Orca it prints the command for Sid to paste instead. Don't build the command by hand.
 
-**T3 Code.** Call `t3_thread_launch` with the title "Discuss: <part>" and the message "Read .kit/briefs/<part>.md and follow it." Leave out the model and modes so the thread inherits this one's. If this thread isn't at the project root (check with `git rev-parse --show-toplevel` against the project root), pass `workspaceStrategy: {type: "existing_worktree", worktreePath: <this folder>}` so both threads edit the same files. Give Sid the thread's link.
-
 ## 3. Record it and hand over
 
-Add the session to `.kit/sessions.md`, with its address (the terminal handle from the script's output, or the thread id).
+Add the session to `.kit/sessions.md`, with its address (the terminal handle from the script's output).
 
 Tell Sid in one or two lines:
 - the tab's name;

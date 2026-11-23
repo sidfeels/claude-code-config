@@ -67,7 +67,6 @@ Skip this if the session is main. Otherwise, main's address is in the brief or s
    The file keeps the message safe even if main was closed when it was sent.
 2. Send it:
    - **Orca:** `orca orchestration send --to <main's address> --subject "saved: <part>" --body-file .kit/messages/<file>`. A body-file sends the text as written; quoting it inline lets the shell eat backticks and `$`. On the work account the sandbox may block `orca`; if so, rerun it outside the sandbox.
-   - **T3:** `t3_thread_send` to main's thread id, with mode `queue`, so it waits for main's turn instead of interrupting it.
    - **Plain terminal:** tell Sid to point main at the file.
 3. If you're a spinoff, remove your line from `.kit/sessions.md`.
 
