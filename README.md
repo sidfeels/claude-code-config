@@ -1,79 +1,72 @@
-# Sid's Claude Code Config
+# claude-code-config
 
-Rules, skills, and global contract for ML research, agentic harness development, project delivery, optimization, red teaming, and general engineering work.
+This is Sid's personal Claude Code kit: one global CLAUDE.md, ten skills and three subagents, for running several projects at once with little attention to spare. It's built for Orca and T3 Code, and for two Claude accounts. A project usually starts from scratch and goes through discussion, parallel building, review and tests, sometimes overnight.
 
-## Quick Install
+To see how it's used day to day, read [WORKFLOW.md](WORKFLOW.md). It's one page.
 
-Paste into any Claude Code session:
+## The idea
 
-```
-Set up my Claude Code config in this project from https://github.com/sidfeels/claude-code-config — read INSTALL.md for instructions.
-```
+Tokens, context and your own attention all run short when you work with agents, and the kit is built around spending them carefully.
 
-For selective install options, see [INSTALL.md](INSTALL.md).
+One main session holds the whole project. Depth on one part goes to a separate session, which writes back into the project files before it closes, so main stays clean and nothing lives only in a conversation.
 
-## What's Included
+Every project has the same small set of files, each with one job. Each file opens with a header saying what belongs in it and how to write it, so every session and subagent writes it the same way.
 
-### Always-on (loaded every session)
+Questions reach Sid only when they're Sid's to answer. Facts get looked up, and technical calls get made and listed. The real choices come with what each leads to, and the agent's lean last, with the case against it.
 
-| File | What it does |
-|------|-------------|
-| `CLAUDE.md` | Global operating contract: priorities, execution ladder, honesty policy, real-model and real-tool verification, data/trace-before-theory, evaluation integrity, delegation discipline, Codex/GPT-5.4 Pro doctrine (post-artifact default), persistent-state hygiene, deterministic-enforcement rule |
-| `rules/implementation-quality.md` | Anti-slop guard, named AI code smells (cosplay, mock theater, comment certainty, style transplant), hard mechanical rules, real-LLM test rule, self-review checklist |
-| `rules/delegation-and-review.md` | Facts vs suspicions, blind diagnosis, targeted falsification, hint-don't-roadmap discipline, checkpoint review policy |
+Reviews, expert views and test audits run in fresh subagents that never saw the plan's author arguing for it.
 
-### Deterministic layer (optional, recommended)
+Every rule says why it exists, because a rule the model doesn't understand gets followed in the wrong places or not at all.
 
-| File | What it does |
-|------|-------------|
-| `HOOKS.md` | Doctrine and concrete recommendations for deterministic enforcement via Claude Code hooks: banned-phrase warning on persistent state, protected-eval guard, secret-scan before handoff/commit, destructive-command soft-block, real-verifier reminder, large-download approval, payload linter. Prose is advisory; hooks are deterministic |
+## What's inside
 
-### General Skills (on-demand)
+| Path | What it is |
+|---|---|
+| `global/CLAUDE.md` | How to work with Sid: hunches, pushback, choices, writing, evidence, subagents. Loads in every session. |
+| `skills/kit/` | The setup's knowledge of itself: Orca, T3, accounts, Claude Code features, project file templates, and how to change the kit. |
+| `skills/discuss/` | Settles a design with Sid, round by round, and writes it down. |
+| `skills/spinoff/` | Opens a tab or thread for one part, with a brief. |
+| `skills/save/` | Writes a session into the files, tells main, and says when it's safe to close. |
+| `skills/build/` | Parallel workers in waves, with a skeleton first, then proof and a checkpoint. |
+| `skills/expert/` | Independent views from fresh experts, or from other models ("council"). |
+| `skills/tests/` | Which checks can see which failures, how to classify a failure, what a change ripples into, and pruning. |
+| `skills/rewrite/` | Rewrites text for other readers in one human voice, or Slack messages in Sid's voice. |
+| `skills/retro/` | Finds what cost Sid time and fixes the cause where it lives. |
+| `skills/overnight/` | Unattended runs: decide or park by how much rides on a choice, then write a morning report. |
+| `agents/doubter.md` | Adversarial reviewer. It gets the artifact and its contract, never the author's conclusion. |
+| `agents/expert.md` | A domain expert who reasons first and checks precedent second. |
+| `agents/test-auditor.md` | Judges a test suite: what each test depends on, what it catches, and what nothing proves. |
+| `WORKFLOW.md` | "When you want X, do Y", for Sid. |
+| `ARSENAL.md` | Short prompts that don't need a skill. |
 
-| Skill | Invoke | What it does |
-|-------|--------|-------------|
-| `requirements-interview` | `/requirements-interview` | Adaptive "grill me" interview that turns high-level intent into a concrete spec. Scales question depth by task and adapts to product/UX, ML/research, agentic harness, backend, or library work |
-| `implementation-quality` | `/implementation-quality` | Deep code quality: naming, functions, types, testing calibration, brownfield/greenfield |
-| `long-running-project-orchestrator` | `/long-running-project-orchestrator [goal]` | End-to-end project delivery over milestones. Uses `.agent/` state, verifier gates, reviewer/fixer loops, and optional subagent/worktree teams |
-| `long-running-research-loop` | `/long-running-research-loop [goal]` | Iterative empirical work: single-session optimization (lean mode) or multi-session research/eval/benchmark/ablation (full mode with persistent state). Baseline → hypothesize → change → verify → record. Typed-status ledger, banned-phrase discipline, plateau detection, ablation discipline, real-objective-vs-proxy guard, caveats artifact |
-| `data-trace-inspection` | `/data-trace-inspection [target]` | Build the eyes before moving the hands. Inspect raw data, agent traces, eval samples before training / fine-tuning / eval debugging / red-team work. Domain-agnostic |
-| `prompting-techniques` | `/prompting-techniques` | Anti-bias delegation with 7 prompt modes: blind diagnosis, falsification, plan critique, review, rescue, deep consultation, hint-don't-roadmap |
-| `handoff-payload` | `/handoff-payload [ask]` | Build `HANDOFF_PAYLOAD.md` for manual paste into GPT-5.4 Pro or other web-only models. Uses code2prompt for the corpus + prompting-techniques for framing, with token-budget guidance |
-
-### Paper Research Bundle (on-demand)
-
-| Component | What it does |
-|-----------|-------------|
-| `paper-research/SKILL.md` | Orchestrator: 7 modes (explain, scaffold, reproduce, audit, extend, port, empirical-investigation), dynamic routing, source-of-truth hierarchy |
-| `pipeline/` (8 stages) | Intake → acquisition → ambiguity audit → implementation plan → code generation → verification → extension → handoff |
-| `guardrails/` (4 files) | Uncertainty/honesty, scope/ambiguity, official code usage, environment/compute safety |
-| `knowledge/` (4 files) | Paper-to-code mistakes, training/optimization, agentic/post-training, systems/inference |
-| `scaffolds/` (5 templates) | Paper brief, claims/targets, ambiguity ledger, results, handoff |
-
-## Architecture
+## Install
 
 ```
-project/
-  CLAUDE.md
-  HOOKS.md                          (optional, recommended)
-  .claude/
-    rules/
-      implementation-quality.md
-      delegation-and-review.md
-    skills/
-      implementation-quality/SKILL.md
-      requirements-interview/SKILL.md
-      long-running-project-orchestrator/
-        SKILL.md
-        references/*.md
-      long-running-research-loop/SKILL.md
-      data-trace-inspection/SKILL.md
-      prompting-techniques/SKILL.md
-      handoff-payload/SKILL.md
-      paper-research/
-        SKILL.md
-        pipeline/01-08*.md
-        guardrails/*.md
-        knowledge/*.md
-        scaffolds/*.md
+git clone https://github.com/sidfeels/claude-code-config.git ~/orca/claude-code-config
+cd ~/orca/claude-code-config
+./install.sh
 ```
+
+`install.sh` links the skills and agents into both config folders, `~/.claude` (work) and `~/.claude-personal` (personal, used by the `claude-personal` alias). It also makes each folder's CLAUDE.md a one-line import of `global/CLAUDE.md`, after backing up any CLAUDE.md that was already there. To install into only some folders, name them: `./install.sh ~/.claude-personal`.
+
+Install into `~/.claude` even if you mostly use the personal account. Orca copies `~/.claude` into each of its managed account folders, so every Orca tab, on either account, reads the kit from there.
+
+Because everything is linked, `git pull` updates every session at once. Run `./install.sh` again after pulling only when a skill or agent was added or removed. `./install.sh --uninstall` removes exactly what it installed.
+
+After installing, start a new session and type `/` to check that the skills are listed. If you want overnight runs to survive a usage limit, add `"autoContinueAtUsageLimit": true` to the settings of the account you use. WORKFLOW.md lists the one-time Orca settings.
+
+## Changing the kit
+
+Change the kit through the repo, so every account gets the same version. The `retro` skill proposes changes from real sessions, and kit changes arrive as PRs. To keep the kit from growing back into the overgrown kit it replaced, every rule says why it exists, and a new line comes with a look for an old one it makes redundant.
+
+`skills/kit/claude-code.md` lists the Claude Code settings and flags that were checked against the docs. Check it before relying on a setting.
+
+The previous kit, with paper-research, long-running loops and the rules folder, is kept at the git tag `v1-old-kit`.
+
+## Checked on
+
+- Claude Code 2.1.330
+- Orca 1.4.271
+- T3 Code, November 2026
+
+What was tested is listed in the PR that introduced this version.
