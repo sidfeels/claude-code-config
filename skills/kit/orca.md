@@ -11,7 +11,7 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
   The new tab opens without taking focus.
 - `orca agent launch --agent claude --surface terminal --prompt "<text>"` is the other way to open an agent tab. It always uses Orca's selected account, so use `terminal create` when the account matters.
 - An agent can't choose which pane group a new tab lands in. It lands in the group Sid last clicked, and Sid drags it where they want it. Sid's habit is to keep main on the left with the session in focus beside it, and the other sessions on the right.
-- Give every tab a name Sid can scan. For a terminal, use `orca terminal rename --terminal <handle> --title "Build: evals"`. For a chat, use `orca chat rename`.
+- Give every tab a name Sid can scan. For a terminal, use `orca terminal rename --terminal <handle> --title "Build: evals"`. For a chat, use `orca chat rename --session <id> --name "<text>"`.
 - To open a Claude tab on a specific account, use the kit's `open-session.sh`.
 - `orca terminal list`, `read` and `wait` let you inspect a tab. `orca terminal send` types into one. Don't use `send` to talk to another agent: it can land in the middle of a turn, or on top of Sid's typing. Use messages instead.
 
@@ -28,7 +28,7 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
 - To answer a question, use `orca orchestration reply --id <message id> --body-file <file>`; without a reply the question stays pending.
 - To message a worker, use `send --to dispatch:<id> --subject "<topic>" --body-file <file>`. The subject is required.
 - To recover mail after losing context, use `orca orchestration inbox --terminal run:<run> --limit 50 --full`.
-- Delivery from a worker to its coordinator was verified live. Delivery from a plain tab to main, outside a Run, follows the same path but wasn't tested. That's why `save` also writes each message to `.kit/messages/`.
+- Delivery from a worker to its coordinator was verified live. Delivery from a plain tab to main, outside a Run, follows the same path but wasn't tested, and the CLI help calls a terminal handle a "legacy handle". That's why `save` also writes each message to `.kit/messages/`. Check this path the first time a spinoff saves.
 - Orca protects an unsent draft in the recipient's input box for only 10 minutes after the last keystroke. A half-typed message older than that can get mixed into the wake-up text.
 
 ## Workers (supervised, report back)
@@ -59,9 +59,10 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
 
 ## Accounts and settings
 
-- Orca keeps one selected account for new launches: `orca account list` shows it, and `orca account select` changes it. That setting is global. Switching it from the CLI or a phone can restart running sessions on the old account and break workers. The fix is the setting "When you switch accounts while Claude is running: Never restart".
+- Orca keeps one selected account for new launches: `orca account list` shows it, and `orca account select --agent claude --account <id or email>` changes it. That setting is global. Switching it from the CLI or a phone can restart running sessions on the old account and break workers. The fix is the setting "When you switch accounts while Claude is running: Never restart".
 - Orca gives each managed account its own folder and fills it from `~/.claude`: folders such as skills and agents are linked, settings are copied, and CLAUDE.md is written as a one-line import of `~/.claude/CLAUDE.md`. The kit therefore must be installed in `~/.claude` for Orca tabs to see it, whichever account they use.
 - Orca fills the folder when it sets the account up. Something that appears in `~/.claude` later, such as a first agents folder or a first CLAUDE.md, is missing from the account folder until that setup runs again. Check with `ls ~/Library/Application\ Support/orca/claude-profiles/*/home`. If CLAUDE.md or agents is missing, restart Orca and look again. On 2026-11-23, two folders made before the kit was installed had its skills but neither its CLAUDE.md nor its agents. The linking was read from the 1.4.271 setup code; whether a restart reruns it wasn't tested.
+- In an Orca terminal, `claude` is a shell function that starts Claude on the selected account. It steps aside when `CLAUDE_CONFIG_DIR` was set by hand to another folder, so `claude-personal` still gives the personal account there. This was read from the 1.4.271 code, not run in a tab; `/status` in the session shows the account.
 - Agents that Orca itself launches (`agent launch`, and workers) run with permission prompts skipped (full access) by default. A `claude` started by a command in a terminal tab, as `open-session.sh` does, uses that account's own permission mode. On the work account that mode is `auto`.
 - On the work account, Claude's sandbox can block the `orca` command (`runtime_access_denied`). Rerun it with the sandbox disabled for that one command.
 - Keep hibernation off. A sleeping main misses reports.

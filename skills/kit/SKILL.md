@@ -20,15 +20,20 @@ Check this once per session; it's cheap.
 
 ## Which account
 
-Sid has two Claude subscriptions. The work one is cleared for security work; the other is personal. Sid picks the account per project.
+Sid has two Claude subscriptions, work and personal, and uses both for capacity: when one is near its limit, work moves to the other. Either can run any project. The one exception is security and red-team work, which stays on the work account because that account is approved for it.
 
 A session's account is its config folder, `$CLAUDE_CONFIG_DIR`, which defaults to `~/.claude` when unset:
 
-- `~/.claude-personal` is the personal account, started with the `claude-personal` alias.
-- Inside Orca, accounts are Orca-managed folders, `~/Library/Application Support/orca/claude-profiles/<id>/home`. `orca account list` shows which id is which.
-- To see an account's email, read `oauthAccount` in `$CLAUDE_CONFIG_DIR/.claude.json`, or in `~/.claude.json` when the variable is unset.
+- `claude` in a plain terminal is the work account, in `~/.claude`.
+- `claude-personal` is the personal account, in `~/.claude-personal`. It works inside an Orca tab too, because Orca's wrapper around `claude` leaves alone a config folder Sid set by hand.
+- Inside Orca, `claude` and every tab Orca opens use Orca's selected account, kept in `~/Library/Application Support/orca/claude-profiles/<id>/home`. `orca account list` shows which one is selected.
+- To see which account a session is on, type `/status` in it, or read `oauthAccount` in `$CLAUDE_CONFIG_DIR/.claude.json` (`~/.claude.json` when the variable is unset).
 
-Anything you launch must run on the same account as you, unless Sid says otherwise. A personal project's spinoff on the work account bills the wrong subscription. `${CLAUDE_SKILL_DIR}/open-session.sh "<title>" "<prompt>"` opens a session on your own account. It was tested against Orca's account folders, which contain a space, so use it instead of writing the command by hand. Orca workers are the one exception: they always launch on Orca's selected account (orca.md, under Accounts).
+Launch on your own account unless Sid says otherwise. Sid opened this session on the account that has room, and a spinoff on the other one spends the limit Sid is trying to save. `${CLAUDE_SKILL_DIR}/open-session.sh "<title>" "<prompt>"` opens a session on your own account. It was tested against Orca's account folders, which contain a space, so use it instead of writing the command by hand.
+
+Orca workers are the one exception: they always launch on Orca's selected account (orca.md, under Accounts). A build wave is the heaviest use of tokens, so before launching one, tell Sid which account the workers will spend.
+
+The two accounts don't share settings. `~/.claude-personal` has its own settings.json, so a session started with `claude-personal` doesn't get the work account's permission mode, hooks or sandbox settings unless Sid copies them over.
 
 ## Project files
 
@@ -41,7 +46,7 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 | `sid.md` | What Sid thinks about the project, in Sid's own words: what still matters on top, what's been dealt with below. Entries are leads to check, not instructions. It is gitignored and never pushed. |
 | `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |
-| `.kit/` | Session scratch: briefs, worker specs, expert reports, the overnight plan, and `sessions.md`, the list of sessions working on the project right now. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
+| `.kit/` | Session scratch: briefs, worker specs and reports, run output, messages between sessions, expert reports, the overnight plan, and `sessions.md`, the list of sessions working on the project right now. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
 
 Each template opens with a short header that says what belongs in the file and how to write it. Keep the header when you create a file, and follow it whenever you edit.
 
@@ -50,7 +55,8 @@ To start a project:
 1. Run `git init` if the folder isn't a git repository.
 2. Copy the templates in and fill in what you know.
 3. Add the lines from `templates/gitignore` to `.gitignore`.
-4. Make a first commit.
+4. Check that `git check-ignore sid.md .kit/` prints both names. The first commit is the moment a private file would get in.
+5. Make a first commit.
 
 In a repo Sid doesn't own, ask first. Put the kit's files in `.git/info/exclude` rather than the team's `.gitignore`.
 
@@ -112,13 +118,14 @@ The kit is a git repo. It lives wherever this skill folder really points:
 git -C "$(readlink -f "${CLAUDE_SKILL_DIR}")" rev-parse --show-toplevel
 ```
 
-Its GitHub home is sidfeels/claude-code-config. `install.sh` symlinks its skills and agents into `~/.claude` and `~/.claude-personal`, and makes each folder's CLAUDE.md import the repo's `global/CLAUDE.md`. Because of that, an edit in the repo is live everywhere at once. Orca mirrors `~/.claude` into its account folders, so Orca tabs on either account see the same kit.
+Its GitHub home is sidfeels/claude-code-config. `install.sh` symlinks its skills and agents into `~/.claude` and `~/.claude-personal`, and makes each folder's CLAUDE.md import the repo's `global/CLAUDE.md`. Because of that, an edit in the repo is live everywhere at once. Orca fills its account folders from `~/.claude`, so Orca tabs see the same kit once that has happened (orca.md, under Accounts, says how to check).
 
 Change the kit only through the repo:
 
-- Make the change on a branch.
+- Make the change on a branch, in a separate worktree (`git worktree add <folder> -b <branch>`). Never switch branches in the kit's own folder: every session reads that folder live, so a checkout there changes the kit under all of them.
 - Say in the commit message what went wrong that the change fixes.
 - Open a PR for Sid.
 - Before adding a line, look for one it makes redundant. Say in the PR if there was none.
+- Once the PR is merged, run `git pull` in the kit's folder to make it live. Rerun `install.sh` only when a skill or agent was added or removed.
 
 When you find that this kit states a fact about the environment wrongly, fix it in the one place where that fact lives.
