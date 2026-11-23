@@ -16,7 +16,7 @@ The same steps work in Orca, with tabs, and in T3 Code, with threads. In Orca, o
 
 **Run an experiment or a red-team campaign.** Treat it as a part whose output is a finding. Discuss writes down the claim and the result that would prove it wrong, and runs the cheapest check first. A negative result still counts.
 
-**Build.** Once blueprint.md marks parts as settled, type `/build` in main.
+**Build.** Once architecture.md shows parts as settled, type `/build` in main.
 - The first wave builds a thin skeleton that runs end to end.
 - After that, there's one "Build: <part>" worker per part, each reporting to main.
 - At the end of each wave, main runs everything for real, saves a checkpoint, has fresh agents review the riskiest part and the tests, and tells you what needs your eyes.

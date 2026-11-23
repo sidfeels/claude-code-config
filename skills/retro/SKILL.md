@@ -15,7 +15,7 @@ The kit and each project should get better from real friction, and they should g
 
   Each line is one JSON object. Sid's messages are the `"type":"user"` entries whose content is text Sid typed. Exclude these, which also appear as user entries: tool results, `isMeta` entries, skill bodies, Orca wake-ups ("You have N orchestration messages…"), and a session's first prompt when it's a brief or a spec.
 - **The project files:**
-  - blueprint.md "Changed our mind", where every entry is a reversed decision and therefore a lesson;
+  - decisions.md, where every reversal and every "found wrong" entry is a lesson;
   - Open items that sat there a long time;
   - worries in sid.md that came true.
 - **History.** `git log`, and any PR review comments (`gh`).

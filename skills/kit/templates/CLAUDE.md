@@ -8,9 +8,9 @@ Everything else lives in the files this one points to.
 
 <One sentence: what this is.>
 
-Start by reading blueprint.md.
+Start by reading architecture.md: what we're building, how it works, how far each part has got, and what's still open.
 
-- architecture.md says how the parts work and what proves each one works.
+- decisions.md says how it got this way. Search it for a part's name before proposing a change to that part.
 - sid.md is Sid's own thinking about the project.
 
 ## Run it

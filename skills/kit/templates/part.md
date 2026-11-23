@@ -1,16 +1,12 @@
 <!--
-docs/<part>.md: depth for one part, when its short entry in architecture.md isn't enough. It covers how the part works, why it's built this way, its edge cases, and its results.
-Unresolved questions don't live here. They go in blueprint.md under Open, tagged with this part. Decisions here carry why and who, like everywhere else.
-Write for the next person to change this part: lead with how it works now, then why, then the history worth knowing.
+docs/<part>.md: depth for one part, when its short entry in architecture.md isn't enough. It covers how the part works, its edge cases, and its results.
+Unresolved questions don't live here. They go in architecture.md under Open questions, tagged with this part. The history of its decisions goes in decisions.md.
+Write for the next person to change this part: how it works now, with the reason beside each choice.
 -->
 
 # <Part>
 
 ## How it works
-
-## Why it's this way
-
-<The decisions: the alternatives considered, why they lost, and who decided.>
 
 ## Edge cases
 

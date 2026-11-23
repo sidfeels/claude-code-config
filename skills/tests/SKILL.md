@@ -48,10 +48,10 @@ Never change how a pass bar is read after seeing which option it would pass.
 
 ## When a part changes
 
-For each part, architecture.md lists what proves it works (Proved by) and what relies on it (Used by). When you change a part:
+For each part, architecture.md says how far it's proven (Status) and what it relies on (Depends on). When you change a part:
 
-1. Rerun its proofs, and the proofs of the parts that use it.
-2. Update both entries.
+1. Rerun its proofs, and the proofs of every part whose Depends on names it. Search architecture.md for the part's name to find them.
+2. Update the Status line of each part you reran.
 
 A change that adds behaviour adds its proof. A change that removes behaviour removes the tests that guarded it.
 
