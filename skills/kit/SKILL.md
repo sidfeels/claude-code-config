@@ -38,7 +38,7 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 | File | What it holds |
 |---|---|
 | `blueprint.md` | The project on one page: what and why, who it's for, the five sentences, parts and their status, decisions, every open question, the decisions we reversed, and the sessions working on it now. Every session reads it first. |
-| `architecture.md` | How the system works today, part by part. For each part: what it does and promises, what it depends on, what uses it, and what proves it works. |
+| `architecture.md` | How the system works today, part by part. It opens with how the system looks from outside. Then, for each part: what it does, the choices that matter and why, its limits, what it depends on, and how far it's proven. |
 | `sid.md` | Sid's own thinking, in Sid's voice. It is gitignored and never pushed. |
 | `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |

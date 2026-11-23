@@ -28,6 +28,16 @@ Go through the whole session, not just its end. Send each thing to its one home:
 
 Leave out anything the files or git already hold. Leave out the back-and-forth that led to a decision, too: the decision's "why" carries what matters.
 
+## Check architecture.md
+
+architecture.md describes the system as it is today. If you changed it, search it for words that mean history leaked in:
+
+```
+grep -inwE 'now|previously|formerly|updated|no longer|used to|anymore' architecture.md
+```
+
+The header's own rule matches; skip it. Rewrite every other hit as a plain statement of how the system works. The story of the change belongs with the decision, not here.
+
 ## Tell main
 
 Skip this if the session is main. Otherwise, main's address is in the brief or spec.

@@ -83,7 +83,7 @@ A separate worktree (`--worktree new-child`, or `isolation: "worktree"`) is only
 ## When a worker reports
 
 1. Read the report and check how far each claim was proven. A claim with no evidence is unchecked.
-2. Record it for the worker. Update the part's line in blueprint Parts, and its architecture.md entry: what changed, and "Proved by".
+2. Record it for the worker. Update the part's line in blueprint Parts, and its architecture.md entry: what changed, and "Proven". Write "ran for real" only if the report shows the command and its output, or you reran it.
 3. Note anything that affects other parts.
 
 ## End of a wave
@@ -106,7 +106,7 @@ Then tell Sid, in five lines or fewer:
 Sid reviews one part at a time, in the worker's tab. For each change, the worker sends main the four-part status. Then:
 
 1. Update the files.
-2. If the contract changed, send the change to any worker still running on a part that uses this one, and rerun the proofs of the parts on its "Used by" line.
+2. If the contract changed, send the change to any worker still running on a part that uses this one, and rerun the proofs of every part whose "Depends on" names it.
 3. Commit "review: <part>: <change>", so each accepted change stays separable.
 
 When Sid is happy with a part, release its worker (`orca orchestration worker-release --dispatch <id>`) and close the tab.

@@ -10,7 +10,7 @@ Everything else lives in the files this one points to.
 
 Start by reading blueprint.md.
 
-- architecture.md says how the parts work and what proves each one works.
+- architecture.md says how the parts work today and how far each one is proven.
 - sid.md is Sid's own thinking about the project.
 
 ## Run it
