@@ -19,6 +19,7 @@ Read these first:
 
 - blueprint.md;
 - the relevant parts of architecture.md and docs/;
+- the entries in decisions.md for the parts in question (search for each part's name), so you don't propose what was already tried or turned down;
 - sid.md.
 
 If the project has no files yet, load the `kit` skill and create them from its templates as soon as there is something to write.
@@ -65,7 +66,7 @@ When Sid asks for an expert's view, or when your options all look alike, use the
 
 Write each point down as soon as it settles, not at the end:
 
-- Decisions go where they apply, with why and who decided.
+- Decisions go in decisions.md, in the same edit as the change to architecture.md, with the real reason and who decided.
 - Sid's thoughts and worries go in sid.md, in Sid's voice.
 - Anything left open goes in blueprint.md, under Open.
 

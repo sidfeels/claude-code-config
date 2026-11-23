@@ -54,6 +54,7 @@ Every project Sid starts keeps these files:
 
 - blueprint.md: read it first, every session.
 - architecture.md
+- decisions.md: every decision, with its real reason.
 - sid.md: Sid's own thoughts, never pushed.
 - a short CLAUDE.md
 - docs/<part>.md, when a part needs depth.

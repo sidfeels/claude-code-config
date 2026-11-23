@@ -15,7 +15,7 @@ Put two or three parts in one spinoff when they share most of their decisions. G
 Write `.kit/briefs/<part>.md`. Apart from the project files, it's the only context the new session has. Write it like a handoff to a capable colleague who missed the meeting. Include:
 
 - What this part is, and why it matters to the whole.
-- What's already decided that constrains it. Point to the lines in blueprint.md and architecture.md rather than restating them.
+- What's already decided that constrains it. Point to the lines in blueprint.md, architecture.md and decisions.md rather than restating them.
 - The concerns that touch this part: Sid's (from sid.md and this conversation, in Sid's words), and those of the people it's for (blueprint.md, "Who it's for").
 - The open questions for this part, from blueprint Open, plus anything you suspect nobody has raised yet.
 - What done looks like:

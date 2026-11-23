@@ -11,6 +11,7 @@ Everything else lives in the files this one points to.
 Start by reading blueprint.md.
 
 - architecture.md says how the parts work today and how far each one is proven.
+- decisions.md says how it got this way. Search it for a part's name before proposing a change to that part.
 - sid.md is Sid's own thinking about the project.
 
 ## Run it

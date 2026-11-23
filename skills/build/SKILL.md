@@ -31,7 +31,7 @@ For each part in the wave, write `.kit/specs/<part>.md` covering:
 - **Goal:** what the part is for, and why it matters to the whole.
 - **Contract:** from architecture.md, what it promises and what it depends on.
 - **Concerns:** Sid's worries and hunches about this part (sid.md), and what the people it's for care about (blueprint.md). Ask the worker to say in its report how it handled each one.
-- **Owned folders.** Shared files belong to main: blueprint.md, architecture.md, sid.md, dependency files, config, and anything two parts touch.
+- **Owned folders.** Shared files belong to main: blueprint.md, architecture.md, decisions.md, sid.md, dependency files, config, and anything two parts touch.
 - **Proof expected:** the most direct evidence the part works. Use a real run where the part touches real systems, and tests where it's pure logic.
 - **Rules,** each with its reason:
   - Load the `tests` skill before writing or changing any test, because "it's a small change" is the usual reason a test can't fail.

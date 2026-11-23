@@ -12,14 +12,14 @@ Sid keeps sessions open for fear of losing what's in them, and the tabs pile up.
 What a session writes down is what later sessions build on, so the writer must have seen what it records.
 
 - A main session, or a spinoff that talked with Sid, writes the project files directly.
-- A build worker owns only its folders. Its spec names main as the owner of the shared files (blueprint.md, architecture.md, sid.md). A worker writes nothing there. It puts everything in its message to main, and main records it.
+- A build worker owns only its folders. Its spec names main as the owner of the shared files (blueprint.md, architecture.md, decisions.md, sid.md). A worker writes nothing there. It puts everything in its message to main, and main records it.
 - Only a session that heard Sid directly writes to sid.md, or records "Sid" as the one who decided something.
 
 ## What to keep
 
 Go through the whole session, not just its end. Send each thing to its one home:
 
-- Decisions go where they apply, each with why and who decided: blueprint.md if project-wide, or the part's entry in architecture.md or docs/<part>.md. A reversed decision goes in blueprint.md, under "Changed our mind".
+- Decisions go in decisions.md, one entry each, with the real reason and who decided (see its header). That covers choices made or replaced, options turned down, and things we relied on that turned out wrong.
 - How things work now goes in the part's entry in architecture.md. Depth goes in docs/<part>.md.
 - Sid's thoughts, worries, hunches and preferences go in sid.md, in Sid's voice (see its header). Keep the ones that went nowhere too.
 - Anything unresolved goes in blueprint.md, under Open, tagged with the part and with who must answer.
@@ -28,7 +28,7 @@ Go through the whole session, not just its end. Send each thing to its one home:
 
 Leave out anything the files or git already hold. Leave out the back-and-forth that led to a decision, too: the decision's "why" carries what matters.
 
-## Check architecture.md
+## Check architecture.md and decisions.md
 
 architecture.md describes the system as it is today. If you changed it, search it for words that mean history leaked in:
 
@@ -36,7 +36,12 @@ architecture.md describes the system as it is today. If you changed it, search i
 grep -inwE 'now|previously|formerly|updated|no longer|used to|anymore' architecture.md
 ```
 
-The header's own rule matches; skip it. Rewrite every other hit as a plain statement of how the system works. The story of the change belongs with the decision, not here.
+The header's own rule matches; skip it. Rewrite every other hit as a plain statement of how the system works. The story of the change goes in decisions.md.
+
+Then check the two files against each other:
+
+- If architecture.md changed and decisions.md didn't, find the entry you owe. A change of wording alone owes none.
+- Old entries in decisions.md are never rewritten. `git diff HEAD -- decisions.md | grep '^-' | grep -v '^--- a/'` should print nothing. If it prints a line, put the old entry back and add a new one instead.
 
 ## Tell main
 

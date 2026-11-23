@@ -37,8 +37,9 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 
 | File | What it holds |
 |---|---|
-| `blueprint.md` | The project on one page: what and why, who it's for, the five sentences, parts and their status, decisions, every open question, the decisions we reversed, and the sessions working on it now. Every session reads it first. |
+| `blueprint.md` | The project on one page: what and why, who it's for, the five sentences, parts and their status, every open question, and the sessions working on it now. Every session reads it first. |
 | `architecture.md` | How the system works today, part by part. It opens with how the system looks from outside. Then, for each part: what it does, the choices that matter and why, its limits, what it depends on, and how far it's proven. |
+| `decisions.md` | How the design got this way: one entry for each choice made or replaced, each option turned down, and each thing we relied on that turned out wrong. Entries are added at the bottom and never rewritten. |
 | `sid.md` | Sid's own thinking, in Sid's voice. It is gitignored and never pushed. |
 | `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |
@@ -58,8 +59,8 @@ In a repo Sid doesn't own, ask first. Put the kit's files in `.git/info/exclude`
 The file set is small on purpose. Each kind of thing has exactly one home, so the next session knows where to look and Sid knows where to read:
 
 - Open questions live only in blueprint.md, under Open.
-- Decisions live where they apply, each with why and who decided.
-- When a decision is reversed, it moves to blueprint.md "Changed our mind", together with what replaced it and why.
+- How things work today lives only in architecture.md.
+- Decisions and their history live only in decisions.md, each with the real reason and who decided. A reversal is a new entry there.
 
 Who writes what matters as much as where. Later sessions build on what's written, so the writer must have seen what it records:
 

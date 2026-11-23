@@ -11,4 +11,4 @@ A thought can be wrong and still stays, because it shows what Sid cares about. W
 
 <Sid's thought, in Sid's voice.>
 
-→ <what happened to it: "addressed in architecture.md, <part>", "open in blueprint", "decided against, see blueprint Decisions">
+→ <what happened to it: "addressed in architecture.md, <part>", "open in blueprint", "decided against, see decisions.md">

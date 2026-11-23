@@ -1,7 +1,7 @@
 <!--
 blueprint.md: the project on one page. Every session reads this first, so keep it current and short enough to read in two minutes.
 Write for Sid coming back after a week: plain sentences, no private shorthand, each term defined once.
-Open questions live only here, under Open. Decisions live where they apply, each with why and who decided. A reversed decision moves to Changed our mind.
+Open questions live only here, under Open. Once one is decided, it leaves Open and gets an entry in decisions.md.
 Update it when something settles, not at the end. A decision that isn't written down didn't happen.
 -->
 
@@ -30,21 +30,11 @@ A part can be an experiment, whose output is a finding rather than code. For an 
 |---|---|---|---|
 | | | | |
 
-## Decisions
-
-<Only decisions that affect the whole project. A decision about one part lives with that part, in architecture.md or docs/<part>.md.>
-
-- <Decision>. Why: <reason>. (<Sid | agent, agreed by Sid | agent>, <date>)
-
 ## Open
 
 <Every unresolved question in the project, tagged with its part and with what it needs to be resolved.>
 
 - [<part>] <question> (needs: Sid | a fact | a run)
-
-## Changed our mind
-
-- <date>: <what we had>, replaced by <what we have now>, because <what we learned>.
 
 ## Sessions
 
