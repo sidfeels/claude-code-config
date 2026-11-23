@@ -69,7 +69,7 @@ Read every report in full. Then tell Sid, briefly:
 
 - Where they agree. That's probably the common view, which isn't the same as right, because Claude models share blind spots.
 - What the debate settled, and the crux it couldn't.
-- Where they disagree. That's the real decision, so put it to Sid as options, with what each leads to and your lean last, with the case against it.
+- Where they disagree. That's the real decision, so put it to Sid as options, each with what it leads to and what it costs, and no lean.
 - What none of them raised that Sid's hunches point at.
 - How our current plan compares. If it loses, say so plainly.
 

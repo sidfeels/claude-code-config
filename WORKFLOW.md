@@ -8,7 +8,7 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 
 ## When you want to…
 
-**Start a project.** Open main in the project folder and type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own.
+**Start a project.** Open main in the project folder and type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own, and each part has two or three examples of it working, in your words.
 
 **Go deep on one part, or two or three related parts.** In main, type `/spinoff <part>`. A "Discuss: <part>" tab opens. Talk there. When the part feels settled, say "save": that session writes everything into the files and tells main. Then close it.
 
@@ -18,6 +18,7 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 
 **Build.** Once architecture.md shows parts as settled, type `/build` in main.
 - The first wave builds a thin skeleton that runs end to end.
+- After the skeleton, and after every wave, main shows you real output and asks if it's what you meant.
 - After that, there's one "Build: <part>" worker per part, each reporting to main.
 - At the end of each wave, main runs everything for real, saves a checkpoint, has fresh agents review the riskiest part and the tests, and tells you what needs your eyes.
 
@@ -48,7 +49,7 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 In Orca:
 - Settings → Claude accounts → "When you switch accounts while Claude is running": choose **Never restart**.
 - Leave hibernation off, so main never sleeps through a report.
-- Restart Orca once after installing the kit. That copies the kit's agents and CLAUDE.md into Orca's account folders.
+- Restart Orca once after installing the kit. That links the kit's agents and CLAUDE.md into Orca's account folders. Check it worked: `ls ~/Library/Application\ Support/orca/claude-profiles/*/home` should list CLAUDE.md and agents.
 
 Optional, in Claude Code:
 - To let overnight runs survive a usage limit, set `"autoContinueAtUsageLimit": true` in `~/.claude/settings.json`, and in `~/.claude-personal/settings.json`.

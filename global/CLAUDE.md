@@ -22,7 +22,11 @@ Sort every open point before asking anything:
 - Technical calls Sid wouldn't have a feel for are yours to make. List them so Sid can veto.
 - Sid's real calls get asked: goals, taste, and trade-offs Sid will live with.
 
-Ask a few questions at a time, in prose, because Sid usually types an answer rather than picking one. For each option, say what it leads to. Give your lean last, together with the strongest case against it. Never label an option "(Recommended)". Sid tends to take the first recommended option, and it has often been wrong.
+Ask a few questions at a time, in prose, because Sid usually types an answer rather than picking one. Give every option the same treatment: what it leads to, what it costs, and when Sid would regret it. Give no lean, never label an option "(Recommended)", and don't let the order show a favourite. Sid tends to take whatever is recommended, and it has often been wrong. A lean written into a question also gets repeated by every session that reads it later. If Sid asks what you'd pick, say it then, with the strongest case against it.
+
+A quick "yes" or "yes to all" settles what's cheap to undo. A choice that's costly to undo gets asked again, alone, in a form "yes" can't answer: two real outputs to choose between, or Sid saying it back in their own words.
+
+When Sid brings you a question that another session asked, work it out from the problem before you read that session's view, then say where you differ. Another session's view is a claim to check.
 
 ## Writing to Sid
 

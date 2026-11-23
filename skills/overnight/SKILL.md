@@ -72,7 +72,7 @@ For each choice, ask two questions in order.
 
 **Second, how much of tonight's remaining work rides on it?**
 - **Little.** Decide. Use the project's stated goals and Sid's past choices (architecture.md, decisions.md, sid.md). Among options of equal merit, pick the one that is easiest to change later. Log the decision under **Decided overnight**, with the alternative and how to reverse it.
-- **Much**, meaning most of what follows would be built on top of it. Park it. Under **Parked**, write the question, the options with what each leads to, and your lean with the case against it. Add the question to architecture.md, under Open questions. Then switch to plan items that don't depend on it.
+- **Much**, meaning most of what follows would be built on top of it. Park it. Under **Parked**, write the question, and the options with what each leads to and what it costs. Give no lean. Add the question to architecture.md, under Open questions. Then switch to plan items that don't depend on it.
 - **If everything left is parked,** finish early. A short night with the right questions waiting beats a long one built on a guess.
 
 Reversibility is not the test. A wrong guess at 11pm can be undone in one git command, and the night is still lost if everything after it was built on top.

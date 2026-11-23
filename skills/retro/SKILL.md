@@ -31,7 +31,7 @@ Each signal below marks a place where something cost Sid. Find the moment, quote
 | Signal | What it usually means |
 |---|---|
 | Sid corrected you or re-explained something. | Whatever should have carried that knowledge (a file, a brief, an instruction) didn't, or it was ignored. |
-| Sid typed a different answer instead of picking an option, or picked one and later reversed it. | The options were badly framed, or the lean was wrong. |
+| Sid typed a different answer instead of picking an option, or picked one and later reversed it. | The options were badly framed, or one was dressed up as the favourite. |
 | Sid raised a hunch or a worry, and the reply answered only the literal question. | The hunch wasn't followed to the class of problem it pointed at. |
 | Sid asked for it shorter or simpler, or asked the same question twice. | The writing failed: too long, too abstract, or it answered something else. |
 | Something reported as done failed later. | The claim was not checked far enough. |

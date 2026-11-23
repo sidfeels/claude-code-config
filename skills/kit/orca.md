@@ -26,7 +26,7 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
 - Orca wakes the recipient by typing "You have N orchestration messages. Run `orca orchestration check …`" into its terminal. The recipient runs that command to read the message.
 - To wait inside one turn, use `orca orchestration check --wait --timeout-ms <ms>`.
 - To answer a question, use `orca orchestration reply --id <message id> --body-file <file>`; without a reply the question stays pending.
-- To message a worker, use `send --to dispatch:<id>`.
+- To message a worker, use `send --to dispatch:<id> --subject "<topic>" --body-file <file>`. The subject is required.
 - To recover mail after losing context, use `orca orchestration inbox --terminal run:<run> --limit 50 --full`.
 - Delivery from a worker to its coordinator was verified live. Delivery from a plain tab to main, outside a Run, follows the same path but wasn't tested. That's why `save` also writes each message to `.kit/messages/`.
 - Orca protects an unsent draft in the recipient's input box for only 10 minutes after the last keystroke. A half-typed message older than that can get mixed into the wake-up text.
@@ -35,10 +35,11 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
 
 - Start a worker:
   ```
-  orca orchestration worker-start --spec-file <file> --task-title "<title>" --worktree current --keep-open --agent claude
+  orca orchestration worker-start --environment local --spec-file <file> --task-title "<title>" --worktree current --keep-open --agent claude
   ```
-  The spec is the worker's whole brief.
-- A finished worker sends `worker_done` with a short report, and Orca wakes the coordinator, which is the session that started the worker. `orca orchestration worker-read` shows a worker's output.
+  The spec is the worker's whole brief. Orca puts a preamble in front of it that tells the worker how to ask and how to report. `--environment local` keeps the worker on this machine even when a paired server is selected.
+- Orca's guide says to start at most about four workers at once and the rest as those report. If `worker-start` fails, don't run it again; do only what the CLI prints.
+- A finished worker sends `worker_done` with a short report (it can name a report file with `--report-path`), and Orca wakes the coordinator, which is the session that started the worker. `orca orchestration worker-read` shows a worker's output.
 - A worker can ask the coordinator a question with `orca orchestration ask`, and Orca wakes the worker with the answer.
 - Without `--keep-open`, a worker in `current` closes about 2 minutes after it reports. Use `--keep-open` whenever Sid may want to review the worker. Release it with `orca orchestration worker-release --dispatch <id>` when no one needs it any more. The dispatch id is in the start receipt, so record it.
 - When Sid types into a busy worker, the message is queued until the worker's whole turn ends. That can be after the worker has already reported. To steer a worker right away, Sid presses Stop (Esc) in its tab and then types.
@@ -59,7 +60,8 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
 ## Accounts and settings
 
 - Orca keeps one selected account for new launches: `orca account list` shows it, and `orca account select` changes it. That setting is global. Switching it from the CLI or a phone can restart running sessions on the old account and break workers. The fix is the setting "When you switch accounts while Claude is running: Never restart".
-- Orca copies everything in `~/.claude` (skills, agents, CLAUDE.md, settings) into each managed account's folder. The kit therefore must be installed in `~/.claude` for Orca tabs to see it, whichever account they use.
+- Orca gives each managed account its own folder and fills it from `~/.claude`: folders such as skills and agents are linked, settings are copied, and CLAUDE.md is written as a one-line import of `~/.claude/CLAUDE.md`. The kit therefore must be installed in `~/.claude` for Orca tabs to see it, whichever account they use.
+- Orca fills the folder when it sets the account up. Something that appears in `~/.claude` later, such as a first agents folder or a first CLAUDE.md, is missing from the account folder until that setup runs again. Check with `ls ~/Library/Application\ Support/orca/claude-profiles/*/home`. If CLAUDE.md or agents is missing, restart Orca and look again. On 2026-11-23, two folders made before the kit was installed had its skills but neither its CLAUDE.md nor its agents. The linking was read from the 1.4.271 setup code; whether a restart reruns it wasn't tested.
 - Agents that Orca itself launches (`agent launch`, and workers) run with permission prompts skipped (full access) by default. A `claude` started by a command in a terminal tab, as `open-session.sh` does, uses that account's own permission mode. On the work account that mode is `auto`.
 - On the work account, Claude's sandbox can block the `orca` command (`runtime_access_denied`). Rerun it with the sandbox disabled for that one command.
 - Keep hibernation off. A sleeping main misses reports.

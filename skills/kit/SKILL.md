@@ -36,7 +36,7 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 
 | File | What it holds |
 |---|---|
-| `architecture.md` | The project as it stands today, and the file every session reads first: what we're building and why, how it looks from outside, how it fits together in five sentences, every open question, and each part with what it does, the choices that matter and why, its limits, what it depends on, and its status. |
+| `architecture.md` | The project as it stands today, and the file every session reads first: what we're building and why, how it looks from outside, how it fits together in five sentences, every open question, and each part with what it does, examples of it working, the choices that matter and why, its limits, what it depends on, and its status. |
 | `decisions.md` | How the design got this way: one entry for each choice made or replaced, each option turned down, and each thing we relied on that turned out wrong. Entries are added at the bottom and never rewritten. |
 | `sid.md` | What Sid thinks about the project, in Sid's own words: what still matters on top, what's been dealt with below. Entries are leads to check, not instructions. It is gitignored and never pushed. |
 | `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
