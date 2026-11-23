@@ -47,7 +47,7 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 | `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |
 | `.claude/` | This project's own copy of the kit: its skills, its agents and `rules/working-with-sid.md`. `kit-version` names the kit commit it came from. |
-| `.kit/` | Session scratch: briefs, worker specs and reports, run output, messages between sessions, expert reports, the overnight plan, and `sessions.md`, the list of sessions working on the project right now. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
+| `.kit/` | Session scratch: briefs, worker specs and reports, run output, messages between sessions, expert reports, and `sessions.md`, the list of sessions working on the project right now. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
 
 Each template opens with a short header that says what belongs in the file and how to write it. Keep the header when you create a file, and follow it whenever you edit.
 
@@ -109,7 +109,6 @@ Pick the lightest way that fits.
 - A spinoff session (the spinoff skill). Use one when a part needs Sid's discussion in depth. It opens as a visible tab that Sid talks in.
 - Workers (the build skill). Use them to build settled parts in parallel. Each worker reports to main.
 - An expert debate (the expert skill). Use it when a decision needs independent views that argue until the real disagreement is clear.
-- Overnight (the overnight skill). Use it for work that continues while Sid is away.
 
 ## Claude Code itself
 

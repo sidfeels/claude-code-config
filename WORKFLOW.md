@@ -46,8 +46,6 @@ The session installs the kit into the folder's `.claude/`, where both accounts r
 
 **Write something for other people.** Type `/rewrite` followed by the text or a file. For Slack, type `/rewrite slack` followed by your draft.
 
-**Go to sleep.** Type `/overnight` followed by what should be done by morning. Check the plan and the budget it shows you, paste the `/goal` line it gives you, and go. In the morning, read the "Morning report". If the night got cut off and the session still says you're away, change the first line of `.kit/overnight.md` to `Status: done`.
-
 **Improve how this works.** Every week or so, or after a session that annoyed you, type `/retro`. It finds what cost you time and proposes fixes. Fixes to skills go into this project's own copy, and it tells you which ones are worth sending back to the kit.
 
 ## Habits that save trouble
@@ -63,7 +61,6 @@ In Orca:
 - Leave hibernation off, so main never sleeps through a report.
 
 Optional, in Claude Code:
-- To let overnight runs survive a usage limit, set `"autoContinueAtUsageLimit": true` in `~/.claude/settings.json`, and in `~/.claude-personal/settings.json`.
 - If the work account's sandbox keeps blocking `orca`, add it to `sandbox.excludedCommands` in `~/.claude/settings.json`.
 
 ## Short prompts
