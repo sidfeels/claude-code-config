@@ -29,11 +29,11 @@ A session's account is its config folder, `$CLAUDE_CONFIG_DIR`, which defaults t
 - Inside Orca, `claude` and every tab Orca opens use Orca's selected account, kept in `~/Library/Application Support/orca/claude-profiles/<id>/home`. `orca account list` shows which one is selected.
 - To see which account a session is on, type `/status` in it, or read `oauthAccount` in `$CLAUDE_CONFIG_DIR/.claude.json` (`~/.claude.json` when the variable is unset).
 
-Launch on your own account unless Sid says otherwise. Sid opened this session on the account that has room, and a spinoff on the other one spends the limit Sid is trying to save. `${CLAUDE_SKILL_DIR}/open-session.sh "<title>" "<prompt>"` opens a session on your own account. It was tested against Orca's account folders, which contain a space, so use it instead of writing the command by hand.
+Launch on your own account unless Sid says otherwise. Sid opened this session on the account that has room, and a spinoff on the other one spends the limit Sid is trying to save. `${CLAUDE_SKILL_DIR}/open-session.sh "<title>" "<prompt>"` opens a session on your own account. When Sid asks for the other one, add `work` or `personal` as a third argument; Sid calls the personal account "claude2". The script was tested against Orca's account folders, which contain a space, so use it instead of writing the command by hand.
 
 Orca workers are the one exception: they always launch on Orca's selected account (orca.md, under Accounts). A build wave is the heaviest use of tokens, so before launching one, tell Sid which account the workers will spend.
 
-The two accounts don't share settings. `~/.claude-personal` has its own settings.json, so a session started with `claude-personal` doesn't get the work account's permission mode, hooks or sandbox settings unless Sid copies them over.
+The kit is the same on both accounts, because it lives in this project's `.claude/` folder and Claude Code reads that whichever account is in use. What stays separate is each account's own settings.json: the permission mode, user-level hooks and sandbox settings. `~/.claude-personal` has almost none, so a session there asks before most actions unless Sid copies the settings over.
 
 ## Project files
 
@@ -46,6 +46,7 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 | `sid.md` | What Sid thinks about the project, in Sid's own words: what still matters on top, what's been dealt with below. Entries are leads to check, not instructions. It is gitignored and never pushed. |
 | `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |
+| `.claude/` | This project's own copy of the kit: its skills, its agents and `rules/working-with-sid.md`. `kit-version` names the kit commit it came from. |
 | `.kit/` | Session scratch: briefs, worker specs and reports, run output, messages between sessions, expert reports, the overnight plan, and `sessions.md`, the list of sessions working on the project right now. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
 
 Each template opens with a short header that says what belongs in the file and how to write it. Keep the header when you create a file, and follow it whenever you edit.
@@ -56,9 +57,9 @@ To start a project:
 2. Copy the templates in and fill in what you know.
 3. Add the lines from `templates/gitignore` to `.gitignore`.
 4. Check that `git check-ignore sid.md .kit/` prints both names. The first commit is the moment a private file would get in.
-5. Make a first commit.
+5. Make a first commit. In Sid's own repo it includes `.claude/`, so every later change to a skill shows up in the project's history.
 
-In a repo Sid doesn't own, ask first. Put the kit's files in `.git/info/exclude` rather than the team's `.gitignore`.
+In a repo Sid doesn't own, ask first. Put the kit's files in `.git/info/exclude` rather than the team's `.gitignore`. For `.claude/`, `install.sh --project --private` does that.
 
 The file set is small on purpose. Each kind of thing has exactly one home, so the next session knows where to look and Sid knows where to read:
 
@@ -112,20 +113,18 @@ Check it before you put a setting or flag into anything. A previous version of t
 
 ## Changing this kit
 
-The kit is a git repo. It lives wherever this skill folder really points:
+This project has its own copy of the kit, in `.claude/`: the skills, the agents and `rules/working-with-sid.md`. `.claude/kit-version` names the commit of sidfeels/claude-code-config it came from.
 
-```
-git -C "$(readlink -f "${CLAUDE_SKILL_DIR}")" rev-parse --show-toplevel
-```
+Change the copy when this project teaches you something. That's what it's for, and it can't disturb any other project.
 
-Its GitHub home is sidfeels/claude-code-config. `install.sh` symlinks its skills and agents into `~/.claude` and `~/.claude-personal`, and makes each folder's CLAUDE.md import the repo's `global/CLAUDE.md`. Because of that, an edit in the repo is live everywhere at once. Orca fills its account folders from `~/.claude`, so Orca tabs see the same kit once that has happened (orca.md, under Accounts, says how to check).
+- Say in the commit message what went wrong that the change fixes. Sid reads these later, across projects, to decide what goes back into the kit.
+- Before adding a line, look for one it makes redundant.
+- A changed skill takes effect in sessions started after the change.
 
-Change the kit only through the repo:
+To see everything this project changed, run `install.sh --diff <this folder>` from a clone of the kit. Where the copy is committed, `git log -p -- .claude` shows the same with the reasons.
 
-- Make the change on a branch, in a separate worktree (`git worktree add <folder> -b <branch>`). Never switch branches in the kit's own folder: every session reads that folder live, so a checkout there changes the kit under all of them.
-- Say in the commit message what went wrong that the change fixes.
-- Open a PR for Sid.
-- Before adding a line, look for one it makes redundant. Say in the PR if there was none.
-- Once the PR is merged, run `git pull` in the kit's folder to make it live. Rerun `install.sh` only when a skill or agent was added or removed.
+To send a change back so future projects start with it, open a PR on sidfeels/claude-code-config from a clone of it.
+
+A global copy of the kit overrides this project's skills of the same name, so changes here would do nothing. If `ls ~/.claude/skills/kit ~/.claude-personal/skills/kit` finds one, tell Sid. `install.sh --uninstall`, run in the folder those links point to, removes it.
 
 When you find that this kit states a fact about the environment wrongly, fix it in the one place where that fact lives.

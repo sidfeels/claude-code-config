@@ -2,6 +2,14 @@
 
 These are prompts too small to be skills. Paste them as they are, or add a word of context.
 
+## Set up a folder
+
+Paste this into a terminal in the folder. It installs the kit there, for both accounts:
+
+```
+rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config /tmp/sid-kit && /tmp/sid-kit/install.sh --project .
+```
+
 ## Make it better before it's built
 
 - What is a more ambitious version of this?

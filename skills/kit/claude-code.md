@@ -124,6 +124,15 @@ Only a hook guarantees that a step happens. Instructions get skipped.
 - a top-level `denyInsteadOfPrompting`
 - `--max-turns`
 
+## What Claude Code reads from a project
+
+Run on 2.1.330 on 2026-11-23, with `claude -p` in a test project, on both accounts:
+
+- `.claude/skills/<name>/SKILL.md` and `.claude/agents/<name>.md` load whichever account is in use.
+- `./CLAUDE.md`, `.claude/CLAUDE.md` and every `.claude/rules/*.md` load as instructions.
+- When a skill of the same name is also in the account folder, the account folder's copy is used and the project's is ignored. For an agent of the same name it is the other way round: the project's copy is used.
+- A test project under `/private/tmp` loaded its skills and agents but none of its instruction files. Put test projects under the home folder.
+
 ## Config folders and memory
 
 `CLAUDE_CONFIG_DIR` moves everything that would be under `~/.claude` to the folder it names:
