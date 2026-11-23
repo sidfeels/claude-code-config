@@ -51,15 +51,27 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 
 Each template opens with a short header that says what belongs in the file and how to write it. Keep the header when you create a file, and follow it whenever you edit.
 
-To start a project:
+### Fitting the kit into a folder
 
-1. Run `git init` if the folder isn't a git repository.
-2. Copy the templates in and fill in what you know.
-3. Add the lines from `templates/gitignore` to `.gitignore`.
-4. Check that `git check-ignore sid.md .kit/` prints both names. The first commit is the moment a private file would get in.
-5. Make a first commit. In Sid's own repo it includes `.claude/`, so every later change to a skill shows up in the project's history.
+No two folders are alike. One is empty, one is Sid's own repo, one belongs to a team and already has a CLAUDE.md. The install script only copies files, so a session has to look at the folder and fit the kit to it. Do this right after installing, and whenever you find the project files missing.
 
-In a repo Sid doesn't own, ask first. Put the kit's files in `.git/info/exclude` rather than the team's `.gitignore`. For `.claude/`, `install.sh --project --private` does that.
+Look first, and change nothing yet:
+
+1. **Whose folder is it?** `git remote -v` shows the owner. No git at all means Sid's own, new project: run `git init`.
+2. **Does git see `.claude/`?** `git status --porcelain -- .claude`. In Sid's own repo it should be seen and committed, so every later change to a skill shows up in the project's history. In someone else's repo it must stay out: check with `git check-ignore -v .claude/kit-version`.
+3. **Are Sid's private files safe?** `git check-ignore sid.md .kit/` must print both names. The first commit is the moment a private file would get in.
+4. **What instructions are already here?** Look for CLAUDE.md, AGENTS.md and anything that was in `.claude/` before. The install script lists what it kept instead of overwriting.
+5. **What already explains the project?** A README, a docs folder or design notes may already do part of architecture.md's job.
+
+Then tell Sid in a few lines what the folder is, what you found, and what you suggest. Wait for Sid before adding files to a repo Sid doesn't own.
+
+How to fit each case:
+
+- **Sid's own repo, or a new folder.** Add the lines from `templates/gitignore` to `.gitignore`. Create architecture.md, decisions.md, sid.md and CLAUDE.md from the templates, and commit them together with `.claude/`.
+- **Someone else's repo.** Leave the team's files alone, their CLAUDE.md and `.gitignore` included. Keep everything of Sid's out of their tree by listing it in `.git/info/exclude`: `.claude/` unless it's already ignored, `sid.md`, `.kit/`, and architecture.md and decisions.md once Sid agrees to have them.
+- **A CLAUDE.md is already there.** Don't edit or replace it. Put what the kit's CLAUDE.md template would hold (where to start, how to run and check, the rules Sid set) in `.claude/rules/this-project.md`. Files in `.claude/rules/` load the same way CLAUDE.md does, and they stay private with the rest of `.claude/`.
+- **The project is already explained somewhere.** Don't copy it. architecture.md points to those files for what they hold and adds only what's missing: the open questions, each part's status, and the choices with their reasons.
+- **A skill or agent of the same name was already there.** The script kept the existing one. Tell Sid which, because the kit's version of it is not in use.
 
 The file set is small on purpose. Each kind of thing has exactly one home, so the next session knows where to look and Sid knows where to read:
 
