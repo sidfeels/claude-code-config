@@ -20,7 +20,7 @@ For the calls that matter (a test you would delete, or one you claim is weak), p
 
 ## Then look for gaps
 
-- **Behaviour with no proof.** Read architecture.md's "Proven" lines and the part's contract, and find the behaviour nothing proves.
+- **Behaviour with no proof.** Read architecture.md's "Status" lines and the part's contract, and find the behaviour nothing proves.
 - **Fakes standing in for the real thing.** Where a model, service or real system is mocked, the real behaviour is unproven, and a short real run is usually the missing test.
 - **Conditions that never get created.** Look for conditions the suite hopes for but never creates, such as concurrency, load, shared limits, and failures from upstream.
 - **Untagged workarounds.** Look for workarounds of outside quirks that lack a `QUIRK(<what>, <date>)` tag.

@@ -15,9 +15,9 @@ Put two or three parts in one spinoff when they share most of their decisions. G
 Write `.kit/briefs/<part>.md`. Apart from the project files, it's the only context the new session has. Write it like a handoff to a capable colleague who missed the meeting. Include:
 
 - What this part is, and why it matters to the whole.
-- What's already decided that constrains it. Point to the lines in blueprint.md, architecture.md and decisions.md rather than restating them.
-- The concerns that touch this part: Sid's (from sid.md and this conversation, in Sid's words), and those of the people it's for (blueprint.md, "Who it's for").
-- The open questions for this part, from blueprint Open, plus anything you suspect nobody has raised yet.
+- What's already decided that constrains it. Point to the lines in architecture.md and decisions.md rather than restating them.
+- The concerns that touch this part: Sid's (from sid.md and this conversation, in Sid's words), and those of the people it's for (architecture.md, "From the outside").
+- The open questions for this part, from architecture.md's Open questions, plus anything you suspect nobody has raised yet.
 - What done looks like:
   - the part is settled;
   - it is written into architecture.md, and into docs/<part>.md if it needs depth;
@@ -48,7 +48,7 @@ The script opens a tab on this session's account. It quotes the account folder (
 
 ## 3. Record it and hand over
 
-Add the session to blueprint.md under Sessions, with its address (the terminal handle from the script's output, or the thread id).
+Add the session to `.kit/sessions.md`, with its address (the terminal handle from the script's output, or the thread id).
 
 Tell Sid in one or two lines:
 - the tab's name;
@@ -61,7 +61,7 @@ The spinoff's save sends main a short message: what settled, what's still open, 
 
 1. Read the changed files, not just the message.
 2. Check that the part's decisions don't contradict the rest of the design.
-3. Update the part's status in blueprint Parts, and remove its Sessions line if the spinoff didn't.
+3. Check the part's Status line in architecture.md, and remove its line from `.kit/sessions.md` if the spinoff didn't.
 4. If anything affects other parts, tell Sid in one line.
 
 A copy of every message also lands in `.kit/messages/`, so nothing is lost if main was closed when it arrived.

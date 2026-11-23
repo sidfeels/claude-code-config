@@ -37,13 +37,12 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 
 | File | What it holds |
 |---|---|
-| `blueprint.md` | The project on one page: what and why, who it's for, the five sentences, parts and their status, every open question, and the sessions working on it now. Every session reads it first. |
-| `architecture.md` | How the system works today, part by part. It opens with how the system looks from outside. Then, for each part: what it does, the choices that matter and why, its limits, what it depends on, and how far it's proven. |
+| `architecture.md` | The project as it stands today, and the file every session reads first: what we're building and why, how it looks from outside, how it fits together in five sentences, every open question, and each part with what it does, the choices that matter and why, its limits, what it depends on, and its status. |
 | `decisions.md` | How the design got this way: one entry for each choice made or replaced, each option turned down, and each thing we relied on that turned out wrong. Entries are added at the bottom and never rewritten. |
 | `sid.md` | What Sid thinks about the project, in Sid's own words: what still matters on top, what's been dealt with below. Entries are leads to check, not instructions. It is gitignored and never pushed. |
 | `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |
-| `.kit/` | Session scratch: briefs, worker specs, expert reports, the overnight plan. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
+| `.kit/` | Session scratch: briefs, worker specs, expert reports, the overnight plan, and `sessions.md`, the list of sessions working on the project right now. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
 
 Each template opens with a short header that says what belongs in the file and how to write it. Keep the header when you create a file, and follow it whenever you edit.
 
@@ -58,7 +57,8 @@ In a repo Sid doesn't own, ask first. Put the kit's files in `.git/info/exclude`
 
 The file set is small on purpose. Each kind of thing has exactly one home, so the next session knows where to look and Sid knows where to read:
 
-- Open questions live only in blueprint.md, under Open.
+- Open questions live only in architecture.md, under Open questions.
+- The sessions working on the project right now are listed only in `.kit/sessions.md`, one line each: `<tab or thread name> | <address> | <what it's doing> | started <date>`. The Orca Run id goes on its first line. A session's line is removed when it saves and closes. The list is scratch, because a terminal address means nothing outside this machine.
 - How things work today lives only in architecture.md.
 - Decisions and their history live only in decisions.md, each with the real reason and who decided. A reversal is a new entry there.
 
@@ -73,7 +73,7 @@ Who writes what matters as much as where. Later sessions build on what's written
 
 When main's tab was closed, its context was compacted, or Sid asks "where are we", rebuild the picture from what was written down, not from memory:
 
-1. Read blueprint.md: Parts, Open and Sessions. Sessions lists each session's address, and the Run and dispatch ids.
+1. Read architecture.md: each part's Status, and Open questions. Then read `.kit/sessions.md`, which lists each live session's address, and the Run and dispatch ids.
 2. Read any messages in `.kit/messages/` newer than the last time main recorded something.
 3. Orca: run `orca orchestration run-list`, then `run-use --id <run>`, then `orca orchestration inbox --terminal run:<run> --limit 50`. That gives you the Run, its workers and the mail. `orca orchestration worker-list` shows which workers are still alive.
 4. T3: run `t3_thread_list`, and `t3_thread_read` for each open session.

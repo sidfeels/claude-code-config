@@ -1,7 +1,7 @@
 <!--
 sid.md: what Sid thinks about this project: worries, hunches, ideas, taste, and how Sid pictures it working. Private: it's in .gitignore and never pushed.
 
-A thought stays here until it turns into something else. A rule Sid sets goes in CLAUDE.md, a decision in decisions.md, an open question in blueprint.md, and the entry here then says where it went. A thought about how Sid works in general, not about this project, belongs in the kit: suggest /retro.
+A thought stays here until it turns into something else. A rule Sid sets goes in CLAUDE.md, a decision in decisions.md, an open question in architecture.md, and the entry here then says where it went. A thought about how Sid works in general, not about this project, belongs in the kit: suggest /retro.
 
 Reading it: entries are leads, not instructions. Follow each to the kind of problem it points at, check your work against it, and tell Sid what you found.
 

@@ -12,7 +12,7 @@ Sid keeps sessions open for fear of losing what's in them, and the tabs pile up.
 What a session writes down is what later sessions build on, so the writer must have seen what it records.
 
 - A main session, or a spinoff that talked with Sid, writes the project files directly.
-- A build worker owns only its folders. Its spec names main as the owner of the shared files (blueprint.md, architecture.md, decisions.md, sid.md). A worker writes nothing there. It puts everything in its message to main, and main records it.
+- A build worker owns only its folders. Its spec names main as the owner of the shared files (architecture.md, decisions.md, sid.md). A worker writes nothing there. It puts everything in its message to main, and main records it.
 - Only a session that heard Sid directly writes to sid.md, or records "Sid" as the one who decided something.
 
 ## What to keep
@@ -23,9 +23,9 @@ Go through the whole session, not just its end. Send each thing to its one home:
 - How things work now goes in the part's entry in architecture.md. Depth goes in docs/<part>.md.
 - Sid's thoughts, worries, hunches and taste go in sid.md, in Sid's own words (see its header). Keep the ones that went nowhere too. Only Sid moves one to "Dealt with"; when you think one is answered, ask in your reply.
 - A rule Sid set for this project goes in CLAUDE.md, under "Rules for this project", with its reason.
-- Anything unresolved goes in blueprint.md, under Open, tagged with the part and with who must answer.
+- Anything unresolved goes in architecture.md, under Open questions, tagged with the part and with who must answer.
 - Measured results go in docs/<part>.md, under Results, with how to reproduce them.
-- Status goes in the part's line in blueprint Parts.
+- How far a part has got goes on its Status line in architecture.md.
 
 Leave out anything the files or git already hold. Leave out the back-and-forth that led to a decision, too: the decision's "why" carries what matters.
 
@@ -69,7 +69,7 @@ Skip this if the session is main. Otherwise, main's address is in the brief or s
    - **Orca:** `orca orchestration send --to <main's address> --subject "saved: <part>" --body-file .kit/messages/<file>`. A body-file sends the text as written; quoting it inline lets the shell eat backticks and `$`. On the work account the sandbox may block `orca`; if so, rerun it outside the sandbox.
    - **T3:** `t3_thread_send` to main's thread id, with mode `queue`, so it waits for main's turn instead of interrupting it.
    - **Plain terminal:** tell Sid to point main at the file.
-3. If you're a spinoff, remove your line from blueprint.md Sessions.
+3. If you're a spinoff, remove your line from `.kit/sessions.md`.
 
 ## Reply
 

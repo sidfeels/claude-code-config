@@ -40,6 +40,10 @@ When a result surprises you, check the measurement before you believe it. When a
 
 Code comments say what the code can't: why it's this way, what it assumes, and what breaks if it changes. They describe the code as it is now; git keeps the history. When a change makes a comment wrong, fix the comment in the same change.
 
+## Commits
+
+Don't put Claude attribution in commit messages or pull request descriptions: no Co-Authored-By line, and no "Generated with Claude Code" footer. Sid asked for this.
+
 ## Subagents
 
 Have a subagent write its full result to a file you name and return a short summary with the path, so detail survives the handoff. Give it the goal and the freedom to think, and ask it what you're missing. Use a fresh one whenever you need a view that isn't anchored on yours.
@@ -52,14 +56,13 @@ In red-team and security work, state the authorized context plainly in every bri
 
 Every project Sid starts keeps these files:
 
-- blueprint.md: read it first, every session.
-- architecture.md
+- architecture.md: the project as it stands today. Read it first, every session.
 - decisions.md: every decision, with its real reason.
 - sid.md: Sid's own thoughts, never pushed.
 - a short CLAUDE.md
 - docs/<part>.md, when a part needs depth.
 
-Keep them current as you work, because a decision that isn't written down didn't happen. In a repo Sid doesn't own, ask before adding them. If Sid agrees, keep them out of the team's tree with `.git/info/exclude`, and leave the team's `.gitignore` alone.
+Keep them current as you work, because a decision that isn't written down didn't happen. Each file opens with its rules. Read them before you edit the file, even for a one-line change. In a repo Sid doesn't own, ask before adding them. If Sid agrees, keep them out of the team's tree with `.git/info/exclude`, and leave the team's `.gitignore` alone.
 
 The main session has to hold the whole project. When a conversation there goes deep on one part, offer a spinoff in one line.
 

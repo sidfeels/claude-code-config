@@ -22,7 +22,7 @@ While Sid sleeps, two things waste the night. A session that stops to ask a ques
 
 ## Setting up (Sid is still here)
 
-1. **Read the project.** Read blueprint.md, architecture.md and sid.md, and check that what Sid wants by morning is settled enough to build. If it isn't, say so now, because discussion can't happen overnight.
+1. **Read the project.** Read architecture.md and sid.md, and check that what Sid wants by morning is settled enough to build. If it isn't, say so now, because discussion can't happen overnight.
 
 2. **Create a work branch.** Make `overnight/<date>` so the night's commits stay separate.
 
@@ -71,8 +71,8 @@ For each choice, ask two questions in order.
 **First, whose call is it?** Some choices are Sid's even when little rides on them: a goal, a matter of taste, or what a result means, such as how a score is aggregated or what counts as a pass. Park those. Then build so that every option stays open: store the raw data, compute each candidate, and mark any number that depends on the choice as provisional.
 
 **Second, how much of tonight's remaining work rides on it?**
-- **Little.** Decide. Use the project's stated goals and Sid's past choices (blueprint.md, decisions.md, sid.md). Among options of equal merit, pick the one that is easiest to change later. Log the decision under **Decided overnight**, with the alternative and how to reverse it.
-- **Much**, meaning most of what follows would be built on top of it. Park it. Under **Parked**, write the question, the options with what each leads to, and your lean with the case against it. Add the question to blueprint Open. Then switch to plan items that don't depend on it.
+- **Little.** Decide. Use the project's stated goals and Sid's past choices (architecture.md, decisions.md, sid.md). Among options of equal merit, pick the one that is easiest to change later. Log the decision under **Decided overnight**, with the alternative and how to reverse it.
+- **Much**, meaning most of what follows would be built on top of it. Park it. Under **Parked**, write the question, the options with what each leads to, and your lean with the case against it. Add the question to architecture.md, under Open questions. Then switch to plan items that don't depend on it.
 - **If everything left is parked,** finish early. A short night with the right questions waiting beats a long one built on a guess.
 
 Reversibility is not the test. A wrong guess at 11pm can be undone in one git command, and the night is still lost if everything after it was built on top.
@@ -92,7 +92,7 @@ The night can end at a usage limit or at the turn bound, so keep the report curr
 
 When the plan is finished or blocked, post the report as a message starting "Morning report". Then:
 1. Copy each **Decided overnight** entry into decisions.md as its own entry, with "Decided by: agent" and a Why line that starts "Decided overnight while Sid was away." `.kit/` is scratch, and these entries have to outlive it.
-2. Update blueprint.md and architecture.md, as for any save.
+2. Update architecture.md, as for any save.
 3. Change the first line of `.kit/overnight.md` to `Status: done`. This turns off the guard.
 
 If Sid finds the guard still on in the morning, because the night was cut off, the fix is the same: change that line to `Status: done`.

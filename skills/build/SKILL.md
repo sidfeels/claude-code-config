@@ -1,6 +1,6 @@
 ---
 name: build
-description: Build settled parts in parallel with workers that report to this main session, then integrate, prove the whole thing end to end, and commit a checkpoint. Use for /build, "start building", or a build wave once parts in blueprint.md are settled.
+description: Build settled parts in parallel with workers that report to this main session, then integrate, prove the whole thing end to end, and commit a checkpoint. Use for /build, "start building", or a build wave once parts in architecture.md are settled.
 argument-hint: "[parts]"
 ---
 
@@ -16,7 +16,7 @@ The answers are to build only what's settled, to give every worker a contract an
 
 ## Before the first wave
 
-Build only parts marked settled in blueprint.md. A part that is still being discussed will be rebuilt.
+Build only parts whose Status in architecture.md says settled. A part that is still being discussed will be rebuilt.
 
 Make the first wave a skeleton: the thinnest version of the whole path that runs for real, with each part a stub that keeps its promises. Then parts fill in something that already runs, and integration problems show up on the first day instead of the last.
 
@@ -30,8 +30,8 @@ For each part in the wave, write `.kit/specs/<part>.md` covering:
 
 - **Goal:** what the part is for, and why it matters to the whole.
 - **Contract:** from architecture.md, what it promises and what it depends on.
-- **Concerns:** Sid's worries and hunches about this part (sid.md, under "Still matters"), and what the people it's for care about (blueprint.md). Ask the worker to say in its report how it handled each one.
-- **Owned folders.** Shared files belong to main: blueprint.md, architecture.md, decisions.md, sid.md, dependency files, config, and anything two parts touch.
+- **Concerns:** Sid's worries and hunches about this part (sid.md, under "Still matters"), and what the people it's for care about (architecture.md, "From the outside"). Ask the worker to say in its report how it handled each one.
+- **Owned folders.** Shared files belong to main: architecture.md, decisions.md, sid.md, dependency files, config, and anything two parts touch.
 - **Proof expected:** the most direct evidence the part works. Use a real run where the part touches real systems, and tests where it's pure logic.
 - **Rules,** each with its reason:
   - Load the `tests` skill before writing or changing any test, because "it's a small change" is the usual reason a test can't fail.
@@ -56,7 +56,7 @@ orca orchestration worker-start --spec-file .kit/specs/<part>.md --task-title "B
 
 Use `--keep-open`. Without it, a worker closes two minutes after reporting, and Sid can't review it.
 
-Record each worker's dispatch id from the receipt in blueprint.md Sessions, together with the Run id. You need these to release a worker, to message it, and to find everything again if main's tab is lost.
+Record each worker's dispatch id from the receipt in `.kit/sessions.md`, together with the Run id. You need these to release a worker, to message it, and to find everything again if main's tab is lost.
 
 Name each worker's tab "Build: <part>":
 - terminals: `orca terminal rename`;
@@ -64,7 +64,7 @@ Name each worker's tab "Build: <part>":
 
 Workers launch on Orca's selected account. If that isn't this session's account, tell Sid before you launch (the `kit` skill's orca.md, under Accounts).
 
-**T3.** Call `delegate_task` once per part, with the spec as the task, `isolation: "shared"` and role `implementation`. Record each task id in Sessions.
+**T3.** Call `delegate_task` once per part, with the spec as the task, `isolation: "shared"` and role `implementation`. Record each task id in `.kit/sessions.md`.
 
 **Elsewhere.** Use background subagents, one per part, each with the spec as its prompt.
 
@@ -83,7 +83,7 @@ A separate worktree (`--worktree new-child`, or `isolation: "worktree"`) is only
 ## When a worker reports
 
 1. Read the report and check how far each claim was proven. A claim with no evidence is unchecked.
-2. Record it for the worker. Update the part's line in blueprint Parts, and its architecture.md entry: what changed, and "Proven". Write "ran for real" only if the report shows the command and its output, or you reran it.
+2. Record it for the worker. Update the part's architecture.md entry: what changed, and its Status line. Write "ran for real" only if the report shows the command and its output, or you reran it.
 3. Note anything that affects other parts.
 
 ## End of a wave

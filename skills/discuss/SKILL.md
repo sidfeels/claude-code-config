@@ -17,8 +17,7 @@ Two failures to guard against:
 
 Read these first:
 
-- blueprint.md;
-- the relevant parts of architecture.md and docs/;
+- architecture.md, and docs/ for the parts in question;
 - the entries in decisions.md for the parts in question (search for each part's name), so you don't propose what was already tried or turned down;
 - sid.md.
 
@@ -68,7 +67,7 @@ Write each point down as soon as it settles, not at the end:
 
 - Decisions go in decisions.md, in the same edit as the change to architecture.md, with the real reason and who decided.
 - Sid's thoughts and worries go in sid.md, in Sid's own words, quoted from the message while you still have it.
-- Anything left open goes in blueprint.md, under Open.
+- Anything left open goes in architecture.md, under Open questions.
 
 Sid should be able to close this session at any moment without losing anything.
 
@@ -81,6 +80,6 @@ The discussion is done when both of these are true:
 - every branch of the tree is settled, or explicitly parked in Open;
 - Sid has confirmed the whole thing in five sentences.
 
-Write those five sentences in plain words. For the project they go in blueprint.md. For a part they go in the part's "What it does" in architecture.md. Ask Sid to say back anything that doesn't match their picture. Sid restating it in their own words is the real check; a "yes" to your words is a weaker one.
+Write those five sentences in plain words. For the project they go in architecture.md, under "How it fits together". For a part they go in the part's "What it does". Ask Sid to say back anything that doesn't match their picture. Sid restating it in their own words is the real check; a "yes" to your words is a weaker one.
 
 Then say in one line what's ready next: a spinoff, a build, or more discussion.

@@ -20,7 +20,7 @@ Write `.kit/expert/<topic>/brief.md`. It holds:
 
 - the goal;
 - the constraints that are real: budget, time, what already exists;
-- what Sid and the people it's for care about (blueprint.md "Who it's for", sid.md);
+- what Sid and the people it's for care about (architecture.md "From the outside", sid.md);
 - the question.
 
 Leave out our current plan and our preference.

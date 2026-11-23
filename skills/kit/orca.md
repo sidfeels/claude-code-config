@@ -48,7 +48,7 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
   1. Run `orca account list`.
   2. Find this session's account. If this session runs on an Orca-managed account, its `$CLAUDE_CONFIG_DIR` contains the account id. Otherwise compare emails: `$CLAUDE_CONFIG_DIR/.claude.json`, or `~/.claude.json` when the variable is unset.
   3. If the selected account isn't this session's, tell Sid before launching. Sid can switch the account in Orca, and with the "Never restart" setting running sessions keep their account.
-- A Run (Orca's record of a coordinator and its workers) is tied to the main tab and deleted about a day after it settles. A new main in another tab picks up an existing Run with `orca orchestration run-list`, then `run-use --id <run>`. The project files are the lasting memory, not the Run, so record the Run id and dispatch ids in blueprint.md Sessions.
+- A Run (Orca's record of a coordinator and its workers) is tied to the main tab and deleted about a day after it settles. A new main in another tab picks up an existing Run with `orca orchestration run-list`, then `run-use --id <run>`. The Run doesn't last, so record the Run id and dispatch ids in `.kit/sessions.md`.
 - `orca skills get orchestration` prints Orca's own full guide.
 
 ## Worktrees
