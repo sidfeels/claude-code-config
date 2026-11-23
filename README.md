@@ -41,7 +41,7 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 
 ## Install
 
-The kit is installed per project. In the project folder:
+The kit is installed per project. In the project folder, as a plain command:
 
 ```
 rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config /tmp/sid-kit && /tmp/sid-kit/install.sh --project .
@@ -49,6 +49,7 @@ rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude
 
 That copies the skills, the agents and `global/CLAUDE.md` (as `rules/working-with-sid.md`) into the project's `.claude/` folder, and records the kit commit in `.claude/kit-version`. Claude Code reads `.claude/` from the project whichever account is in use, so both accounts get the same kit and nothing is set up per account. Start a new session and type `/` to check that the skills are listed.
 
+- Sid's usual way is to paste a prompt into a Claude session, which runs this command and then fits the kit to what the folder already has. WORKFLOW.md has the prompt.
 - In a repo Sid doesn't own, add `--private`. The copy is then listed in `.git/info/exclude` and stays out of the team's tree.
 - Running it again never overwrites what's there. It only adds what's missing.
 - `install.sh --diff <project>` shows what a project changed in its copy since it was installed.

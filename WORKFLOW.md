@@ -8,13 +8,15 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 
 ## When you want to…
 
-**Set up a folder.** Open it in Orca and paste this into a terminal tab:
+**Set up a folder.** Open it in Orca, start `claude` in a terminal tab, and paste this:
 
 ```
+Set up Sid's kit in this folder. Run the command below. Then read .claude/skills/kit/SKILL.md and follow its section "Fitting the kit into a folder". Tell me what you found and what you suggest before you change anything else.
+
 rm -rf /tmp/sid-kit && git clone -q --depth 1 https://github.com/sidfeels/claude-code-config /tmp/sid-kit && /tmp/sid-kit/install.sh --project .
 ```
 
-It copies the kit into the folder's `.claude/`, where both accounts read it. In a repo you don't own, add ` --private` at the end, so git leaves the copy out.
+The session installs the kit into the folder's `.claude/`, where both accounts read it. Then it looks at what's already there, such as a team's CLAUDE.md or a `.gitignore` that doesn't cover your private notes, and tells you how it suggests fitting the kit in. When it's done, close that session and start a new one, so the kit is loaded from the start.
 
 **Start a project.** Start `claude` in the folder, or `claude-personal` for the personal account. That session is main. Type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own, and each part has two or three examples of it working, in your words.
 
