@@ -12,7 +12,7 @@ One main session holds the whole project. Depth on one part goes to a separate s
 
 Every project has the same small set of files, each with one job. Each file opens with a header saying what belongs in it and how to write it, so every session and subagent writes it the same way.
 
-Questions reach Sid only when they're Sid's to answer. Facts get looked up, and technical calls get made and listed. The real choices come with what each leads to, and the agent's lean last, with the case against it.
+Questions reach Sid only when they're Sid's to answer. Facts get looked up, and technical calls get made and listed. The real choices come with what each option leads to and costs, and no lean, because Sid tends to take whatever is recommended.
 
 Reviews, expert views and test audits run in fresh subagents that never saw the plan's author arguing for it.
 

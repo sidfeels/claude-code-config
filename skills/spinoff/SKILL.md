@@ -15,16 +15,18 @@ Put two or three parts in one spinoff when they share most of their decisions. G
 Write `.kit/briefs/<part>.md`. Apart from the project files, it's the only context the new session has. Write it like a handoff to a capable colleague who missed the meeting. Include:
 
 - What this part is, and why it matters to the whole.
-- What's already decided that constrains it. Point to the lines in architecture.md and decisions.md rather than restating them.
+- What to read first: architecture.md whole, the entries in decisions.md that name this part, and sid.md under "Still matters".
+- What's already decided that constrains it. Point to the lines in architecture.md and decisions.md rather than restating them. Where you do include text, copy it word for word.
 - The concerns that touch this part: Sid's (from sid.md and this conversation, in Sid's words), and those of the people it's for (architecture.md, "From the outside").
 - The open questions for this part, from architecture.md's Open questions, plus anything you suspect nobody has raised yet.
 - What done looks like:
-  - the part is settled;
+  - the part is settled, and has its "Works when" examples in Sid's words;
   - it is written into architecture.md, and into docs/<part>.md if it needs depth;
   - Sid has confirmed it in five sentences.
-- Main's address, and this instruction: "Start with the discuss skill and finish with the save skill."
+- What isn't this session's to change: the other parts. If the discussion changes one, it tells main.
+- Main's address, and these instructions: "Start with the discuss skill and finish with the save skill. Open by telling Sid in a few lines what you take this part to be and what's still open, so Sid can correct the picture before the questions start."
 
-Keep your own opinion on contested choices out of the brief, or mark it as one view among several, so the spinoff thinks fresh.
+Keep your own opinion on contested choices out of the brief, or mark it as one view among several, so the spinoff thinks fresh. Mark anything that is your guess as a guess, because the spinoff can't tell your assumption from a decision.
 
 ## 2. Open the session on the same account
 
