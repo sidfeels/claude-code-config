@@ -90,7 +90,7 @@ Pick the lightest way that fits.
   - `test-auditor`: judges a test suite.
 - A spinoff session (the spinoff skill). Use one when a part needs Sid's discussion in depth. It opens as a visible tab or thread that Sid talks in.
 - Workers (the build skill). Use them to build settled parts in parallel. Each worker reports to main.
-- Other model families (the expert skill). Use them when you want blind spots that differ from Claude's.
+- An expert debate (the expert skill). Use it when a decision needs independent views that argue until the real disagreement is clear.
 - Overnight (the overnight skill). Use it for work that continues while Sid is away.
 
 ## Claude Code itself

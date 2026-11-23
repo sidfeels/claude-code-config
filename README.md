@@ -28,7 +28,7 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 | `skills/spinoff/` | Opens a tab or thread for one part, with a brief. |
 | `skills/save/` | Writes a session into the files, tells main, and says when it's safe to close. |
 | `skills/build/` | Parallel workers in waves, with a skeleton first, then proof and a checkpoint. |
-| `skills/expert/` | Independent views from fresh experts, or from other models ("council"). |
+| `skills/expert/` | Independent views from fresh experts on different Claude models, and a short debate when they disagree ("council"). |
 | `skills/tests/` | Which checks can see which failures, how to classify a failure, what a change ripples into, and pruning. |
 | `skills/rewrite/` | Rewrites text for other readers in one human voice, or Slack messages in Sid's voice. |
 | `skills/retro/` | Finds what cost Sid time and fixes the cause where it lives. |

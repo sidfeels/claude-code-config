@@ -12,7 +12,7 @@ The same steps work in Orca, with tabs, and in T3 Code, with threads. In Orca, o
 
 **Go deep on one part, or two or three related parts.** In main, type `/spinoff <part>`. A "Discuss: <part>" tab or thread opens. Talk there. When the part feels settled, say "save": that session writes everything into the files and tells main. Then close it.
 
-**Hear how an expert would do it.** Type `/expert <question>`. Fresh subagents that haven't seen our plan each answer through a different lens. Add "council" to also ask other model families.
+**Hear how an expert would do it.** Type `/expert <question>`. Fresh subagents that haven't seen our plan each answer through a different lens. When they disagree, or you say "council", the two strongest views argue it out for up to two rounds, and whatever they still disagree on comes to you as the decision.
 
 **Run an experiment or a red-team campaign.** Treat it as a part whose output is a finding. Discuss writes down the claim and the result that would prove it wrong, and runs the cheapest check first. A negative result still counts.
 

@@ -1,6 +1,6 @@
 ---
 name: expert
-description: Get independent views on a design question from fresh expert subagents, and optionally from other model families, without this session's bias. Use for /expert, "how would an expert do this", "council", "second opinion", or when the options on the table all look alike.
+description: Get independent views on a design question from fresh expert subagents, without this session's bias, and have them debate when they disagree. Use for /expert, "how would an expert do this", "council", "debate", "second opinion", or when the options on the table all look alike.
 argument-hint: "<question>"
 ---
 
@@ -12,7 +12,7 @@ Three things help:
 
 - A fresh mind that never saw our lean gives an independent view.
 - Several minds with different expertise show where the real disagreements are.
-- A different model family has blind spots that don't line up with ours.
+- Making two of them argue it out separates the real crux from talk past each other.
 
 ## 1. Brief without the lean
 
@@ -49,25 +49,26 @@ Launch one `expert` agent per lens, in the background. Give each:
 
 They reason first and check precedent second.
 
-Sid may say "council", meaning views from other model families. Give each model the same brief:
+Run them on different Claude models through the Agent tool's model setting: for example `opus` for one lens and `sonnet` or `fable` for another. They share a family, so they also share some blind spots, but they differ enough to catch some of each other's.
 
-- **T3 Code:** call `orchestrator_capabilities` to see what's available, then `delegate_task` once per model.
-- **A terminal:** pipe the brief from a file into a CLI. Before sending the real brief, check that the CLI answers a one-line prompt.
+## 3b. Debate, when they disagree on the crux
 
-  ```
-  codex exec -m gpt-6-luna -s read-only --skip-git-repo-check - < .kit/expert/<topic>/brief.md
-  opencode run -m <provider/model> -f .kit/expert/<topic>/brief.md "Answer the brief in the attached file."
-  ```
+If the first round splits on the decision that matters, or Sid says "council" or "debate", make the two strongest opposing views argue it out.
 
-  Codex's default model is refused on Sid's login, so name `gpt-6-luna`. Keep the run read-only, because the job is an opinion, not edits.
+1. Give each side the other side's report. Continue its agent with SendMessage so it keeps its own reasoning, or, if that agent is gone, start a fresh `expert` agent with both reports. Ask it to answer in a new file, `.kit/expert/<topic>/<lens>-reply.md`:
+   - where the other side is right;
+   - where it's wrong, with evidence;
+   - what would change its own mind.
+2. Stop after two rounds. A debate that hasn't converged by then won't. What's left is the crux, and that's Sid's to decide.
 
-If a model is unavailable, say so instead of substituting another.
+This uses plain subagents that exchange files, not Claude Agent Teams. Teams are experimental and die with the session that started them, while files keep the whole argument for Sid to read.
 
 ## 4. Synthesize honestly
 
 Read every report in full. Then tell Sid, briefly:
 
-- Where they agree. That's probably the common view, which isn't the same as right. Say whether only Claude models agreed, since they share blind spots.
+- Where they agree. That's probably the common view, which isn't the same as right, because Claude models share blind spots.
+- What the debate settled, and the crux it couldn't.
 - Where they disagree. That's the real decision, so put it to Sid as options, with what each leads to and your lean last, with the case against it.
 - What none of them raised that Sid's hunches point at.
 - How our current plan compares. If it loses, say so plainly.
