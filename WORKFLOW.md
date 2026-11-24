@@ -14,6 +14,8 @@ Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat,
 
 The same prompt works for an empty folder, your own repo, a team's repo, an old project with your v1 kit, and a project on an older version of this kit. The session looks first, tells you what the folder is and what it would do, and changes nothing until you say go. In a team's repo it leaves their CLAUDE.md alone and puts your project notes in CLAUDE.local.md, which git never sees. When it's done, close that session and start a new one in the folder, so the kit loads from the start.
 
+The kit and your private files stay out of git, so on a new machine or a fresh clone, paste the setup prompt again.
+
 **Start a project.** Start `claude` in the folder, or `claude2` for the personal account. That session is main. Type `/discuss` followed by what you want to build. It asks a few questions at a time and creates the project files. It's done when you've confirmed the whole thing in five sentences of your own, and each part has two or three examples of it working, in your words.
 
 **Go deep on one part, or two or three related parts.** In main, type `/spinoff <part>`. A "Discuss: <part>" tab opens. Talk there. When the part feels settled, say "save": that session writes everything into the files and tells main. Then close it.

@@ -4,7 +4,9 @@ You're a Claude session that Sid asked to set up this kit in the folder you're r
 
 Read `KIT/CLAUDE.md` before anything else. It's how Sid wants to be worked with, and this session doesn't have it loaded, because the kit isn't installed here yet. Follow it from your first reply: keep replies short, put long drafts in a file and give the path, and ask questions with no lean. When a setup test ran without it, the session recommended an option to Sid.
 
-No two folders are alike. One is empty, one is Sid's own repo, one is a team's repo with its own CLAUDE.md, and one is an old project of Sid's with an older kit in it. The script only copies files. You look at the folder and fit the kit to it.
+No two folders are alike. One is empty, one is Sid's own repo, one is a team's repo with its own CLAUDE.md, and one is an old project of Sid's with an older kit in it. The script only copies files and keeps them out of git. You look at the folder and fit the kit to it.
+
+In every case, Sid's things stay on this machine and the project's things go in git. The kit's copy in `.claude/`, sid.md, `.kit/`, CLAUDE.local.md and `.claude/settings.local.json` are never committed: `install.sh` lists them in `.git/info/exclude`. So a new machine, or a fresh clone, gets the kit by running the setup prompt again. CLAUDE.md, architecture.md and decisions.md are the project's.
 
 ## 1. Look, and change nothing
 
@@ -20,16 +22,16 @@ Tell Sid in a few lines:
 - what you'll add;
 - what you'll leave alone;
 - anything you'd delete, move or rewrite, one per line;
-- which model the project's sessions and workers should use. Ask this once, with no lean, and show the one `.claude/settings.json` (or `settings.local.json`) already sets, if any.
+- which model Sid's sessions and workers here should use. Ask this once, with no lean, and show the one `.claude/settings.local.json` or `.claude/settings.json` already sets, if any.
 
 Then wait. Sid's go covers what you listed and nothing more. Anything new that comes up halfway gets its own question.
 
 ## 3. The cases
 
-In every case, once the kit is in, write the model Sid chose into `.claude/settings.json`, keeping its other keys. In a team's repo their settings.json stays theirs, so use `.claude/settings.local.json`, which overrides it and which `--private` keeps out of git.
+In every case, once the kit is in, write the model Sid chose into `.claude/settings.local.json`, keeping its other keys. It's Sid's preference, so it stays out of git, and it overrides a model in `.claude/settings.json`.
 
 ```
-f=.claude/settings.json   # .claude/settings.local.json in a team's repo
+f=.claude/settings.local.json
 [ -s "$f" ] || echo '{}' > "$f"; jq --arg m "<model>" '.model = $m' "$f" > "$f.new" && mv "$f.new" "$f"
 ```
 
@@ -37,18 +39,17 @@ f=.claude/settings.json   # .claude/settings.local.json in a team's repo
 
 1. If there's no git, run `git init`.
 2. `KIT/install.sh --project .`
-3. Add the lines of `KIT/skills/kit/templates/gitignore` to `.gitignore`, then check that `git check-ignore sid.md .kit/` prints both names, and that `git check-ignore .claude/skills/kit/templates/sid.md` prints nothing (an unanchored `sid.md` line hides the kit's own template). Do this before the first commit, because the first commit is when a private file gets in.
-4. Create architecture.md, decisions.md, sid.md and CLAUDE.md from `KIT/skills/kit/templates/`, keeping each file's header. Fill in only what the folder already shows, such as what it is and how to run it. The rest is for `/discuss`. If Sid's repo already has a CLAUDE.md, it's Sid's: show Sid what you'd add to it.
-   If Sid asks for one instruction file, merge `KIT/CLAUDE.md` into CLAUDE.md (into CLAUDE.local.md when other people read CLAUDE.md) and delete `.claude/rules/working-with-sid.md`.
+3. Check that `git check-ignore sid.md .kit/ CLAUDE.local.md .claude/kit-version .claude/settings.local.json` prints all five. Do this before the first commit, because the first commit is when a private file gets in.
+4. Create architecture.md, decisions.md, sid.md and CLAUDE.md from `KIT/skills/kit/templates/`, keeping each file's header. CLAUDE.md holds only the project's own facts: what it is, how to run and check it, and its rules. Fill in only what the folder already shows. The rest is for `/discuss`. If Sid's repo already has a CLAUDE.md, it's Sid's: show Sid what you'd add to it.
 5. If a README or a docs folder already explains the project, architecture.md points to it and adds only what it lacks: the open questions, each part's status, and the choices with their reasons.
-6. Commit `.claude/` and the new files together. Don't push.
+6. Commit only the project's files: CLAUDE.md, architecture.md and decisions.md. `git status` shows nothing of the kit's. Don't push.
 
 ### Someone else's repo
 
 Ask before adding anything. Their CLAUDE.md, AGENTS.md, `.gitignore` and whatever they keep in `.claude/` stay exactly as they are. Claude Code loads their CLAUDE.md and AGENTS.md next to Sid's rules, so there's nothing to merge.
 
-1. `KIT/install.sh --project . --private`. It lists the copy in `.git/info/exclude`, along with sid.md, `.kit/`, CLAUDE.local.md and `.claude/settings.local.json`, so none of Sid's files can show up in their tree.
-2. Put what the kit's CLAUDE.md template would hold (where to start, how to run and check the project, Sid's rules for it) in CLAUDE.local.md. Claude Code loads it beside theirs.
+1. `KIT/install.sh --project .`
+2. Put Sid's notes for this project, in the shape of the kit's CLAUDE.md template (where to start, how to run and check it, Sid's rules for it), in CLAUDE.local.md. Claude Code loads it beside theirs.
 3. Add architecture.md and decisions.md only if Sid wants them here, and list each one in `.git/info/exclude` when you do.
 4. Check that `git status --porcelain` shows nothing of Sid's.
 
@@ -74,14 +75,14 @@ If it's a team's repo with Sid's v1 files in it, treat it as someone else's repo
 2. After Sid's go, run `KIT/install.sh --update .`. It replaces the files the project never changed, adds the kit's new files, and leaves the rest alone.
 3. Under "MERGE BY HAND" are files that both the project and the kit changed. For each one, read the kit's change (the script prints the command) and the project's (from step 1), and write one file that keeps both. When they contradict, ask Sid.
 4. For each file the kit no longer has, ask Sid before deleting it.
-5. If the kit's rules were merged into CLAUDE.md, `--update` lists `rules/working-with-sid.md` as left deleted whenever the kit changed them, with the command that shows the change. Carry that change into the merged file.
+5. An earlier kit committed its copy in Sid's own repos. If `--update` says git still tracks some of the kit's files, it prints the command that takes them out of git and leaves them on disk. In Sid's own repo, run it after Sid's go and commit that alone. The copy stays in the history and on any remote it was pushed to; say so to Sid. In a team's repo, a tracked file with a kit name is the team's: leave it.
 6. If `.claude/rules/this-project.md` exists, it's where an earlier version of the kit put Sid's notes for a team's repo. It still loads. Offer Sid to move it to CLAUDE.local.md, so those notes have one home.
-7. In Sid's own repo, commit with both kit commits in the message (`--update` printed them as "updated from the kit's commit X to Y"). In a team's repo the copy is excluded, so there's nothing to commit.
+7. The copy isn't in git, so the update itself has nothing to commit.
 
 ## 4. Things that get in the way
 
-- The sandbox protects `.claude/skills` and `.claude/settings.json` in the folder it runs in, so `--project`, `--update` and the model's `jq` line can fail with "Operation not permitted". Run that one command again outside the sandbox.
-- A pre-push hook that refuses dates also refuses decisions.md, whose entries are dated by design. Keep decisions.md local: list `/decisions.md` in `.gitignore` in Sid's own repo (`.git/info/exclude` in a team's), then `git rm --cached decisions.md` and amend the setup commit.
+- The sandbox protects `.claude/skills` and `.claude/settings.local.json` in the folder it runs in, so `--project`, `--update` and the model's `jq` line can fail with "Operation not permitted". Run that one command again outside the sandbox.
+- A pre-push hook that refuses dates refuses decisions.md, whose entries are dated by design, and architecture.md once a Status line holds a date. Keep whichever it refuses local: list it in `.git/info/exclude` (`/decisions.md`), then `git rm --cached` it and amend the setup commit.
 - If `--inspect` lists a global copy of the kit, its skills override this project's. Tell Sid. The kit's README says how to remove it.
 - If something `--project` would write is already there, the script keeps it and lists it. Tell Sid which, since that piece of the kit isn't in use.
 

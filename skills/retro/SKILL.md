@@ -50,7 +50,7 @@ For each moment, name the root cause, not the symptom. Then put the fix in the s
 1. **The code or structure**, so the mistake can't happen at all: a type, a single source of truth, a config value instead of a constant.
 2. **A check** that catches it: a test, a lint rule, or a hook. Only a hook guarantees a step happens.
 3. **A project file**: a missing decision, a better pointer in CLAUDE.md (CLAUDE.local.md in a team's repo), or an entry under "When something changes".
-4. **The kit**: a skill in this project's `.claude/`, or the working rules (the project's CLAUDE.md, or `rules/working-with-sid.md`). Deleting or sharpening a line beats adding one.
+4. **The kit**: a skill, or `rules/working-with-sid.md`, in this project's `.claude/`. Deleting or sharpening a line beats adding one.
 
 An instruction is the weakest fix. Use one only when nothing above can hold the lesson, and say what failure it prevents.
 
@@ -66,5 +66,5 @@ Show Sid the top five, and put the rest in the retro file. Change nothing until 
 ## Applying
 
 - Project fixes go into the project.
-- Kit fixes go into this project's copy, in `.claude/`. Quote the moment in the commit message. Then tell Sid which of them would help every project, so those can go back to the kit repo as a PR (the `kit` skill says how).
+- Kit fixes go into this project's copy, in `.claude/`. The copy isn't in git, so quote the moment in `.kit/kit-changes.md`, beside the change. Then tell Sid which of them would help every project, so those can go back to the kit repo as a PR (the `kit` skill says how).
 - Keep the `.kit/retro/` notes until the fixes land.

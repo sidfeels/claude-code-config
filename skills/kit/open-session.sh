@@ -7,9 +7,9 @@
 # (~/.claude), and "personal" is ~/.claude-personal, the folder behind `claude-personal`.
 # "same" keeps this session's account, for when only a model is given.
 #
-# Without a model, the session gets the project's model from .claude/settings.json (or
-# settings.local.json), like any `claude` started in this folder. A fourth argument passes
-# --model, for when Sid names a model for this one session.
+# Without a model, the session gets the model any `claude` started in this folder gets, which
+# is Sid's choice in .claude/settings.local.json. A fourth argument passes --model, for when
+# Sid names a model for this one session.
 #
 # It exists because building this command by hand broke:
 # Orca's account folders live under "Application Support", and an unquoted path with a

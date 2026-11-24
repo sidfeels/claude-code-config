@@ -57,7 +57,7 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
 ## Worktrees
 
 - `--worktree current` runs the worker in this same folder. This is the default for building: every part sees the others' code, the docs stay single, and there is nothing to merge. The cost is that nothing stops two workers from editing the same file, so give each part folders it owns and keep shared files with main. The git index is shared too, so workers don't commit; main commits checkpoints.
-- `new-child` and `new-top-level` create a separate checkout under `~/orca/workspaces/<repo>/<name>`, on its own branch, started from the last commit. That means none of the uncommitted work. Gitignored files such as `.env` and data folders are missing unless the repo lists them in `.worktreeinclude`. Orca never merges a worktree back. Use one only for a throwaway experiment.
+- `new-child` and `new-top-level` create a separate checkout under `~/orca/workspaces/<repo>/<name>`, on its own branch, started from the last commit. That means none of the uncommitted work. Files kept out of git are missing unless the repo lists them in `.worktreeinclude`: `.env`, data folders, and the kit's own copy in `.claude/`. Sid's model still applies, because Claude Code reads `settings.local.json` from the main checkout. Orca never merges a worktree back. Use one only for a throwaway experiment.
 
 ## Accounts and settings
 

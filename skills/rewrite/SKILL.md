@@ -65,7 +65,7 @@ Pick the mode from the text and from where it's going.
 | Mode | Use for | How to write it |
 |---|---|---|
 | doc | A README, reference page or guide | Organize it by what the reader is trying to do. Use prose for reasons, lists only for items that really are parallel, and tables only for real comparisons. In a section of a longer document, use the terms earlier sections already defined. |
-| report | A status report, PR description, or findings for colleagues | Open with what happened and what it means for this reader. Then say what you need from them, if anything. Put the evidence they might check last. When the reader is Sid, the working rules on writing to Sid apply too (the project's CLAUDE.md, or `rules/working-with-sid.md`). |
+| report | A status report, PR description, or findings for colleagues | Open with what happened and what it means for this reader. Then say what you need from them, if anything. Put the evidence they might check last. When the reader is Sid, the rules for writing to Sid in `rules/working-with-sid.md` apply too. |
 | post | A technical post or announcement | The same writer, with a little more of their voice. Each paragraph carries one idea and leads into the next. |
 | slack | A message from Sid | Sid's own voice. See the next section. |
 

@@ -1,6 +1,6 @@
 <!--
 CLAUDE.md: loads into every session in this project, so every line costs attention on every turn.
-Keep only what a session can't find by looking: what this is, where to start, how to run and check it for real, and the rules Sid set for this project.
+Keep only the project's own facts that a session can't find by looking: what this is, where to start, how to run and check it for real, and the project's rules. Nothing of Sid's: in a team's repo this file is theirs, and Sid's notes go in CLAUDE.local.md.
 Everything else lives in the files this one points to.
 -->
 
@@ -11,7 +11,6 @@ Everything else lives in the files this one points to.
 Start by reading architecture.md: what we're building, how it works, how far each part has got, and what's still open.
 
 - decisions.md says how it got this way. Search it for a part's name before proposing a change to that part.
-- sid.md is Sid's own thinking about the project.
 
 Each of these files opens with its rules. Read them before you edit the file, even for a one-line change.
 

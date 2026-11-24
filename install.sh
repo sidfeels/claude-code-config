@@ -2,7 +2,7 @@
 # Put this kit into a project, so every Claude account that opens the project gets the same skills, agents and rules.
 #
 #   ./install.sh --inspect [dir]               print what a folder already has; changes nothing
-#   ./install.sh --project [dir] [--private]   copy the kit into <dir>/.claude (default: the current folder)
+#   ./install.sh --project [dir]               copy the kit into <dir>/.claude (default: the current folder)
 #   ./install.sh --update [dir]                bring a project's copy up to this kit's commit, keeping what the project changed
 #   ./install.sh --diff [dir]                  show what a project changed in its copy since it was installed
 #   ./install.sh --uninstall [dirs]            remove a global install (default: ~/.claude and ~/.claude-personal)
@@ -14,17 +14,18 @@
 # doesn't depend on how each account folder is set up, and each project can change its copy as it learns.
 #
 # The kit's CLAUDE.md is Sid's rules. In a project it becomes .claude/rules/working-with-sid.md, which loads the
-# same way, because the project's own CLAUDE.md belongs to the project (or to a team). When Sid wants one
-# instruction file, SETUP merges the rules into the project's CLAUDE.md and deletes the copy; --update then lists
-# the kit's later rule changes as "left deleted", for merging by hand. Kit commits before the setup-first change
-# kept that file at global/CLAUDE.md; rules_path finds it under either name.
+# same way, because the project's own CLAUDE.md belongs to the project (or to a team). Kit commits before the
+# setup-first change kept that file at global/CLAUDE.md; rules_path finds it under either name.
 #
 # A project's copy is a snapshot. .claude/kit-version records the commit it came from, and no date, because some
 # repos refuse to push a dated line. --diff compares the copy against that commit, and --update uses it to tell a
 # file the project changed from one it never touched.
 #
-# --project never overwrites a file that is already there. --private lists what it wrote in .git/info/exclude,
-# along with sid.md, .kit/, CLAUDE.local.md and .claude/settings.local.json, for a repo Sid doesn't own.
+# --project never overwrites a file that is already there.
+#
+# The kit's copy and Sid's own files never go into git, in Sid's repos or a team's: --project and --update list them
+# in .git/info/exclude, which stays on this machine. A new machine or a fresh clone gets them by running the setup
+# prompt again. The project's own files (CLAUDE.md, architecture.md, decisions.md) are left to SETUP.
 #
 # A global install and a project copy don't mix. For a skill with the same name, Claude Code uses the account
 # folder's copy and ignores the project's (run on Claude Code 2.1.330), so --project warns when it finds one.
@@ -85,6 +86,30 @@ kit_commit_of() { sed -n 's/^commit: //p' "$1/.claude/kit-version"; }
 # Older kits also wrote installed: and updated: date lines. Readers look only at commit:, so those files still parse,
 # and the next --update rewrites them in this form.
 write_kit_version() { printf 'source: %s\ncommit: %s\n' "$SOURCE" "$2" > "$1/kit-version"; } # <.claude dir> <commit>
+
+# List the kit's copy and Sid's files in .git/info/exclude, and print the command that untracks any of them git
+# still tracks (an earlier kit committed the copy in Sid's own repos). It never untracks anything itself: in a
+# team's repo, a tracked file with a kit name is the team's own.
+keep_out_of_git() { # keep_out_of_git <dir>
+  local dir="$1" exclude p tracked=""
+  if ! is_repo "$dir"; then
+    echo "  not a git repository, so nothing is kept out of git yet: after git init, run --project again"; return 0
+  fi
+  exclude="$(exclude_file "$dir")"
+  for p in $(cd "$KIT" && ls -d skills/*/ agents/*.md | sed 's|/$||; s|^|/.claude/|') \
+      "/.claude/$RULES_FILE" /.claude/kit-version /.claude/settings.local.json /sid.md /.kit/ /CLAUDE.local.md; do
+    # --no-index matches tracked paths too, so a second run never adds the same line again.
+    if ! git -C "$dir" check-ignore --no-index -q "${p#/}"; then printf '%s\n' "$p" >> "$exclude"; fi
+    if [ -n "$(git -C "$dir" ls-files -- "${p#/}")" ]; then tracked="$tracked ${p#/}"; fi
+  done
+  echo "  the kit's copy, sid.md, .kit/, CLAUDE.local.md and .claude/settings.local.json are listed in .git/info/exclude"
+  if [ -n "$tracked" ]; then
+    echo "  git still tracks some of them:$tracked"
+    echo "  If they're the kit's copy from an earlier install, take them out of git (the files stay on disk) with:"
+    echo "    git -C '$dir' rm -r -q --cached --$tracked"
+    echo "  In a team's repo, a tracked file with a kit name is the team's own: leave it."
+  fi
+}
 
 # Tell Sid when an account folder still holds the kit, because that copy would win over the project's.
 warn_global() {
@@ -205,7 +230,7 @@ inspect_folder() { # inspect_folder <dir>
   done
   echo "  present:${list:- none}"
   if is_repo "$dir"; then
-    for f in sid.md .kit/; do
+    for f in sid.md .kit/ .claude/kit-version; do
       if git -C "$dir" check-ignore -q "$f"; then echo "  git ignores $f"; else echo "  git does NOT ignore $f"; fi
     done
   fi
@@ -219,8 +244,8 @@ inspect_folder() { # inspect_folder <dir>
   if [ "$found" = 0 ]; then echo "  none"; fi
 }
 
-install_project() { # install_project <dir> <private: 0|1>
-  local dir dest src wrote="" kept="" private="$2" commit="unknown" from="$KIT" rules_src="$KIT/CLAUDE.md" export_dir="" exclude p
+install_project() { # install_project <dir>
+  local dir dest src wrote="" kept="" commit="unknown" from="$KIT" rules_src="$KIT/CLAUDE.md" export_dir=""
   dir="$(abs "$1")"
   if [ "$dir" = "$KIT" ]; then echo "that folder is the kit itself" >&2; exit 1; fi
   dest="$dir/.claude"
@@ -258,40 +283,25 @@ install_project() { # install_project <dir> <private: 0|1>
     echo "  kept what was already there ($(count "$kept")):"
     printf '%s' "$kept" | sed 's/^/    /'
   fi
-
-  if [ "$private" = 1 ]; then
-    if is_repo "$dir"; then
-      exclude="$(exclude_file "$dir")"
-      # Sid's private files go in now, before any session can create and commit them.
-      for p in $(printf '%s' "$wrote" | sed 's|^|/.claude/|') /sid.md /.kit/ /CLAUDE.local.md /.claude/settings.local.json; do
-        if ! git -C "$dir" check-ignore -q "${p#/}"; then printf '%s\n' "$p" >> "$exclude"; fi
-      done
-      echo "  listed them, sid.md, .kit/, CLAUDE.local.md and .claude/settings.local.json in .git/info/exclude, so git leaves them out"
-    else
-      echo "  --private did nothing: $dir is not a git repository"
-    fi
-  fi
-
+  # Sid's files are listed now, before any session can create and commit them.
+  keep_out_of_git "$dir"
   echo "  Start a new Claude session in this folder to load it."
   warn_global
 }
 
 update_project() { # update_project <dir>
-  local dir dest old new tmp rel item private=0 exclude="" listed="|" added="" updated="" merge="" gone="" dropped=""
+  local dir dest old new tmp rel added="" updated="" merge="" gone="" dropped=""
   dir="$(abs "$1")"; dest="$dir/.claude"
   if [ ! -f "$dest/kit-version" ]; then echo "no .claude/kit-version in $dir: install the kit with --project first" >&2; exit 1; fi
   if ! git -C "$KIT" rev-parse HEAD >/dev/null 2>&1; then echo "--update needs the kit as a git clone" >&2; exit 1; fi
   old="$(kit_commit_of "$dir")"; new="$(git -C "$KIT" rev-parse HEAD)"
-  if [ "$old" = "$new" ]; then echo "$dest is already on the kit's commit $(short "$new")"; return 0; fi
+  if [ "$old" = "$new" ]; then echo "$dest is already on the kit's commit $(short "$new")"; keep_out_of_git "$dir"; return 0; fi
   have_commit "$old"
   tmp="$(scratch)"
   # The path is written into the trap now, because $tmp is local and gone by the time the script exits.
   trap "rm -rf '$tmp'" EXIT
   export_kit "$old" "$tmp/old"
   export_kit "$new" "$tmp/new"
-
-  # A copy kept out of git stays out: files new to the kit get listed in .git/info/exclude too.
-  if is_repo "$dir" && git -C "$dir" check-ignore -q .claude/kit-version; then private=1; exclude="$(exclude_file "$dir")"; fi
 
   while IFS= read -r rel; do
     if [ -e "$dest/$rel" ]; then
@@ -308,13 +318,6 @@ update_project() { # update_project <dir>
       if ! cmp -s "$tmp/old/$rel" "$tmp/new/$rel"; then gone="$gone$rel"$'\n'; fi
     else
       mkdir -p "$(dirname "$dest/$rel")"; cp "$tmp/new/$rel" "$dest/$rel"; added="$added$rel"$'\n'
-      if [ "$private" = 1 ]; then
-        item="$(printf '%s' "$rel" | cut -d/ -f1-2)"
-        case "$listed" in *"|$item|"*) ;; *)
-          listed="$listed$item|"
-          if ! git -C "$dir" check-ignore -q ".claude/$item"; then printf '/.claude/%s\n' "$item" >> "$exclude"; fi ;;
-        esac
-      fi
     fi
   done < <(cd "$tmp/new" && find . -type f | sed 's|^\./||' | LC_ALL=C sort)
 
@@ -327,10 +330,7 @@ update_project() { # update_project <dir>
   echo "$dest"
   echo "  updated from the kit's commit $(short "$old") to $(short "$new")"
   if [ -n "$updated" ]; then echo "  replaced, because this project hadn't changed them ($(count "$updated")):"; printf '%s' "$updated" | sed 's/^/    /'; fi
-  if [ -n "$added" ]; then
-    echo "  added, because they're new in the kit ($(count "$added")):"; printf '%s' "$added" | sed 's/^/    /'
-    if [ "$private" = 1 ]; then echo "    (listed in .git/info/exclude like the rest of the copy)"; fi
-  fi
+  if [ -n "$added" ]; then echo "  added, because they're new in the kit ($(count "$added")):"; printf '%s' "$added" | sed 's/^/    /'; fi
   if [ -n "$merge" ]; then
     echo "  MERGE BY HAND ($(count "$merge")): this project changed these and so did the kit. The project's copy was kept."
     while IFS= read -r rel; do
@@ -343,7 +343,6 @@ update_project() { # update_project <dir>
     done < <(printf '%s' "$merge")
   fi
   if [ -n "$gone" ]; then
-    # A project that merged the kit's rules into its CLAUDE.md lands here when the kit changes them.
     echo "  this project deleted these, and the kit has changed them since; left deleted:"
     while IFS= read -r rel; do
       echo "    .claude/$rel"
@@ -352,6 +351,7 @@ update_project() { # update_project <dir>
   fi
   if [ -n "$dropped" ]; then echo "  the kit no longer has these; delete them if this project doesn't use them:"; printf '%s' "$dropped" | sed 's/^/    /'; fi
   if [ -z "$updated$added$merge$gone$dropped" ]; then echo "  nothing in this project's copy needed changing"; fi
+  keep_out_of_git "$dir"
   echo "  Start a new Claude session in this folder to load the changes."
   warn_global
 }
@@ -432,12 +432,7 @@ mode="${1:-}"
 if [ $# -gt 0 ]; then shift; fi
 case "$mode" in
   --inspect)   inspect_folder "${1:-.}" ;;
-  --project)
-    dir="."; private=0
-    for arg in "$@"; do
-      case "$arg" in --private) private=1 ;; *) dir="$arg" ;; esac
-    done
-    install_project "$dir" "$private" ;;
+  --project)   if [ $# -gt 1 ]; then usage; exit 1; fi; install_project "${1:-.}" ;;
   --update)    update_project "${1:-.}" ;;
   --diff)      diff_project "${1:-.}" ;;
   --global)    global_links 0 "$@" ;;

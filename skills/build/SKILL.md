@@ -27,7 +27,7 @@ The skeleton needs every part's contract settled, not its internals. One worker,
 
 When the skeleton runs, show Sid what came out of it before any part is filled in: the real output, not a description of it. Ask whether this is the thing Sid meant. A wrong picture caught here costs one thin skeleton. Caught after a wave, it costs the wave.
 
-If the folder isn't a git repository yet, run `git init` and make a first commit once `.gitignore` is in place.
+If the folder isn't a git repository yet, run `git init`, then `install.sh --project` again from a kit clone, so the kit's files are listed in `.git/info/exclude` before the first commit.
 
 ## Planning a wave
 
@@ -76,7 +76,7 @@ Parts that would edit the same files either go in different waves or become one 
 orca orchestration worker-start --environment local --spec-file .kit/specs/<part>.md --task-title "Worker: <part>" --worktree current --keep-open --agent claude --model <model>
 ```
 
-`<model>` is the project's model: `model` in `.claude/settings.local.json`, else in `.claude/settings.json`, the one a plain `claude` here uses. Pass it on every start, because a worker doesn't reliably get it otherwise (orca.md, under Workers), even though Orca's own guide adds `--model` only when the user named one. If neither file sets a model, tell Sid and ask once. A model Sid names for one worker goes on that start only.
+`<model>` is Sid's model for this project: `model` in `.claude/settings.local.json`, else in `.claude/settings.json`, the one a plain `claude` here uses. Pass it on every start, because a worker doesn't reliably get it otherwise (orca.md, under Workers), even though Orca's own guide adds `--model` only when the user named one. If neither file sets a model, tell Sid and ask once. A model Sid names for one worker goes on that start only.
 
 `--environment local` keeps the worker on this machine even when a paired server is selected. Use `--keep-open`. Without it, a worker closes two minutes after reporting, and Sid can't review it.
 
@@ -95,7 +95,7 @@ A separate worktree (`--worktree new-child`, or `isolation: "worktree"`) is only
 ## While it runs
 
 - **Wait for messages without polling.** In Orca, end your turn, and the next message wakes you.
-- **Answer questions with `orca orchestration reply --id <message id> --body-file <file>`.** Answer from the files and this conversation. When the question is Sid's call, put it to Sid the way the working rules (the project's CLAUDE.md, or `rules/working-with-sid.md`) say: every option with what it leads to and costs, and no lean.
+- **Answer questions with `orca orchestration reply --id <message id> --body-file <file>`.** Answer from the files and this conversation. When the question is Sid's call, put it to Sid the way `rules/working-with-sid.md` says: every option with what it leads to and costs, and no lean.
 - **Pass a note to a worker with `orca orchestration send --to dispatch:<id> --subject "<topic>" --body-file <file>`.** The subject is required.
 - **Don't edit folders a worker owns.**
 - **A "stopped without reporting" alert** is expected after the worker's "waiting on" line, or when Sid is chatting with it. Otherwise the worker is stuck: read it with `orca orchestration worker-read --dispatch <id>` and help it.

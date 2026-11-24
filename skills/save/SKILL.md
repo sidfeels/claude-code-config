@@ -52,7 +52,7 @@ sid.md holds what Sid wouldn't say in public. Before anything is committed:
 git check-ignore -q sid.md || echo "sid.md is NOT ignored"
 ```
 
-If that prints, stop and add sid.md to `.gitignore` (or to `.git/info/exclude` in a repo Sid doesn't own) before doing anything else.
+If that prints, stop and add `/sid.md` to `.git/info/exclude` before doing anything else.
 
 ## Tell main
 
