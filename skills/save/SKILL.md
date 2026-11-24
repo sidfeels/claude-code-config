@@ -21,7 +21,7 @@ Go through the whole session, not just its end. Send each thing to its one home:
 
 - Decisions go in decisions.md, one entry each, with the real reason and who decided (see its header). That covers choices made or replaced, options turned down, and things we relied on that turned out wrong.
 - How things work now goes in the part's entry in architecture.md. Depth goes in docs/<part>.md.
-- Sid's thoughts, worries, hunches and taste go in sid.md, in Sid's own words (see its header). Keep the ones that went nowhere too. Only Sid moves one to "Dealt with"; when you think one is answered, ask in your reply.
+- Sid's thoughts, worries, hunches and taste go in sid.md, in Sid's own words (see its header), including the ones that went nowhere. Each should be there already, so check Sid's messages since the last save against sid.md, then add what's missing and name it in your reply. Only Sid moves one to "Dealt with"; when you think one is answered, ask in your reply.
 - A rule Sid set for this project goes in CLAUDE.md, under "Rules for this project", with its reason. In a team's repo it goes in CLAUDE.local.md instead, because their CLAUDE.md is theirs.
 - Anything unresolved goes in architecture.md, under Open questions, tagged with the part and with who must answer.
 - Measured results go in docs/<part>.md, under Results, with how to reproduce them.

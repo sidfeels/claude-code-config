@@ -2,6 +2,8 @@
 
 Each project has one main session. It holds the whole picture, and it's the only session you need to keep. Every other session works on one part and writes back to the project files before you close it, so after "save" you can close any session except main.
 
+A worker builds a settled part and reports to main. A spinoff is a tab where Sid discusses one topic.
+
 Layout: main on the left; the session you're focused on dragged to the left beside it; everything else on the right.
 
 Everything runs in Orca, in tabs. Open main as a terminal (CLI) tab, not a chat, because the kit reaches main by its terminal address.
@@ -23,12 +25,12 @@ The same prompt works for an empty folder, your own repo, a team's repo, an old 
 **Build.** Once architecture.md shows parts as settled, type `/build` in main.
 - The first wave builds a thin skeleton that runs end to end.
 - After the skeleton, and after every wave, main shows you real output and asks if it's what you meant.
-- After that, there's one "Build: <part>" worker per part, each reporting to main.
+- After that, there's one "Worker: <part>" tab per part, each reporting to main.
 - At the end of each wave, main runs everything for real, saves a checkpoint, has fresh agents review the riskiest part and the tests, and tells you what needs your eyes.
 
-**Review a part.** Drag its Build tab to the left beside main and talk to it. The worker tells main about anything it changes. Close the tab when you're happy.
+**Review a part.** Drag its Worker tab to the left beside main and talk to it. The worker tells main about anything it changes. Close the tab when you're happy.
 
-**Use the other account.** A session the kit opens uses the same account as the session that opened it. To get the other one, say so: "open this spinoff on personal". Build workers always use the account selected in Orca.
+**Use the other account, or another model.** A session the kit opens uses the same account as the session that opened it, and the project's model, which setup asked you for. To change either for one session, say so: "open this spinoff on personal", or "run this worker on <model>". Workers always use the account selected in Orca.
 
 **Add a thought while a worker is busy.** If it changes what the worker is building, press Esc in that tab, then type. Otherwise tell main, and it passes the thought on.
 

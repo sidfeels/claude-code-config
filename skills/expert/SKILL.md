@@ -16,7 +16,7 @@ Three things help:
 
 ## 1. Brief without the lean
 
-Write `.kit/expert/<topic>/brief.md`. It holds:
+Write `.kit/expert/<topic>/question.md`. It holds:
 
 - the goal;
 - the constraints that are real: budget, time, what already exists;
@@ -43,7 +43,7 @@ Name each lens in one line, with what that expert would care about.
 
 Launch one `expert` agent per lens, in the background. Give each:
 
-- the path to the brief;
+- the path to `question.md`;
 - its lens;
 - where to write: `.kit/expert/<topic>/<lens>.md`.
 

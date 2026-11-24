@@ -16,7 +16,9 @@ Before non-trivial work, if a simpler or sturdier way exists, say it once, up fr
 
 ## Questions and choices
 
-Sort every open point before asking anything:
+Sid's messages often mix several things in no order. Before acting on one, sort it: answers to open questions, new asks, worries or hunches (into sid.md, in Sid's words), and anything that changes earlier work. Answer each. Keep the questions still open with Sid in view, and name them briefly at the end of each reply until they're settled.
+
+Then sort every open point before asking anything:
 
 - Facts are yours to find.
 - Technical calls Sid wouldn't have a feel for are yours to make. List them so Sid can veto.
@@ -54,7 +56,7 @@ Have a subagent write its full result to a file you name and return a short summ
 
 ## Security work
 
-In red-team and security work, state the authorized context plainly in every brief. Never reword a request to get past a refusal. If a model refuses or a subagent is stopped, report it as it happened. This work belongs on Sid's work account, which is approved for it. If you're on the personal account, say so once.
+In red-team and security work, state the authorized context plainly in every brief. Never reword a request to get past a refusal. If a model refuses or a subagent is stopped, report it as it happened. This work belongs on Sid's work account, which is approved for it. If you're on the personal account, or about to open a session for this work on it, say so once.
 
 ## Projects and this kit
 
@@ -69,7 +71,5 @@ Every project Sid starts keeps these files:
 Keep them current as you work, because a decision that isn't written down didn't happen. Each file opens with its rules. Read them before you edit the file, even for a one-line change. In a repo Sid doesn't own, ask before adding them. If Sid agrees, keep them out of the team's tree with `.git/info/exclude`, and leave the team's `.gitignore` alone.
 
 The main session has to hold the whole project. When a conversation there goes deep on one part, offer a spinoff in one line.
-
-The `kit` skill holds the templates, how to open and message other sessions in Orca, which account you're on, and how to change this kit.
 
 One skill is started only by Sid, so suggest it when it fits: `/retro`, after a session that went badly, or every week or so.

@@ -1,10 +1,16 @@
 #!/bin/sh
-# open-session.sh "<tab title>" "<first prompt>" [work|personal]
+# open-session.sh "<tab title>" "<first prompt>" [same|work|personal] [model]
 #
 # Opens a new, visible Claude session in the current folder. With two arguments it uses the
 # same account as the session that runs this script. A third argument names an account
 # outright, for when Sid asks for a session on the other one: "work" is the default folder
 # (~/.claude), and "personal" is ~/.claude-personal, the folder behind `claude-personal`.
+# "same" keeps this session's account, for when only a model is given.
+#
+# Without a model, the session gets the project's model from .claude/settings.json (or
+# settings.local.json), like any `claude` started in this folder. A fourth argument passes
+# --model, for when Sid names a model for this one session.
+#
 # It exists because building this command by hand broke:
 # Orca's account folders live under "Application Support", and an unquoted path with a
 # space stops the new tab before Claude starts.
@@ -19,23 +25,27 @@
 # ~/.claude.json and setting the folder explicitly would point Claude somewhere else.
 
 set -eu
-title="${1:?usage: open-session.sh <title> <prompt> [work|personal]}"
-prompt="${2:?usage: open-session.sh <title> <prompt> [work|personal]}"
+usage="usage: open-session.sh <title> <prompt> [same|work|personal] [model]"
+title="${1:?$usage}"
+prompt="${2:?$usage}"
 
 # An empty folder means the default account: CLAUDE_CONFIG_DIR is removed, not set.
 case "${3:-same}" in
   same) folder="${CLAUDE_CONFIG_DIR:-}" ;;
   work|claude) folder="" ;;
   personal|claude2|claude-personal) folder="$HOME/.claude-personal" ;;
-  *) echo "unknown account: $3 (use work or personal)" >&2; exit 2 ;;
+  *) echo "unknown account: $3 (use same, work or personal)" >&2; exit 2 ;;
 esac
 
 quote() { printf "'%s'" "$(printf '%s' "$1" | sed "s/'/'\\\\''/g")"; }
 
+model=""
+if [ -n "${4:-}" ]; then model="--model $(quote "$4") "; fi
+
 if [ -n "$folder" ]; then
-  cmd="env CLAUDE_CONFIG_DIR=$(quote "$folder") claude $(quote "$prompt")"
+  cmd="env CLAUDE_CONFIG_DIR=$(quote "$folder") claude $model$(quote "$prompt")"
 else
-  cmd="env -u CLAUDE_CONFIG_DIR claude $(quote "$prompt")"
+  cmd="env -u CLAUDE_CONFIG_DIR claude $model$(quote "$prompt")"
 fi
 
 if [ -n "${ORCA_TERMINAL_HANDLE:-}" ] && command -v orca >/dev/null 2>&1; then

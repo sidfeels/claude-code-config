@@ -14,14 +14,17 @@
 # doesn't depend on how each account folder is set up, and each project can change its copy as it learns.
 #
 # The kit's CLAUDE.md is Sid's rules. In a project it becomes .claude/rules/working-with-sid.md, which loads the
-# same way, because the project's own CLAUDE.md belongs to the project (or to a team). Kit commits before the
-# setup-first change kept that file at global/CLAUDE.md; rules_path finds it under either name.
+# same way, because the project's own CLAUDE.md belongs to the project (or to a team). When Sid wants one
+# instruction file, SETUP merges the rules into the project's CLAUDE.md and deletes the copy; --update then lists
+# the kit's later rule changes as "left deleted", for merging by hand. Kit commits before the setup-first change
+# kept that file at global/CLAUDE.md; rules_path finds it under either name.
 #
-# A project's copy is a snapshot. .claude/kit-version records the commit it came from. --diff compares the copy
-# against that commit, and --update uses it to tell a file the project changed from one it never touched.
+# A project's copy is a snapshot. .claude/kit-version records the commit it came from, and no date, because some
+# repos refuse to push a dated line. --diff compares the copy against that commit, and --update uses it to tell a
+# file the project changed from one it never touched.
 #
 # --project never overwrites a file that is already there. --private lists what it wrote in .git/info/exclude,
-# along with sid.md, .kit/ and CLAUDE.local.md, for a repo Sid doesn't own.
+# along with sid.md, .kit/, CLAUDE.local.md and .claude/settings.local.json, for a repo Sid doesn't own.
 #
 # A global install and a project copy don't mix. For a skill with the same name, Claude Code uses the account
 # folder's copy and ignores the project's (run on Claude Code 2.1.330), so --project warns when it finds one.
@@ -79,6 +82,10 @@ have_commit() {
 
 kit_commit_of() { sed -n 's/^commit: //p' "$1/.claude/kit-version"; }
 
+# Older kits also wrote installed: and updated: date lines. Readers look only at commit:, so those files still parse,
+# and the next --update rewrites them in this form.
+write_kit_version() { printf 'source: %s\ncommit: %s\n' "$SOURCE" "$2" > "$1/kit-version"; } # <.claude dir> <commit>
+
 # Tell Sid when an account folder still holds the kit, because that copy would win over the project's.
 warn_global() {
   local folder link src
@@ -99,7 +106,7 @@ warn_global() {
 
 # Facts a setup session needs before it changes anything. SETUP.md says what each one means.
 inspect_folder() { # inspect_folder <dir>
-  local dir top n p f first found kind list item
+  local dir top n p f first found kind list item hooks
   dir="$(abs "$1")"
   echo "folder: $dir"
   if [ "$dir" = "$KIT" ]; then echo "  this is the kit itself"; return 0; fi
@@ -121,6 +128,18 @@ inspect_folder() { # inspect_folder <dir>
         | awk '{ c = $1; $1 = ""; sub(/^ /, ""); printf "%s%s (%s)", sep, $0, c; sep = ", " }')"
     fi
     echo "  files under .claude/ that git tracks: $(git -C "$dir" ls-files -- .claude | wc -l | tr -d ' ')"
+    # A hook can refuse what the kit writes (a pre-push guard against dates, say), so SETUP dry-runs it.
+    hooks="$(cd "$dir" && git rev-parse --git-path hooks)"
+    case "$hooks" in /*) ;; *) hooks="$dir/$hooks" ;; esac
+    p="$(git -C "$dir" config core.hooksPath || true)"
+    if [ -n "$p" ]; then echo "  core.hooksPath is set to $p, so git runs hooks from there"; fi
+    list=""
+    for f in "$hooks"/*; do
+      case "$f" in *.sample) continue ;; esac
+      if [ ! -f "$f" ]; then continue; fi
+      if [ -x "$f" ]; then list="$list $(basename "$f")"; else list="$list $(basename "$f") (not executable, so git skips it)"; fi
+    done
+    echo "  git hooks in $hooks:${list:- none}"
   else
     echo "  not a git repository"
   fi
@@ -228,7 +247,7 @@ install_project() { # install_project <dir> <private: 0|1>
 
   # kit-version is written once. Files kept from an earlier install still belong to that commit; --update moves it.
   if [ ! -f "$dest/kit-version" ]; then
-    printf 'source: %s\ncommit: %s\ninstalled: %s\n' "$SOURCE" "$commit" "$(date +%Y-%m-%d)" > "$dest/kit-version"
+    write_kit_version "$dest" "$commit"
     wrote="${wrote}kit-version"$'\n'
   fi
 
@@ -244,10 +263,10 @@ install_project() { # install_project <dir> <private: 0|1>
     if is_repo "$dir"; then
       exclude="$(exclude_file "$dir")"
       # Sid's private files go in now, before any session can create and commit them.
-      for p in $(printf '%s' "$wrote" | sed 's|^|/.claude/|') /sid.md /.kit/ /CLAUDE.local.md; do
+      for p in $(printf '%s' "$wrote" | sed 's|^|/.claude/|') /sid.md /.kit/ /CLAUDE.local.md /.claude/settings.local.json; do
         if ! git -C "$dir" check-ignore -q "${p#/}"; then printf '%s\n' "$p" >> "$exclude"; fi
       done
-      echo "  listed them, sid.md, .kit/ and CLAUDE.local.md in .git/info/exclude, so git leaves them out"
+      echo "  listed them, sid.md, .kit/, CLAUDE.local.md and .claude/settings.local.json in .git/info/exclude, so git leaves them out"
     else
       echo "  --private did nothing: $dir is not a git repository"
     fi
@@ -258,7 +277,7 @@ install_project() { # install_project <dir> <private: 0|1>
 }
 
 update_project() { # update_project <dir>
-  local dir dest old new tmp rel item installed private=0 exclude="" listed="|" added="" updated="" merge="" gone="" dropped=""
+  local dir dest old new tmp rel item private=0 exclude="" listed="|" added="" updated="" merge="" gone="" dropped=""
   dir="$(abs "$1")"; dest="$dir/.claude"
   if [ ! -f "$dest/kit-version" ]; then echo "no .claude/kit-version in $dir: install the kit with --project first" >&2; exit 1; fi
   if ! git -C "$KIT" rev-parse HEAD >/dev/null 2>&1; then echo "--update needs the kit as a git clone" >&2; exit 1; fi
@@ -303,9 +322,7 @@ update_project() { # update_project <dir>
     if [ ! -f "$tmp/new/$rel" ] && [ -e "$dest/$rel" ]; then dropped="$dropped$rel"$'\n'; fi
   done < <(cd "$tmp/old" && find . -type f | sed 's|^\./||' | LC_ALL=C sort)
 
-  installed="$(sed -n 's/^installed: //p' "$dest/kit-version")"
-  printf 'source: %s\ncommit: %s\ninstalled: %s\nupdated: %s, from %s\n' \
-    "$SOURCE" "$new" "${installed:-unknown}" "$(date +%Y-%m-%d)" "$old" > "$dest/kit-version"
+  write_kit_version "$dest" "$new"
 
   echo "$dest"
   echo "  updated from the kit's commit $(short "$old") to $(short "$new")"
@@ -325,7 +342,14 @@ update_project() { # update_project <dir>
       fi
     done < <(printf '%s' "$merge")
   fi
-  if [ -n "$gone" ]; then echo "  this project deleted these, and the kit has changed them since; left deleted:"; printf '%s' "$gone" | sed 's/^/    /'; fi
+  if [ -n "$gone" ]; then
+    # A project that merged the kit's rules into its CLAUDE.md lands here when the kit changes them.
+    echo "  this project deleted these, and the kit has changed them since; left deleted:"
+    while IFS= read -r rel; do
+      echo "    .claude/$rel"
+      echo "      the kit's change: git -C '$KIT' diff $(short "$old"):$(kit_path "$old" "$rel") $(short "$new"):$(kit_path "$new" "$rel")"
+    done < <(printf '%s' "$gone")
+  fi
   if [ -n "$dropped" ]; then echo "  the kit no longer has these; delete them if this project doesn't use them:"; printf '%s' "$dropped" | sed 's/^/    /'; fi
   if [ -z "$updated$added$merge$gone$dropped" ]; then echo "  nothing in this project's copy needed changing"; fi
   echo "  Start a new Claude session in this folder to load the changes."
@@ -347,7 +371,7 @@ diff_project() { # diff_project <dir>
   cp -R "$dest/skills" "$dest/agents" "$tmp/project/" 2>/dev/null || true
   if [ -f "$dest/$RULES_FILE" ]; then cp "$dest/$RULES_FILE" "$tmp/project/$RULES_FILE"; fi
 
-  echo "$dir: changes since the kit was installed ($(short "$commit"), $(sed -n 's/^installed: //p' "$dest/kit-version"))"
+  echo "$dir: changes since the kit's commit $(short "$commit")"
   cd "$tmp"
   if git --no-pager diff --no-index --quiet kit project; then echo "  none"; return 0; fi
   git --no-pager diff --no-index --stat kit project || true

@@ -22,7 +22,7 @@ Every rule says why it exists, because a rule the model doesn't understand gets 
 
 | Path | What it is |
 |---|---|
-| `CLAUDE.md` | How to work with Sid: hunches, pushback, choices, writing, evidence, subagents. It loads in every session in this repo, and is installed into each project as `.claude/rules/working-with-sid.md`, where it loads the same way. |
+| `CLAUDE.md` | How to work with Sid: hunches, pushback, choices, writing, evidence, subagents. It loads in every session in this repo, and is installed into each project as `.claude/rules/working-with-sid.md`, where it loads the same way, or merged into the project's CLAUDE.md when Sid wants one instruction file. |
 | `SETUP.md` | What a setup session does in a folder: look first, tell Sid, then fit the kit to the case. |
 | `skills/kit/` | The setup's knowledge of itself: Orca, accounts, Claude Code features, project file templates, and how to change the kit. |
 | `skills/discuss/` | Settles a design with Sid, round by round, and writes it down. |
@@ -53,12 +53,12 @@ The session clones this repo and follows [SETUP.md](SETUP.md): it looks at the f
 
 This is the only copy of the prompt. WORKFLOW.md points here, so it can't drift.
 
-What lands in the project is the skills, the agents and this repo's `CLAUDE.md` (as `rules/working-with-sid.md`), all in the project's `.claude/` folder, plus `.claude/kit-version`, which records the kit commit. Claude Code reads `.claude/` from the project whichever account is in use, so both accounts get the same kit and nothing is set up per account.
+What lands in the project is the skills, the agents and this repo's `CLAUDE.md` (as `rules/working-with-sid.md`), all in the project's `.claude/` folder, plus `.claude/kit-version`, which records the kit commit and no date, and the project's model in `.claude/settings.json`. Claude Code reads `.claude/` from the project whichever account is in use, so both accounts get the same kit and nothing is set up per account.
 
 `install.sh` does the mechanical part:
 
-- `--inspect` prints what a folder already has, and changes nothing.
-- `--project` copies the kit in. It never overwrites; it only adds what's missing. With `--private`, for a repo Sid doesn't own, it also lists the copy, sid.md, `.kit/` and CLAUDE.local.md in `.git/info/exclude`.
+- `--inspect` prints what a folder already has, its git hooks included, and changes nothing.
+- `--project` copies the kit in. It never overwrites; it only adds what's missing. With `--private`, for a repo Sid doesn't own, it also lists the copy, sid.md, `.kit/`, CLAUDE.local.md and `.claude/settings.local.json` in `.git/info/exclude`.
 - `--update` brings a project's copy up to the kit's commit. Files the project never changed are replaced, and files it changed are kept and listed for merging.
 - `--diff` shows what a project changed in its copy since it was installed.
 

@@ -1,6 +1,6 @@
 # Claude Code features this kit relies on
 
-These were checked against code.claude.com docs and `claude --help` on Claude Code 2.1.330, in November 2026. When something here looks stale, check the docs and fix this file.
+These were checked against code.claude.com docs and `claude --help` on Claude Code 2.1.330. When something here looks stale, check the docs and fix this file.
 
 ## Skills (`skills/<name>/SKILL.md`)
 
@@ -106,6 +106,7 @@ Only a hook guarantees that a step happens. Instructions get skipped.
 
 | Setting | What it does |
 |---|---|
+| `model` | The session's starting model. `.claude/settings.local.json` overrides `.claude/settings.json`; `ANTHROPIC_MODEL` overrides both, and `--model` overrides that. A hand-made settings.local.json isn't gitignored until Claude Code itself writes to it. |
 | `autoContinueAtUsageLimit` | Resumes after a usage limit resets. User settings only. |
 | `permissions.defaultMode` | `auto` and `bypassPermissions` count only from user settings. |
 | `permissions.denyInsteadOfPrompting` | User settings only. |
@@ -126,7 +127,7 @@ Only a hook guarantees that a step happens. Instructions get skipped.
 
 ## What Claude Code reads from a project
 
-Run on 2.1.330 on 2026-11-23, with `claude -p` in a test project, on both accounts:
+Run on 2.1.330, with `claude -p` in a test project, on both accounts:
 
 - `.claude/skills/<name>/SKILL.md` and `.claude/agents/<name>.md` load whichever account is in use.
 - `./CLAUDE.md`, `.claude/CLAUDE.md` and every `.claude/rules/*.md` load as instructions.
