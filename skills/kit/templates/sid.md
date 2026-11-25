@@ -1,5 +1,5 @@
 <!--
-sid.md: what Sid thinks about this project: worries, hunches, ideas, taste, and how Sid pictures it working. Private: it's in .gitignore and never pushed.
+sid.md: what Sid thinks about this project: worries, hunches, ideas, taste, and how Sid pictures it working. Private: it's kept out of git and never pushed.
 
 A thought stays here until it turns into something else. A rule Sid sets goes in CLAUDE.md (CLAUDE.local.md in a team's repo), a decision in decisions.md, an open question in architecture.md, and the entry here then says where it went. A thought about how Sid works in general, not about this project, belongs in the kit: suggest /retro.
 

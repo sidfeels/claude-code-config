@@ -1,6 +1,6 @@
 # Orca: what it does and how to drive it
 
-Sid works mostly in Orca, a desktop app that runs many agent terminals side by side and has an orchestration layer for coordinating them. These facts were checked on Orca 1.4.271 in November 2026. Some were tested live; the rest were read from the source. Where this file and `orca <command> --help` disagree, trust the help, then fix this file.
+Sid works mostly in Orca, a desktop app that runs many agent terminals side by side and has an orchestration layer for coordinating them. These facts were checked on Orca 1.4.271. Some were tested live; the rest were read from the source. Where this file and `orca <command> --help` disagree, trust the help, then fix this file.
 
 ## Tabs
 
@@ -11,7 +11,7 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
   The new tab opens without taking focus.
 - `orca agent launch --agent claude --surface terminal --prompt "<text>"` is the other way to open an agent tab. It always uses Orca's selected account, so use `terminal create` when the account matters.
 - An agent can't choose which pane group a new tab lands in. It lands in the group Sid last clicked, and Sid drags it where they want it. Sid's habit is to keep main on the left with the session in focus beside it, and the other sessions on the right.
-- Give every tab a name Sid can scan. For a terminal, use `orca terminal rename --terminal <handle> --title "Build: evals"`. For a chat, use `orca chat rename --session <id> --name "<text>"`.
+- Give every tab a name Sid can scan that says its kind: "Worker: <part>" or "Discuss: <topic>". For a terminal, use `orca terminal rename --terminal <handle> --title "Discuss: evals"`. For a chat, use `orca chat rename --session <id> --name "<text>"`.
 - To open a Claude tab on a specific account, use the kit's `open-session.sh`.
 - `orca terminal list`, `read` and `wait` let you inspect a tab. `orca terminal send` types into one. Don't use `send` to talk to another agent: it can land in the middle of a turn, or on top of Sid's typing. Use messages instead.
 
@@ -35,27 +35,29 @@ Sid works mostly in Orca, a desktop app that runs many agent terminals side by s
 
 - Start a worker:
   ```
-  orca orchestration worker-start --environment local --spec-file <file> --task-title "<title>" --worktree current --keep-open --agent claude
+  orca orchestration worker-start --environment local --spec-file <file> --task-title "Worker: <part>" --worktree current --keep-open --agent claude --model <id>
   ```
-  The spec is the worker's whole brief. Orca puts a preamble in front of it that tells the worker how to ask and how to report. `--environment local` keeps the worker on this machine even when a paired server is selected.
+  `--task-title` names the worker's tab. The spec is the worker's whole brief. Orca puts a preamble in front of it that tells the worker how to ask and how to report. `--environment local` keeps the worker on this machine even when a paired server is selected.
 - Orca's guide says to start at most about four workers at once and the rest as those report. If `worker-start` fails, don't run it again; do only what the CLI prints.
 - A finished worker sends `worker_done` with a short report (it can name a report file with `--report-path`), and Orca wakes the coordinator, which is the session that started the worker. `orca orchestration worker-read` shows a worker's output.
 - A worker can ask the coordinator a question with `orca orchestration ask`, and Orca wakes the worker with the answer.
 - Without `--keep-open`, a worker in `current` closes about 2 minutes after it reports. Use `--keep-open` whenever Sid may want to review the worker. Release it with `orca orchestration worker-release --dispatch <id>` when no one needs it any more. The dispatch id is in the start receipt, so record it.
 - When Sid types into a busy worker, the message is queued until the worker's whole turn ends. That can be after the worker has already reported. To steer a worker right away, Sid presses Stop (Esc) in its tab and then types.
-- If Sid starts chatting with a worker mid-task, the coordinator gets one "stopped without reporting" alert, then silence. This is Sid steering, not a failure.
+- A worker runs on the model `--model` names, and without the flag on a model Orca picks. Whether it would follow the project's settings.json `model` instead is untested, so pass the flag.
+- The coordinator gets a "stopped without reporting" alert whenever a worker ends its turn without reporting: when Sid starts chatting with it mid-task (one alert, then silence), and when it ends its turn to wait on its own background run.
 - After a worker reports, Sid's further requests to it are untracked new work, and main isn't told. That's why specs say: after reporting, send main a one-line status for every change.
-- Workers launch on Orca's selected account. Check it before launching:
+- Workers launch on Orca's selected account; there's no flag to choose one. To check whether it's this session's:
   1. Run `orca account list`.
   2. Find this session's account. If this session runs on an Orca-managed account, its `$CLAUDE_CONFIG_DIR` contains the account id. Otherwise compare emails: `$CLAUDE_CONFIG_DIR/.claude.json`, or `~/.claude.json` when the variable is unset.
-  3. If the selected account isn't this session's, tell Sid before launching. Sid can switch the account in Orca, and with the "Never restart" setting running sessions keep their account.
+
+  Sid can switch the account in Orca, and with the "Never restart" setting running sessions keep their account.
 - A Run (Orca's record of a coordinator and its workers) is tied to the main tab and deleted about a day after it settles. A new main in another tab picks up an existing Run with `orca orchestration run-list`, then `run-use --id <run>`. The Run doesn't last, so record the Run id and dispatch ids in `.kit/sessions.md`.
 - `orca skills get orchestration` prints Orca's own full guide.
 
 ## Worktrees
 
 - `--worktree current` runs the worker in this same folder. This is the default for building: every part sees the others' code, the docs stay single, and there is nothing to merge. The cost is that nothing stops two workers from editing the same file, so give each part folders it owns and keep shared files with main. The git index is shared too, so workers don't commit; main commits checkpoints.
-- `new-child` and `new-top-level` create a separate checkout under `~/orca/workspaces/<repo>/<name>`, on its own branch, started from the last commit. That means none of the uncommitted work. Gitignored files such as `.env` and data folders are missing unless the repo lists them in `.worktreeinclude`. Orca never merges a worktree back. Use one only for a throwaway experiment.
+- `new-child` and `new-top-level` create a separate checkout under `~/orca/workspaces/<repo>/<name>`, on its own branch, started from the last commit. That means none of the uncommitted work. Files kept out of git are missing unless the repo lists them in `.worktreeinclude`: `.env`, data folders, and the kit's own copy in `.claude/`. Sid's model still applies, because Claude Code reads `settings.local.json` from the main checkout. Orca never merges a worktree back. Use one only for a throwaway experiment.
 
 ## Accounts and settings
 

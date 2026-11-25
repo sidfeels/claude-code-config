@@ -53,12 +53,12 @@ The session clones this repo and follows [SETUP.md](SETUP.md): it looks at the f
 
 This is the only copy of the prompt. WORKFLOW.md points here, so it can't drift.
 
-What lands in the project is the skills, the agents and this repo's `CLAUDE.md` (as `rules/working-with-sid.md`), all in the project's `.claude/` folder, plus `.claude/kit-version`, which records the kit commit. Claude Code reads `.claude/` from the project whichever account is in use, so both accounts get the same kit and nothing is set up per account.
+What lands in the project is the skills, the agents and this repo's `CLAUDE.md` (as `rules/working-with-sid.md`), all in the project's `.claude/` folder, plus `.claude/kit-version`, which records the kit commit and no date. Setup also writes Sid's model to `.claude/settings.local.json`. None of these go into git, in Sid's repos or a team's: `install.sh` lists them in `.git/info/exclude`, along with sid.md, `.kit/` and CLAUDE.local.md, so a new machine or a fresh clone gets the kit by running the setup prompt again. The project's own CLAUDE.md, architecture.md and decisions.md do go into git in Sid's repos. Claude Code reads `.claude/` from the project whichever account is in use, so both accounts get the same kit and nothing is set up per account.
 
 `install.sh` does the mechanical part:
 
-- `--inspect` prints what a folder already has, and changes nothing.
-- `--project` copies the kit in. It never overwrites; it only adds what's missing. With `--private`, for a repo Sid doesn't own, it also lists the copy, sid.md, `.kit/` and CLAUDE.local.md in `.git/info/exclude`.
+- `--inspect` prints what a folder already has, its git hooks included, and changes nothing.
+- `--project` copies the kit in and keeps it out of git. It never overwrites; it only adds what's missing.
 - `--update` brings a project's copy up to the kit's commit. Files the project never changed are replaced, and files it changed are kept and listed for merging.
 - `--diff` shows what a project changed in its copy since it was installed.
 
@@ -68,7 +68,7 @@ WORKFLOW.md lists the one-time Orca settings.
 
 ## Changing the kit
 
-Each project changes its own copy as it learns, and says why in the commit message. `install.sh --diff` shows those changes later, and the ones worth keeping come back here as PRs. To keep the kit from growing back into the overgrown kit it replaced, every rule says why it exists, and a new line comes with a look for an old one it makes redundant.
+Each project changes its own copy as it learns, and notes why in `.kit/kit-changes.md`. `install.sh --diff` shows those changes later, and the ones worth keeping come back here as PRs. To keep the kit from growing back into the overgrown kit it replaced, every rule says why it exists, and a new line comes with a look for an old one it makes redundant.
 
 `skills/kit/claude-code.md` lists the Claude Code settings and flags that were checked against the docs. Check it before relying on a setting.
 

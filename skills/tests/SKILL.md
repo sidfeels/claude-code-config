@@ -55,7 +55,7 @@ For each part, architecture.md says how far it's proven (Status) and what it rel
 
 A change that adds behaviour adds its proof. A change that removes behaviour removes the tests that guarded it.
 
-A workaround for a quirk of something outside us (a model, an API, a library version) gets the tag `QUIRK(<what>, <date>)`, in a comment and in the test's name. Give each quirk a test that asserts the quirk itself, so that test fails when the quirk goes away. Nobody has to notice that a model or library changed: the failing quirk test announces it. When one fails, delete the workaround along with it.
+A workaround for a quirk of something outside us (a model, an API, a library version) gets the tag `QUIRK(<what>)`, in a comment and in the test's name. Give each quirk a test that asserts the quirk itself, so that test fails when the quirk goes away. Nobody has to notice that a model or library changed: the failing quirk test announces it. When one fails, delete the workaround along with it.
 
 ## Keeping the suite small
 

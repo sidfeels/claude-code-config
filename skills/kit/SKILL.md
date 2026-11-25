@@ -20,7 +20,7 @@ Check this once per session; it's cheap.
 
 ## Which account
 
-Sid has two Claude subscriptions, work and personal, and uses both for capacity: when one is near its limit, work moves to the other. Either can run any project. The one exception is security and red-team work, which stays on the work account because that account is approved for it.
+Sid has two Claude subscriptions, work and personal, and uses both for capacity: when one is near its limit, work moves to the other. Either can run any project, except security and red-team work (the working rules, under Security work).
 
 A session's account is its config folder, `$CLAUDE_CONFIG_DIR`, which defaults to `~/.claude` when unset:
 
@@ -29,9 +29,9 @@ A session's account is its config folder, `$CLAUDE_CONFIG_DIR`, which defaults t
 - Inside Orca, `claude` and every tab Orca opens use Orca's selected account, kept in `~/Library/Application Support/orca/claude-profiles/<id>/home`. `orca account list` shows which one is selected.
 - To see which account a session is on, type `/status` in it, or read `oauthAccount` in `$CLAUDE_CONFIG_DIR/.claude.json` (`~/.claude.json` when the variable is unset).
 
-Launch on your own account unless Sid says otherwise. Sid opened this session on the account that has room, and a spinoff on the other one spends the limit Sid is trying to save. `${CLAUDE_SKILL_DIR}/open-session.sh "<title>" "<prompt>"` opens a session on your own account. When Sid asks for the other one, add `work` or `personal` as a third argument; Sid calls the personal account "claude2". The script was tested against Orca's account folders, which contain a space, so use it instead of writing the command by hand.
+Launch on your own account unless Sid says otherwise. Sid opened this session on the account that has room, and a spinoff on the other one spends the limit Sid is trying to save. `${CLAUDE_SKILL_DIR}/open-session.sh "<title>" "<prompt>"` opens a session on your own account. When Sid asks for the other one, add `work` or `personal` as a third argument; Sid calls the personal account "claude2". When Sid names a model for that one session, add it as a fourth argument (with `same` third to keep the account); otherwise it gets Sid's model from `.claude/settings.local.json`, like any `claude` started in this folder. The script was tested against Orca's account folders, which contain a space, so use it instead of writing the command by hand.
 
-Orca workers are the one exception: they always launch on Orca's selected account (orca.md, under Accounts). A build wave is the heaviest use of tokens, so before launching one, tell Sid which account the workers will spend.
+Orca workers are the one exception: they always launch on Orca's selected account, and the build skill says what to tell Sid first.
 
 The kit is the same on both accounts, because it lives in this project's `.claude/` folder and Claude Code reads that whichever account is in use. What stays separate is each account's own settings.json: the permission mode, user-level hooks and sandbox settings. `~/.claude-personal` has almost none, so a session there asks before most actions unless Sid copies the settings over.
 
@@ -43,11 +43,11 @@ Every project has the following files, each made from a template in `${CLAUDE_SK
 |---|---|
 | `architecture.md` | The project as it stands today, and the file every session reads first: what we're building and why, how it looks from outside, how it fits together in five sentences, every open question, and each part with what it does, examples of it working, the choices that matter and why, its limits, what it depends on, and its status. |
 | `decisions.md` | How the design got this way: one entry for each choice made or replaced, each option turned down, and each thing we relied on that turned out wrong. Entries are added at the bottom and never rewritten. |
-| `sid.md` | What Sid thinks about the project, in Sid's own words: what still matters on top, what's been dealt with below. Entries are leads to check, not instructions. It is gitignored and never pushed. |
-| `CLAUDE.md` | Only what a session can't find by looking: where to start, how to run and check the project for real, and the project's own rules. In a team's repo their CLAUDE.md stays theirs, and this goes in CLAUDE.local.md, which is kept out of git. |
+| `sid.md` | What Sid thinks about the project, in Sid's own words: what still matters on top, what's been dealt with below. Entries are leads to check, not instructions. It is kept out of git and never pushed. |
+| `CLAUDE.md` | The project's own facts, which a session can't find by looking: where to start, how to run and check it for real, and its rules. In Sid's own repo it's committed. In a team's repo their CLAUDE.md stays theirs, and Sid's notes go in CLAUDE.local.md, which is kept out of git. |
 | `docs/<part>.md` | Depth for a part, created only when architecture.md's short entry isn't enough. |
-| `.claude/` | This project's own copy of the kit: its skills, its agents and `rules/working-with-sid.md`. `kit-version` names the kit commit it came from. |
-| `.kit/` | Session scratch: briefs, worker specs and reports, run output, messages between sessions, expert reports, and `sessions.md`, the list of sessions working on the project right now. It is gitignored. It is never the record; anything that matters gets copied into the files above. |
+| `.claude/` | This project's own copy of the kit: its skills, its agents and `rules/working-with-sid.md`. `kit-version` names the kit commit it came from, and `settings.local.json` holds Sid's model. None of it is in git; a new machine gets it by running the setup prompt again. |
+| `.kit/` | Session scratch: briefs, worker specs and reports, run output, messages between sessions, expert reports, and `sessions.md`, the list of sessions working on the project right now. It is kept out of git. It is never the record; anything that matters gets copied into the files above. |
 
 Each template opens with a short header that says what belongs in the file and how to write it. Keep the header when you create a file, and follow it whenever you edit.
 
@@ -112,11 +112,11 @@ This project has its own copy of the kit, in `.claude/`: the skills, the agents 
 
 Change the copy when this project teaches you something. That's what it's for, and it can't disturb any other project.
 
-- Say in the commit message what went wrong that the change fixes. Sid reads these later, across projects, to decide what goes back into the kit.
+- The copy isn't in git, so note what went wrong that the change fixes in `.kit/kit-changes.md`, one line per change. Sid reads these later, across projects, to decide what goes back into the kit.
 - Before adding a line, look for one it makes redundant.
 - A changed skill takes effect in sessions started after the change.
 
-To see everything this project changed, run `install.sh --diff <this folder>` from a clone of the kit. Where the copy is committed, `git log -p -- .claude` shows the same with the reasons. To bring this copy up to a newer kit, Sid pastes the setup prompt again; SETUP.md covers it as "A project already on this kit".
+To see everything this project changed, run `install.sh --diff <this folder>` from a clone of the kit. `.kit/kit-changes.md` says why. To bring this copy up to a newer kit, Sid pastes the setup prompt again; SETUP.md covers it as "A project already on this kit".
 
 To send a change back so future projects start with it, open a PR on sidfeels/claude-code-config from a clone of it.
 

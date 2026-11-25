@@ -66,5 +66,5 @@ Show Sid the top five, and put the rest in the retro file. Change nothing until 
 ## Applying
 
 - Project fixes go into the project.
-- Kit fixes go into this project's copy, in `.claude/`. Quote the moment in the commit message. Then tell Sid which of them would help every project, so those can go back to the kit repo as a PR (the `kit` skill says how).
+- Kit fixes go into this project's copy, in `.claude/`. The copy isn't in git, so quote the moment in `.kit/kit-changes.md`, beside the change. Then tell Sid which of them would help every project, so those can go back to the kit repo as a PR (the `kit` skill says how).
 - Keep the `.kit/retro/` notes until the fixes land.

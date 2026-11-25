@@ -28,7 +28,7 @@ Write `.kit/briefs/<part>.md`. Apart from the project files, it's the only conte
 
 Keep your own opinion on contested choices out of the brief, or mark it as one view among several, so the spinoff thinks fresh. Mark anything that is your guess as a guess, because the spinoff can't tell your assumption from a decision.
 
-## 2. Open the session on the same account
+## 2. Open the session
 
 Main's address goes in the brief, and it depends on where you're running.
 
@@ -43,9 +43,7 @@ Run the kit's script:
 "${CLAUDE_SKILL_DIR}/../kit/open-session.sh" "Discuss: <part>" "Read .kit/briefs/<part>.md and follow it."
 ```
 
-The script opens a tab on this session's account. It quotes the account folder (Orca's folders contain a space) and skips Orca's account-picking shell function. Outside Orca it prints the command for Sid to paste instead. Don't build the command by hand.
-
-When Sid asks for the spinoff on the other account, add `work` or `personal` as a third argument. Sid calls the personal account "claude2".
+The script opens a tab on this session's account, with the project's model. Outside Orca it prints the command for Sid to paste instead. Don't build the command by hand. When Sid names the other account or a model for this spinoff, pass them as the third and fourth arguments; the `kit` skill, under Which account, says how.
 
 ## 3. Record it and hand over
 

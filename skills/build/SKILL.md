@@ -27,7 +27,7 @@ The skeleton needs every part's contract settled, not its internals. One worker,
 
 When the skeleton runs, show Sid what came out of it before any part is filled in: the real output, not a description of it. Ask whether this is the thing Sid meant. A wrong picture caught here costs one thin skeleton. Caught after a wave, it costs the wave.
 
-If the folder isn't a git repository yet, run `git init` and make a first commit once `.gitignore` is in place.
+If the folder isn't a git repository yet, run `git init`, then `install.sh --project` again from a kit clone, so the kit's files are listed in `.git/info/exclude` before the first commit.
 
 ## Planning a wave
 
@@ -54,6 +54,7 @@ The spec covers:
   - Write real-run output under `.kit/runs/<part>/`, so two workers' runs never mix.
   - Don't edit files you don't own. If you need a change in one, ask main.
   - Ask main when the spec and the files don't answer something and a wrong guess would change the contract, a "Works when" example or another part, or would spend money or quota. Use `orca orchestration ask --question "<plain words>"`, carry on with work that doesn't depend on the answer, then end your turn; Orca wakes you with it. Decide anything smaller yourself and list it in your report. Never wait on Sid directly.
+  - Before you end your turn to wait on your own background run, send main one line: "waiting on <run>, about N min" (`orca orchestration send --to <main's address> --subject "waiting: <part>" --body-file <file>`). Orca tells main that a worker which ends its turn has stopped without reporting, and the line tells main to expect it.
   - After you report, if Sid asks you for a change, send main a status covering four things: what changed, why (in Sid's words), whether your contract changed, and which proofs you reran.
 - **Report:** write the full report to `.kit/reports/<part>.md`, and give that path in your short message to main (`worker_done` takes `--report-path`), so the detail survives the handoff. The report says:
   - what was built;
@@ -72,8 +73,10 @@ Parts that would edit the same files either go in different waves or become one 
 **Orca.** Start one supervised worker per part, all in this folder:
 
 ```
-orca orchestration worker-start --environment local --spec-file .kit/specs/<part>.md --task-title "Build: <part>" --worktree current --keep-open --agent claude
+orca orchestration worker-start --environment local --spec-file .kit/specs/<part>.md --task-title "Worker: <part>" --worktree current --keep-open --agent claude --model <model>
 ```
+
+`<model>` is Sid's model for this project: `model` in `.claude/settings.local.json`, else in `.claude/settings.json`, the one a plain `claude` here uses. Pass it on every start, because a worker doesn't reliably get it otherwise (orca.md, under Workers), even though Orca's own guide adds `--model` only when the user named one. If neither file sets a model, tell Sid and ask once. A model Sid names for one worker goes on that start only.
 
 `--environment local` keeps the worker on this machine even when a paired server is selected. Use `--keep-open`. Without it, a worker closes two minutes after reporting, and Sid can't review it.
 
@@ -83,11 +86,7 @@ If `worker-start` fails, don't run it again, because a second start can leave tw
 
 Record each worker's dispatch id from the receipt in `.kit/sessions.md`, together with the Run id. You need these to release a worker, to message it, and to find everything again if main's tab is lost.
 
-Name each worker's tab "Build: <part>":
-- terminals: `orca terminal rename`;
-- chats: `orca chat rename`.
-
-Workers launch on Orca's selected account. If that isn't this session's account, tell Sid before you launch (the `kit` skill's orca.md, under Accounts). When Sid wants the workers on the other account, the only way is to change Orca's selected account first, so say what else that changes.
+Workers launch on Orca's selected account. If that isn't this session's account, tell Sid before you launch (the `kit` skill's orca.md, under Workers, says how to check). When Sid wants the workers on the other account, the only way is to change Orca's selected account first, so say what else that changes.
 
 **Elsewhere.** Use background subagents, one per part, each with the spec as its prompt.
 
@@ -99,7 +98,7 @@ A separate worktree (`--worktree new-child`, or `isolation: "worktree"`) is only
 - **Answer questions with `orca orchestration reply --id <message id> --body-file <file>`.** Answer from the files and this conversation. When the question is Sid's call, put it to Sid the way `rules/working-with-sid.md` says: every option with what it leads to and costs, and no lean.
 - **Pass a note to a worker with `orca orchestration send --to dispatch:<id> --subject "<topic>" --body-file <file>`.** The subject is required.
 - **Don't edit folders a worker owns.**
-- **Read the "stopped without reporting" alert by context.** When Sid starts chatting with a worker mid-task, Orca sends main this alert once; that's Sid steering. When Sid is away, the same alert means the worker is stuck. Read it with `orca orchestration worker-read --dispatch <id>` and help it.
+- **A "stopped without reporting" alert** is expected after the worker's "waiting on" line, or when Sid is chatting with it. Otherwise the worker is stuck: read it with `orca orchestration worker-read --dispatch <id>` and help it.
 
 `orca skills get orchestration` prints Orca's full guide for anything not covered here.
 
